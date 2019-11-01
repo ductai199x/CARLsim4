@@ -1,0 +1,1429 @@
+[INFO carlsim/kernel/src/snn_manager.cpp:2019] *********************************************************************************
+[INFO carlsim/kernel/src/snn_manager.cpp:2021] ********************      Welcome to CARLsim 4.0      ***************************
+[INFO carlsim/kernel/src/snn_manager.cpp:2022] *********************************************************************************
+
+[INFO carlsim/kernel/src/snn_manager.cpp:2024] ***************************** Configuring Network ********************************
+[INFO carlsim/kernel/src/snn_manager.cpp:2026] Starting CARLsim simulation "smooth" in USER mode
+[INFO carlsim/kernel/src/snn_manager.cpp:2027] Random number seed: 1572640941
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2033] Current local time and date: Fri Nov  1 16:42:21 2019
+
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 1 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 2 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 3 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 4 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 5 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 6 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 7 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 8 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 9 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 10 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 11 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 12 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 13 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 14 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 15 (convolutional)
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 16 (convolutional)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=0, mulFast=1.000000, mulSlow=1.000000
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=1, mulFast=1.000000, mulSlow=1.000000
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=2, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 2 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 2 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(2)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=3, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 3 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 3 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(3)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=4, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 4 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 4 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(4)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=5, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 5 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 5 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(5)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=6, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 6 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 6 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(6)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=7, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 7 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 7 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(7)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=8, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 8 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 8 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(8)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=9, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 9 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 9 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(9)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=10, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 10 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 10 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(10)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=11, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 11 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 11 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(11)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=12, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 12 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 12 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(12)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=13, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 13 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 13 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(13)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=14, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 14 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 14 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(14)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:165] CONNECT SETUP: connId=15, mulFast=1.000000, mulSlow=1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:475] Homeostasis parameters enabled for 15 (convolutional):	homeoScale: 20.000000, avgTimeScale: 1.000000
+[INFO carlsim/kernel/src/snn_manager.cpp:491] Homeostatic base firing rate set for 15 (convolutional):	baseFiring: 20.000, baseFiringStd: 0.000
+[INFO carlsim/kernel/src/snn_manager.cpp:648] E-STDP enabled for convolutional(15)
+[INFO carlsim/kernel/src/snn_manager.cpp:455] Running CUBA mode (all synaptic conductances disabled)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:3472] Beginning compilation of the network....
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 1(convolutional), St=0, End=1286
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 2(convolutional), St=1287, End=2573
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 3(convolutional), St=2574, End=3860
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 4(convolutional), St=3861, End=5147
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 5(convolutional), St=5148, End=6434
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 6(convolutional), St=6435, End=7721
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 7(convolutional), St=7722, End=9008
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 8(convolutional), St=9009, End=10295
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 9(convolutional), St=10296, End=11582
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 10(convolutional), St=11583, End=12869
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 11(convolutional), St=12870, End=14156
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 12(convolutional), St=14157, End=15443
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 13(convolutional), St=15444, End=16730
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 14(convolutional), St=16731, End=18017
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 15(convolutional), St=18018, End=19304
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 16(convolutional), St=19305, End=20591
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2862] Allocation for 0(input), St=20592, End=21878
+[INFO carlsim/kernel/src/snn_manager.cpp:3493] 
+
+[INFO carlsim/kernel/src/snn_manager.cpp:3494] ************************** Global Network Configuration *******************************
+[INFO carlsim/kernel/src/snn_manager.cpp:3495] The number of neurons in the network (numN) = 21879
+[INFO carlsim/kernel/src/snn_manager.cpp:3496] The number of regular neurons in the network (numNReg:numNExcReg:numNInhReg) = 20592:20592:0
+[INFO carlsim/kernel/src/snn_manager.cpp:3497] The number of poisson neurons in the network (numNPois:numNExcPois:numInhPois) = 1287:1287:0
+[INFO carlsim/kernel/src/snn_manager.cpp:3498] The maximum axonal delay in the network (maxDelay) = 1
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3513] CUDA devices Configuration:
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3514]   - Number of CUDA devices          =         1
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3517]   - CUDA device ID with max GFLOPs  =         0
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3521]   + Use CUDA device[0]              = GeForce GTX 1060 with Max-Q Design
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3522]   + CUDA Compute Capability (CC)    =       6.1
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:1, local id:0], St=0, End=1286
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:2, local id:1], St=1287, End=2573
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:3, local id:2], St=2574, End=3860
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:4, local id:3], St=3861, End=5147
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:5, local id:4], St=5148, End=6434
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:6, local id:5], St=6435, End=7721
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:7, local id:6], St=7722, End=9008
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:8, local id:7], St=9009, End=10295
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:9, local id:8], St=10296, End=11582
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:10, local id:9], St=11583, End=12869
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:11, local id:10], St=12870, End=14156
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:12, local id:11], St=14157, End=15443
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:13, local id:12], St=15444, End=16730
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:14, local id:13], St=16731, End=18017
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:15, local id:14], St=18018, End=19304
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (convolutional) [id:16, local id:15], St=19305, End=20591
+[DEBUG carlsim/kernel/src/snn_manager.cpp:2881] Allocation for group (input) [id:0, local id:16], St=20592, End=21878
+[INFO carlsim/kernel/src/snn_manager.cpp:5168] 
++ Local Network (0)
+[INFO carlsim/kernel/src/snn_manager.cpp:5169] |-+ Group List:
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group input(G:0,L:16): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:20592,L:20592)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:21878,L:21878)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =        0
+[INFO carlsim/kernel/src/print_snn_info.cpp:265]     |- Refractory period          =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:1,L:0): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:0,L:0)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:1286,L:1286)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:2,L:1): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:1287,L:1287)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:2573,L:2573)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:3,L:2): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:2574,L:2574)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:3860,L:3860)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:4,L:3): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:3861,L:3861)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:5147,L:5147)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:5,L:4): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:5148,L:5148)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:6434,L:6434)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:6,L:5): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:6435,L:6435)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:7721,L:7721)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:7,L:6): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:7722,L:7722)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:9008,L:9008)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:8,L:7): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:9009,L:9009)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:10295,L:10295)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:9,L:8): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:10296,L:10296)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:11582,L:11582)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:10,L:9): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:11583,L:11583)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:12869,L:12869)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:11,L:10): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:12870,L:12870)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:14156,L:14156)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:12,L:11): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:14157,L:14157)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:15443,L:15443)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:13,L:12): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:15444,L:15444)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:16730,L:16730)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:14,L:13): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:16731,L:16731)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:18017,L:18017)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:15,L:14): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:18018,L:18018)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:19304,L:19304)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:277]     |-+ STDP:
+[INFO carlsim/kernel/src/print_snn_info.cpp:279]       |- E-STDP TYPE            = STANDARD
+[INFO carlsim/kernel/src/print_snn_info.cpp:281]       |- I-STDP TYPE            =  UNKNOWN
+[INFO carlsim/kernel/src/print_snn_info.cpp:282]       |- ALPHA_PLUS_EXC         =  0.00100
+[INFO carlsim/kernel/src/print_snn_info.cpp:283]       |- ALPHA_MINUS_EXC        = -0.00120
+[INFO carlsim/kernel/src/print_snn_info.cpp:284]       |- TAU_PLUS_INV_EXC       =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:285]       |- TAU_MINUS_INV_EXC      =  0.05000
+[INFO carlsim/kernel/src/print_snn_info.cpp:286]       |- BETA_LTP               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:287]       |- BETA_LTD               =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:288]       |- LAMBDA                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:289]       |- DELTA                  = -4522134897369015283754205184.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:249]   |-+ Local Group convolutional(G:16,L:15): 
+[INFO carlsim/kernel/src/print_snn_info.cpp:252]     |- Type                       =    EXCIT
+[INFO carlsim/kernel/src/print_snn_info.cpp:253]     |- Num of Neurons             =     1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:254]     |- Start Id                   = (G:19305,L:19305)
+[INFO carlsim/kernel/src/print_snn_info.cpp:255]     |- End Id                     = (G:20591,L:20591)
+[INFO carlsim/kernel/src/print_snn_info.cpp:256]     |- numPostSynapses            =        0
+[INFO carlsim/kernel/src/print_snn_info.cpp:257]     |- numPreSynapses             =    10915
+[INFO carlsim/kernel/src/snn_manager.cpp:5175] |-+ Connection List:
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 0: input(0) => convolutional(1)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =    FIXED
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 19.95975
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 19.95975
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 1287
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 1: convolutional(1) => convolutional(2)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 19.64135
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 19.64135
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 2: convolutional(2) => convolutional(3)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.22581
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.22581
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 3: convolutional(3) => convolutional(4)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 19.64519
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 19.64519
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 4: convolutional(4) => convolutional(5)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.01098
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.01098
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 5: convolutional(5) => convolutional(6)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.24580
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.24580
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 6: convolutional(6) => convolutional(7)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.01109
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.01109
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 7: convolutional(7) => convolutional(8)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 19.82621
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 19.82621
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 8: convolutional(8) => convolutional(9)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.15264
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.15264
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 9: convolutional(9) => convolutional(10)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.06623
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.06623
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 10: convolutional(10) => convolutional(11)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.70114
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.70114
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 11: convolutional(11) => convolutional(12)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.12267
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.12267
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 12: convolutional(12) => convolutional(13)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.33692
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.33692
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 13: convolutional(13) => convolutional(14)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 20.25852
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 20.25852
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 14: convolutional(14) => convolutional(15)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 19.95781
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 19.95781
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:185]   |-+ Local Connection Id 15: convolutional(15) => convolutional(16)
+[INFO carlsim/kernel/src/print_snn_info.cpp:186]     |- Type                       =  PLASTIC
+[INFO carlsim/kernel/src/print_snn_info.cpp:187]     |- Min weight                 =  0.00000
+[INFO carlsim/kernel/src/print_snn_info.cpp:188]     |- Max weight                 = 19.88885
+[INFO carlsim/kernel/src/print_snn_info.cpp:189]     |- Initial weight             = 19.88885
+[INFO carlsim/kernel/src/print_snn_info.cpp:190]     |- Min delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:191]     |- Max delay                  =        1
+[INFO carlsim/kernel/src/print_snn_info.cpp:192]     |- Radius X                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:193]     |- Radius Y                   =     2.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:194]     |- Radius Z                   =    -1.00
+[INFO carlsim/kernel/src/print_snn_info.cpp:195]     |- Num of synapses            = 10915
+[INFO carlsim/kernel/src/print_snn_info.cpp:198]     |- Avg numPreSynapses         =     8.48
+[INFO carlsim/kernel/src/print_snn_info.cpp:199]     |- Avg numPostSynapses        =     8.48
+[INFO carlsim/kernel/src/snn_manager.cpp:5445] 
+[INFO carlsim/kernel/src/snn_manager.cpp:5447] *****************      Initializing GPU 0 Runtime      *************************
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3604] GPU Memory Management: (Total 6078.312 MB)
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3605] Data			Size		Total Used	Total Available
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3607] Init:			6078.312 MB	906.312 MB	5172.000 MB
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3620] Random Gen:		4.000 MB	910.312 MB	5168.000 MB
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 11, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 22, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 33, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 44, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 55, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 66, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 77, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 88, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 99, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 110, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 121, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 132, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 143, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 154, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 165, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 176, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:287] Grp Size = 1287, Total Buffer Cnt = 187, Buffer Cnt = 11
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:292] STATIC THREAD ALLOCATION
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:293] ------------------------
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:294] Buffer Size = 128, Buffer Count = 187
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 0. Start=0, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 1. Start=128, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 2. Start=256, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 3. Start=384, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 4. Start=512, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 5. Start=640, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 6. Start=768, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 7. Start=896, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 8. Start=1024, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 9. Start=1152, size=128 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 10. Start=1280, size=7 grpId=0:convolutional (SpikeMonId=0) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 11. Start=1287, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 12. Start=1415, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 13. Start=1543, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 14. Start=1671, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 15. Start=1799, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 16. Start=1927, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 17. Start=2055, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 18. Start=2183, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 19. Start=2311, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 20. Start=2439, size=128 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 21. Start=2567, size=7 grpId=1:convolutional (SpikeMonId=1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 22. Start=2574, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 23. Start=2702, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 24. Start=2830, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 25. Start=2958, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 26. Start=3086, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 27. Start=3214, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 28. Start=3342, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 29. Start=3470, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 30. Start=3598, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 31. Start=3726, size=128 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 32. Start=3854, size=7 grpId=2:convolutional (SpikeMonId=2) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 33. Start=3861, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 34. Start=3989, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 35. Start=4117, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 36. Start=4245, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 37. Start=4373, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 38. Start=4501, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 39. Start=4629, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 40. Start=4757, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 41. Start=4885, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 42. Start=5013, size=128 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 43. Start=5141, size=7 grpId=3:convolutional (SpikeMonId=3) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 44. Start=5148, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 45. Start=5276, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 46. Start=5404, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 47. Start=5532, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 48. Start=5660, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 49. Start=5788, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 50. Start=5916, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 51. Start=6044, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 52. Start=6172, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 53. Start=6300, size=128 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 54. Start=6428, size=7 grpId=4:convolutional (SpikeMonId=4) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 55. Start=6435, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 56. Start=6563, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 57. Start=6691, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 58. Start=6819, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 59. Start=6947, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 60. Start=7075, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 61. Start=7203, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 62. Start=7331, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 63. Start=7459, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 64. Start=7587, size=128 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 65. Start=7715, size=7 grpId=5:convolutional (SpikeMonId=5) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 66. Start=7722, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 67. Start=7850, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 68. Start=7978, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 69. Start=8106, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 70. Start=8234, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 71. Start=8362, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 72. Start=8490, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 73. Start=8618, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 74. Start=8746, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 75. Start=8874, size=128 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 76. Start=9002, size=7 grpId=6:convolutional (SpikeMonId=6) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 77. Start=9009, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 78. Start=9137, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 79. Start=9265, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 80. Start=9393, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 81. Start=9521, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 82. Start=9649, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 83. Start=9777, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 84. Start=9905, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 85. Start=10033, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 86. Start=10161, size=128 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 87. Start=10289, size=7 grpId=7:convolutional (SpikeMonId=7) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 88. Start=10296, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 89. Start=10424, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 90. Start=10552, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 91. Start=10680, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 92. Start=10808, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 93. Start=10936, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 94. Start=11064, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 95. Start=11192, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 96. Start=11320, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 97. Start=11448, size=128 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 98. Start=11576, size=7 grpId=8:convolutional (SpikeMonId=8) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 99. Start=11583, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 100. Start=11711, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 101. Start=11839, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 102. Start=11967, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 103. Start=12095, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 104. Start=12223, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 105. Start=12351, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 106. Start=12479, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 107. Start=12607, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 108. Start=12735, size=128 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 109. Start=12863, size=7 grpId=9:convolutional (SpikeMonId=9) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 110. Start=12870, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 111. Start=12998, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 112. Start=13126, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 113. Start=13254, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 114. Start=13382, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 115. Start=13510, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 116. Start=13638, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 117. Start=13766, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 118. Start=13894, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 119. Start=14022, size=128 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 120. Start=14150, size=7 grpId=10:convolutional (SpikeMonId=10) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 121. Start=14157, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 122. Start=14285, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 123. Start=14413, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 124. Start=14541, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 125. Start=14669, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 126. Start=14797, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 127. Start=14925, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 128. Start=15053, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 129. Start=15181, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 130. Start=15309, size=128 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 131. Start=15437, size=7 grpId=11:convolutional (SpikeMonId=11) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 132. Start=15444, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 133. Start=15572, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 134. Start=15700, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 135. Start=15828, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 136. Start=15956, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 137. Start=16084, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 138. Start=16212, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 139. Start=16340, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 140. Start=16468, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 141. Start=16596, size=128 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 142. Start=16724, size=7 grpId=12:convolutional (SpikeMonId=12) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 143. Start=16731, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 144. Start=16859, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 145. Start=16987, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 146. Start=17115, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 147. Start=17243, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 148. Start=17371, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 149. Start=17499, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 150. Start=17627, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 151. Start=17755, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 152. Start=17883, size=128 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 153. Start=18011, size=7 grpId=13:convolutional (SpikeMonId=13) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 154. Start=18018, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 155. Start=18146, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 156. Start=18274, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 157. Start=18402, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 158. Start=18530, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 159. Start=18658, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 160. Start=18786, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 161. Start=18914, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 162. Start=19042, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 163. Start=19170, size=128 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 164. Start=19298, size=7 grpId=14:convolutional (SpikeMonId=14) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 165. Start=19305, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 166. Start=19433, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 167. Start=19561, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 168. Start=19689, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 169. Start=19817, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 170. Start=19945, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 171. Start=20073, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 172. Start=20201, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 173. Start=20329, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 174. Start=20457, size=128 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 175. Start=20585, size=7 grpId=15:convolutional (SpikeMonId=15) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 176. Start=20592, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 177. Start=20720, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 178. Start=20848, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 179. Start=20976, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 180. Start=21104, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 181. Start=21232, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 182. Start=21360, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 183. Start=21488, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 184. Start=21616, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 185. Start=21744, size=128 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:318] 186. Start=21872, size=7 grpId=16:input (SpikeMonId=-1) (GroupMonId=-1)
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:326] GPU loadBufferSize = 128, GPU loadBufferCount = 187
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3633] Static Load:		4.000 MB	914.312 MB	5164.000 MB
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3642] Conn Info:		8.000 MB	922.312 MB	5156.000 MB
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3648] Syn State:		2.000 MB	924.312 MB	5154.000 MB
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3665] Neuron State:		2.000 MB	926.312 MB	5152.000 MB
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3672] Group State:		0.000 MB	926.312 MB	5152.000 MB
+[INFO carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3682] Auxiliary Data:		42.000 MB	968.312 MB	5110.000 MB
+
+
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3698] Transfering group settings to GPU:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3711] 		E-STDP type: Standard STDP
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3712] 		TAU_PLUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3713] 		TAU_MINUS_INV_EXC: 0.050000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3714] 		ALPHA_PLUS_EXC: 0.001000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3715] 		ALPHA_MINUS_EXC: -0.001200
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3716] 		I-STDP type: Unknown mode
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3717] 		TAU_PLUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3718] 		TAU_MINUS_INV_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3719] 		ALPHA_PLUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3720] 		ALPHA_MINUS_INB: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3721] 		LAMBDA: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3722] 		DELTA: -4522134897369015283754205184.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3723] 		BETA_LTP: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3724] 		BETA_LTD: 0.000000
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group convolutional:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 6
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 10915
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3700] Settings for Group input:
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3702] 	Type: 7
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3703] 	NumN: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3704] 	M: 1287
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3705] 	PreM: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3706] 	spikeGenerator: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3707] 	FixedInputWts: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3708] 	MaxDelay: 1
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3709] 	WithSTDP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3726] 	WithSTP: 0
+[DEBUG carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3732] 	spikeGen: is not set 
+[INFO carlsim/kernel/src/snn_manager.cpp:1214] SpikeMonitor set for group 0 (input)
+[INFO carlsim/kernel/src/snn_manager.cpp:1191] SpikeMonitor updated for group 16 (convolutional)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/snn_manager.cpp:807] 
+[INFO carlsim/kernel/src/snn_manager.cpp:808] ******************** Running the simulation on 1 GPU(s) and 0 CPU(s) ***************************
+[INFO carlsim/kernel/src/snn_manager.cpp:809] 
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group input(0) has 21192 spikes in 2000ms (8.23 +/- 12.74 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(1) has 7789 spikes in 2000ms (3.03 +/- 3.28 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(2) has 13925 spikes in 2000ms (5.41 +/- 1.96 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(3) has 26035 spikes in 2000ms (10.11 +/- 2.37 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(4) has 40393 spikes in 2000ms (15.69 +/- 2.88 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(5) has 55124 spikes in 2000ms (21.42 +/- 3.43 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(6) has 69213 spikes in 2000ms (26.89 +/- 3.98 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(7) has 80670 spikes in 2000ms (31.34 +/- 4.49 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(8) has 89506 spikes in 2000ms (34.77 +/- 4.82 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(9) has 98156 spikes in 2000ms (38.13 +/- 5.24 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(10) has 104938 spikes in 2000ms (40.77 +/- 5.63 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(11) has 112794 spikes in 2000ms (43.82 +/- 6.06 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(12) has 117054 spikes in 2000ms (45.48 +/- 6.29 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(13) has 121322 spikes in 2000ms (47.13 +/- 6.51 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(14) has 124679 spikes in 2000ms (48.44 +/- 6.70 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(15) has 126310 spikes in 2000ms (49.07 +/- 6.81 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=2.000s) SpikeMonitor for group convolutional(16) has 84438 spikes in 2000ms (32.80 +/- 4.46 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group input(0) has 24268 spikes in 2000ms (9.43 +/- 14.81 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(1) has 7988 spikes in 2000ms (3.10 +/- 3.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(2) has 19909 spikes in 2000ms (7.73 +/- 2.06 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(3) has 43312 spikes in 2000ms (16.83 +/- 3.03 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(4) has 70083 spikes in 2000ms (27.23 +/- 4.14 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(5) has 78483 spikes in 2000ms (30.49 +/- 10.37 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(6) has 18373 spikes in 2000ms (7.14 +/- 13.27 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(7) has 9726 spikes in 2000ms (3.78 +/- 8.84 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(8) has 3709 spikes in 2000ms (1.44 +/- 4.98 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(9) has 623 spikes in 2000ms (0.24 +/- 1.92 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(10) has 169 spikes in 2000ms (0.07 +/- 0.73 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(11) has 168 spikes in 2000ms (0.07 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(12) has 233 spikes in 2000ms (0.09 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(13) has 266 spikes in 2000ms (0.10 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(14) has 274 spikes in 2000ms (0.11 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(15) has 266 spikes in 2000ms (0.10 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=4.000s) SpikeMonitor for group convolutional(16) has 332 spikes in 2000ms (0.13 +/- 0.49 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group input(0) has 25400 spikes in 2000ms (9.87 +/- 14.96 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(1) has 8266 spikes in 2000ms (3.21 +/- 3.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(2) has 20234 spikes in 2000ms (7.86 +/- 2.00 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(3) has 43366 spikes in 2000ms (16.85 +/- 2.75 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(4) has 70178 spikes in 2000ms (27.26 +/- 3.78 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(5) has 36714 spikes in 2000ms (14.26 +/- 15.78 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(6) has 13137 spikes in 2000ms (5.10 +/- 11.49 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(7) has 8155 spikes in 2000ms (3.17 +/- 7.65 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(8) has 3200 spikes in 2000ms (1.24 +/- 4.43 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(9) has 483 spikes in 2000ms (0.19 +/- 1.77 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(10) has 89 spikes in 2000ms (0.03 +/- 0.68 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(11) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(12) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(13) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(14) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(15) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=6.000s) SpikeMonitor for group convolutional(16) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group input(0) has 25627 spikes in 2000ms (9.96 +/- 15.02 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(1) has 8312 spikes in 2000ms (3.23 +/- 3.55 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(2) has 20164 spikes in 2000ms (7.83 +/- 1.98 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(3) has 43325 spikes in 2000ms (16.83 +/- 2.93 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(4) has 69988 spikes in 2000ms (27.19 +/- 4.09 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(5) has 23829 spikes in 2000ms (9.26 +/- 14.31 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(6) has 11583 spikes in 2000ms (4.50 +/- 10.27 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(7) has 7517 spikes in 2000ms (2.92 +/- 7.07 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(8) has 2999 spikes in 2000ms (1.17 +/- 4.16 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(9) has 448 spikes in 2000ms (0.17 +/- 1.63 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(10) has 80 spikes in 2000ms (0.03 +/- 0.60 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(11) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(12) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(13) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(14) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(15) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=8.000s) SpikeMonitor for group convolutional(16) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group input(0) has 24880 spikes in 2000ms (9.67 +/- 15.08 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(1) has 8107 spikes in 2000ms (3.15 +/- 3.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(2) has 20000 spikes in 2000ms (7.77 +/- 2.05 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(3) has 43239 spikes in 2000ms (16.80 +/- 2.88 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(4) has 69736 spikes in 2000ms (27.09 +/- 3.92 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(5) has 19374 spikes in 2000ms (7.53 +/- 13.13 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(6) has 11337 spikes in 2000ms (4.40 +/- 9.75 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(7) has 7597 spikes in 2000ms (2.95 +/- 6.99 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(8) has 3152 spikes in 2000ms (1.22 +/- 4.24 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(9) has 715 spikes in 2000ms (0.28 +/- 2.08 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(10) has 94 spikes in 2000ms (0.04 +/- 0.74 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(11) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(12) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(13) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(14) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(15) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=10.000s) SpikeMonitor for group convolutional(16) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group input(0) has 26401 spikes in 2000ms (10.26 +/- 15.12 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(1) has 8614 spikes in 2000ms (3.35 +/- 3.53 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(2) has 20395 spikes in 2000ms (7.92 +/- 2.00 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(3) has 43956 spikes in 2000ms (17.08 +/- 2.75 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(4) has 70749 spikes in 2000ms (27.49 +/- 3.76 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(5) has 18674 spikes in 2000ms (7.25 +/- 12.80 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(6) has 11064 spikes in 2000ms (4.30 +/- 9.41 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(7) has 7629 spikes in 2000ms (2.96 +/- 6.98 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(8) has 3278 spikes in 2000ms (1.27 +/- 4.38 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(9) has 763 spikes in 2000ms (0.30 +/- 2.19 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(10) has 94 spikes in 2000ms (0.04 +/- 0.73 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(11) has 68 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(12) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(13) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(14) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(15) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=12.000s) SpikeMonitor for group convolutional(16) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group input(0) has 23249 spikes in 2000ms (9.03 +/- 13.77 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(1) has 8019 spikes in 2000ms (3.12 +/- 3.37 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(2) has 20031 spikes in 2000ms (7.78 +/- 1.98 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(3) has 43204 spikes in 2000ms (16.78 +/- 2.94 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(4) has 69997 spikes in 2000ms (27.19 +/- 4.12 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(5) has 17191 spikes in 2000ms (6.68 +/- 12.21 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(6) has 10221 spikes in 2000ms (3.97 +/- 8.70 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(7) has 7298 spikes in 2000ms (2.84 +/- 6.67 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(8) has 3239 spikes in 2000ms (1.26 +/- 4.33 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(9) has 748 spikes in 2000ms (0.29 +/- 2.13 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(10) has 92 spikes in 2000ms (0.04 +/- 0.70 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(11) has 69 spikes in 2000ms (0.03 +/- 0.48 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(12) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(13) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(14) has 67 spikes in 2000ms (0.03 +/- 0.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(15) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=14.000s) SpikeMonitor for group convolutional(16) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group input(0) has 26581 spikes in 2000ms (10.33 +/- 16.20 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(1) has 8196 spikes in 2000ms (3.18 +/- 3.62 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(2) has 19968 spikes in 2000ms (7.76 +/- 2.18 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(3) has 43297 spikes in 2000ms (16.82 +/- 3.06 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(4) has 69852 spikes in 2000ms (27.14 +/- 3.85 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(5) has 16662 spikes in 2000ms (6.47 +/- 12.17 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(6) has 10115 spikes in 2000ms (3.93 +/- 8.53 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(7) has 7327 spikes in 2000ms (2.85 +/- 6.67 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(8) has 3383 spikes in 2000ms (1.31 +/- 4.49 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(9) has 859 spikes in 2000ms (0.33 +/- 2.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(10) has 90 spikes in 2000ms (0.03 +/- 0.71 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(11) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(12) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(13) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(14) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(15) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=16.000s) SpikeMonitor for group convolutional(16) has 66 spikes in 2000ms (0.03 +/- 0.46 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group input(0) has 24193 spikes in 2000ms (9.40 +/- 15.13 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(1) has 7874 spikes in 2000ms (3.06 +/- 3.47 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(2) has 19713 spikes in 2000ms (7.66 +/- 2.02 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(3) has 43334 spikes in 2000ms (16.84 +/- 2.76 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(4) has 70161 spikes in 2000ms (27.26 +/- 3.79 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(5) has 15829 spikes in 2000ms (6.15 +/- 11.87 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(6) has 9930 spikes in 2000ms (3.86 +/- 8.38 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(7) has 7353 spikes in 2000ms (2.86 +/- 6.71 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(8) has 3442 spikes in 2000ms (1.34 +/- 4.62 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(9) has 931 spikes in 2000ms (0.36 +/- 2.68 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(10) has 88 spikes in 2000ms (0.03 +/- 0.68 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(11) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(12) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(13) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(14) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(15) has 62 spikes in 2000ms (0.02 +/- 0.43 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=18.000s) SpikeMonitor for group convolutional(16) has 62 spikes in 2000ms (0.02 +/- 0.43 Hz)
+[DEBUG carlsim/kernel/src/snn_manager.cpp:797] runNetwork: runDur=2000ms, printRunSummary=y
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group input(0) has 23129 spikes in 2000ms (8.99 +/- 13.70 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(1) has 8054 spikes in 2000ms (3.13 +/- 3.38 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(2) has 20194 spikes in 2000ms (7.85 +/- 1.85 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(3) has 43971 spikes in 2000ms (17.08 +/- 2.72 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(4) has 70865 spikes in 2000ms (27.53 +/- 3.73 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(5) has 15051 spikes in 2000ms (5.85 +/- 11.72 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(6) has 9821 spikes in 2000ms (3.82 +/- 8.31 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(7) has 7350 spikes in 2000ms (2.86 +/- 6.70 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(8) has 3461 spikes in 2000ms (1.34 +/- 4.64 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(9) has 952 spikes in 2000ms (0.37 +/- 2.77 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(10) has 90 spikes in 2000ms (0.03 +/- 0.69 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(11) has 65 spikes in 2000ms (0.03 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(12) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(13) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(14) has 63 spikes in 2000ms (0.02 +/- 0.44 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(15) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/print_snn_info.cpp:116] (t=20.000s) SpikeMonitor for group convolutional(16) has 64 spikes in 2000ms (0.02 +/- 0.45 Hz)
+[INFO carlsim/kernel/src/snn_manager.cpp:6546] 
+
+[INFO carlsim/kernel/src/snn_manager.cpp:6547] ********************    Simulation Summary      ***************************
+[INFO carlsim/kernel/src/snn_manager.cpp:6550] Network Parameters: 	numNeurons = 21879 (numNExcReg:numNInhReg = 94.1:0.0)
+[INFO carlsim/kernel/src/snn_manager.cpp:6551] 			numSynapses = 165012
+[INFO carlsim/kernel/src/snn_manager.cpp:6552] 			maxDelay = 1
+[INFO carlsim/kernel/src/snn_manager.cpp:6553] Simulation Mode:	CUBA
+[INFO carlsim/kernel/src/snn_manager.cpp:6554] Random Seed:		1572640941
+[INFO carlsim/kernel/src/snn_manager.cpp:6555] Timing:			Model Simulation Time = 20 sec
+[INFO carlsim/kernel/src/snn_manager.cpp:6556] 			Actual Execution Time = 4.65 sec
+[INFO carlsim/kernel/src/snn_manager.cpp:6558] Average Firing Rate:	2+ms delay = 0.000 Hz
+[INFO carlsim/kernel/src/snn_manager.cpp:6560] 			1ms delay = 7.434 Hz
+[INFO carlsim/kernel/src/snn_manager.cpp:6561] 			Overall = 7.434 Hz
+[INFO carlsim/kernel/src/snn_manager.cpp:6562] Overall Spike Count Transferred:
+[INFO carlsim/kernel/src/snn_manager.cpp:6563] 			2+ms delay = 0
+[INFO carlsim/kernel/src/snn_manager.cpp:6564] 			1ms delay = 0
+[INFO carlsim/kernel/src/snn_manager.cpp:6565] Overall Spike Count:	2+ms delay = 0
+[INFO carlsim/kernel/src/snn_manager.cpp:6566] 			1ms delay = 3253184
+[INFO carlsim/kernel/src/snn_manager.cpp:6567] 			Total = 3253184
+[INFO carlsim/kernel/src/snn_manager.cpp:6568] *********************************************************************************
+

@@ -52,7 +52,8 @@ int main(int argc, const char* argv[]) {
 
 	// Input stimulus created from an image using the MATLAB script
 	// "createStimFromImage.m":
-	VisualStimulus stim("input/carl.dat");
+	// VisualStimulus stim("input/carl.dat");
+	VisualStimulus stim("/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/FAEM0_SA1.WAV.dat");
 	stim.print();
 
 	// Arrange neurons on a 3D grid, such that every neuron corresponds to

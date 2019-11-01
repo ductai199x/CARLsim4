@@ -29,6 +29,15 @@
 .build
 build
 
+# Doc directory
+doc
+
+# vscode directory
+.vscode
+
+# External directory
+external
+
 # =====================
 # emacs ignore list
 # =====================

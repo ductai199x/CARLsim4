@@ -969,7 +969,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 				switch (networkConfigs[netId].simIntegrationMethod) {
 				case FORWARD_EULER:
-					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF)
+					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
@@ -980,7 +980,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							u += runtimeData[netId].Izh_d[lNId];
 						}
 					}
-					else if (!groupConfigs[netId][lGrpId].isLIF)
+					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
@@ -992,7 +992,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 						}
 					}
 
-					else{
+					else if (groupConfigs[netId][lGrpId].isLIF){
 						if (lif_tau_ref_c > 0){
 							if(lastIter){
 								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
@@ -1016,8 +1016,11 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}						
 					}
+					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
+						// TODO: IMPLEMENT THIS 
+					}
 
-					if (groupConfigs[netId][lGrpId].isLIF){
+					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isPoolingLIF){
 						if (v_next < lif_vReset) v_next = lif_vReset;
 					}
 					else{

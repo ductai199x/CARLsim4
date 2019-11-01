@@ -24,5 +24,5 @@ createStimFromImage('../input/carl.jpg', '../input/carl.dat', ...
 % Plot network activity
 clear NM
 NM = NetworkMonitor('../results/sim_smooth.dat')
-NM.setGroupPlotType(-1, 'heatmap')
+% NM.setGroupPlotType(-1, 'raster')
 NM.plot
