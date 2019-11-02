@@ -92,14 +92,22 @@ int main()
 	std::normal_distribution<double> distribution (20.0,0.33);
 	double gaus_rand = distribution(generator);
 	// ----- CONVOLUTIONAL LAYER INITIALIZATION -----
-	
+
+	// LIF Parameters Initialization
+    int tau_mE = 10;
+    int tau_refE = 1;
+    float vTh = -78.0f;
+    float vReset = -80.0f;
+    float vInit = -80.0f;
+    float rMem = 10;
+
 	int *convLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *inputToConvIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
 
 	// Create Convolutional Layers
 	for (int i=0; i<numFeatureMaps; i++) {
 		convLayers[i] = sim.createGroupLIF("convolutional", inDim, EXCITATORY_NEURON);
-		sim.setNeuronParameters(convLayers[i], 0.02f, 0.2f, -65.0f, 8.0f);
+		sim.setNeuronParametersLIF(convLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
 		sim.setSpikeMonitor(convLayers[i], "DEFAULT");
 	}
 
@@ -111,7 +119,7 @@ int main()
 	// Create Pooling Layers
 	for (int i=0; i<numFeatureMaps; i++) {
 		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", numNeuronPoolingLayer, EXCITATORY_NEURON);
-		sim.setNeuronParameters(poolingLayers[i], 0.02f, 0.2f, -65.0f, 8.0f);
+		sim.setNeuronParametersPoolingLIF(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh-1, (float)vReset, RangeRmem(rMem));
 		sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
 	}
 

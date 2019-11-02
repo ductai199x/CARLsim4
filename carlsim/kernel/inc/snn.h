@@ -276,6 +276,8 @@ public:
 	 */
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
 
+	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
+
 	//! Sets the Izhikevich parameters C, k, vr, vt, a, b, vpeak, c, and d of a neuron group.
 	/*!
 	* \brief Parameter values for each neuron are given by a normal distribution with mean _C, _k, _vr, _vt, _a, _b, _vpeak, _c, and _d
@@ -549,6 +551,7 @@ public:
 	Grid3D getGroupGrid3D(int grpId);
 	int getGroupId(std::string grpName);
 	std::string getGroupName(int grpId);
+	int getGroupIsPoolingLIF(int gGrpId);
 	GroupSTDPInfo getGroupSTDPInfo(int grpId);
 	GroupNeuromodulatorInfo getGroupNeuromodulatorInfo(int grpId);
 

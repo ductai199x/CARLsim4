@@ -670,6 +670,25 @@ public:
 		snn_->setNeuronParametersLIF(grpId, tau_m, tau_ref, vTh, vReset,rMem.minRmem, rMem.maxRmem);
 	}
 
+		// set neuron parameters for LIF pooling neuron
+	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
+	{
+		std::string funcName = "setNeuronParametersLIF(\"" + getGroupName(grpId) + "\")";
+		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		UserErrors::assertTrue(tau_m >= 0 , UserErrors::CANNOT_BE_NEGATIVE, funcName, "tau_m");
+		UserErrors::assertTrue(tau_ref >= 0 , UserErrors::CANNOT_BE_NEGATIVE, funcName, "tau_ref");
+
+		UserErrors::assertTrue(vReset < vTh , UserErrors::CANNOT_BE_LARGER, funcName, "vReset");
+
+		UserErrors::assertTrue(rMem.minRmem >= 0.0f , UserErrors::CANNOT_BE_NEGATIVE, funcName, "rangeRmem.minRmem");
+		UserErrors::assertTrue(rMem.minRmem <= rMem.maxRmem , UserErrors::CANNOT_BE_LARGER, funcName, "rangeRmem.minRmem");
+
+		// wrapper identical to core func
+		snn_->setNeuronParametersPoolingLIF(grpId, tau_m, tau_ref, vTh, vReset,rMem.minRmem, rMem.maxRmem);
+	}
+
 	// set parameters for each neuronmodulator
 	void setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT, float baseACh, 
 		float tauACh, float baseNE, float tauNE)
@@ -1308,6 +1327,10 @@ public:
 		return snn_->getGroupId(grpName);
 	}
 
+	int getGroupIsPoolingLIF(int grpId) {
+		return snn_->getGroupIsPoolingLIF(grpId);
+	}
+
 	std::string getGroupName(int grpId) {
 		std::stringstream funcName; funcName << "getGroupName(" << grpId << ")";
 		UserErrors::assertTrue(grpId==ALL || grpId>=0 && grpId<getNumGroups(), UserErrors::MUST_BE_IN_RANGE, funcName.str(),
@@ -1884,6 +1907,11 @@ void CARLsim::setNeuronParameters(int grpId, float izh_C, float izh_C_sd, float 
 void CARLsim::setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
 {
 	_impl->setNeuronParametersLIF(grpId, tau_m, tau_ref, vTh, vReset, rMem);
+}
+
+void CARLsim::setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
+{
+	_impl->setNeuronParametersPoolingLIF(grpId, tau_m, tau_ref, vTh, vReset, rMem);
 }
 
 void CARLsim::setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT, float baseACh, 

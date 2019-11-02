@@ -572,10 +572,6 @@ void SNN::copyExtFiringTable(int netId) {
 				if (fireId == -1) // no space availabe in firing table, drop the spike
 					continue;
 
-				// if (!groupConfigs[netId][lGrpId].isSpikeGenerator) {
-				// 	KERNEL_INFO("\nisLIF: %d -- isPooling: %d\n", groupConfigs[netId][lGrpId].isLIF, groupConfigs[netId][lGrpId].isPoolingLIF);
-				// }
-
 				// update firing table: firingTableD1(W), firingTableD2(W)
 				if (groupConfigs[netId][lGrpId].MaxDelay == 1) {
 					runtimeData[netId].firingTableD1[fireId] = lNId;
@@ -1045,8 +1041,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}
 					}
-					if (groupConfigs[netId][lGrpId].isLIF)
-						KERNEL_DEBUG("\nisPoolingLIF: %d\n", groupConfigs[netId][lGrpId].isLIF);
+
 					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isLIF){
 						if (v_next < lif_vReset) v_next = lif_vReset;
 					}
