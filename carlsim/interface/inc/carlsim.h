@@ -325,6 +325,8 @@ public:
 	 */
 	int createGroupLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
+	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
+
 	/*!
 	 * \brief  creates a spike generator group
 	 * \TODO finish docu

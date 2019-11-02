@@ -310,6 +310,7 @@ typedef struct GroupConfig_s {
 	bool isSpikeGenerator;
 	bool withParamModel_9; //!< False = 4 parameter model; 1 = 9 parameter model.
 	bool isLIF;
+	bool isPoolingLIF;
 	bool withCompartments;
 
 	float compCouplingUp;

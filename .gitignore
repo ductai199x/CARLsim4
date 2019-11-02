@@ -38,6 +38,9 @@ doc
 # External directory
 external
 
+# generated .dat files in speech recog proj
+projects/speech_recognition/results/*.dat
+
 # =====================
 # emacs ignore list
 # =====================

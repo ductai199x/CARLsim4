@@ -61,12 +61,7 @@
 
 int main()
 {
-	std::default_random_engine generator (0);
-	std::normal_distribution<double> distribution (20.0,0.33);
-
-	// ---------------- CONFIG STATE -------------------
-	CARLsim sim("smooth", GPU_MODE, USER);
-	
+	// Get all training files in directory
 	const char *training_folder = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/";
 
 	std::vector <std::string> training_files;
@@ -83,73 +78,76 @@ int main()
 	VisualStimulus stim(training_files[0]);
 	stim.print();
 
+	// ---------------- CONFIG STATE -------------------
+	CARLsim sim("smooth", CPU_MODE, DEVELOPER);
+
+	// ----- INPUT LAYER INITIALIZATION -----
 	Grid3D inDim(stim.getWidth(), stim.getHeight(), stim.getChannels());
-	Grid3D outDim(2, 1, 1);
-
-	// Grid3D imgSmallDim(imgDim.numX, imgDim.numY, imgDim.numZ);
-
 	int gIn = sim.createSpikeGeneratorGroup("input", inDim, EXCITATORY_NEURON);
+	sim.setSpikeMonitor(gIn, "DEFAULT");
 
-	int numConvLayers = 16;
+	int numFeatureMaps = 1;
+	// Random number generator (from gaussian dist)
+	std::default_random_engine generator (0);
+	std::normal_distribution<double> distribution (20.0,0.33);
+	double gaus_rand = distribution(generator);
+	// ----- CONVOLUTIONAL LAYER INITIALIZATION -----
+	
+	int *convLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
+	int *inputToConvIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
 
-	int *convLayer = (int*)malloc(sizeof(int)*numConvLayers);
-	int *connIDs = (int*)malloc(sizeof(int)*numConvLayers);
-
-	double gaus_rand = 0;
-	gaus_rand = distribution(generator);
-
-	// Create Convolutional Layer
-	for (int i=0; i<numConvLayers; i++) {
-		convLayer[i] = sim.createGroup("convolutional", inDim, EXCITATORY_NEURON);
-		sim.setNeuronParameters(convLayer[i], 0.02f, 0.2f, -65.0f, 8.0f);
-		sim.setSpikeMonitor(convLayer[i], "DEFAULT");
+	// Create Convolutional Layers
+	for (int i=0; i<numFeatureMaps; i++) {
+		convLayers[i] = sim.createGroupLIF("convolutional", inDim, EXCITATORY_NEURON);
+		sim.setNeuronParameters(convLayers[i], 0.02f, 0.2f, -65.0f, 8.0f);
+		sim.setSpikeMonitor(convLayers[i], "DEFAULT");
 	}
 
-	// Connect all the layers
-	connIDs[0] = sim.connect(gIn, convLayer[0], "one-to-one", RangeWeight(0, gaus_rand, gaus_rand), 1.0f, 
-		RangeDelay(1));
+	// ----- POOLING LAYER INITIALIZATION -----
+	Grid3D numNeuronPoolingLayer(1,1,1);
+	int *poolingLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
+	int *convToPoolingIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
 
-	for (int i=0; i<numConvLayers-1; i++) {
+	// Create Pooling Layers
+	for (int i=0; i<numFeatureMaps; i++) {
+		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", numNeuronPoolingLayer, EXCITATORY_NEURON);
+		sim.setNeuronParameters(poolingLayers[i], 0.02f, 0.2f, -65.0f, 8.0f);
+		sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
+	}
+
+	// ----- CONNECT ALL THE LAYERS -----
+	// Connect Input Layer to ALL Convolutional Layers
+	for (int i=0; i<numFeatureMaps; i++) {
 		gaus_rand = distribution(generator);
-		connIDs[i] = sim.connect(convLayer[i], convLayer[i+1], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
+		inputToConvIDs[i] = sim.connect(gIn, convLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
 			RangeDelay(1), RadiusRF(2,2,-1), SYN_PLASTIC);
-
-		if (i > 0) {
-			sim.setHomeostasis(connIDs[i], true, 20.0f, 1.0f);
-			sim.setHomeoBaseFiringRate(connIDs[i], 20.0f, 0.0f);
-			sim.setSTDP(connIDs[i], true);
-		}
 	}
 
-	// int gOut = sim.createGroup("output", outDim, EXCITATORY_NEURON);
-	// sim.setNeuronParameters(gOut, 0.02f, 0.2f, -65.0f, 8.0f);
-	// gaus_rand = distribution(generator);
-	// connIDs[0] = sim.connect(convLayer[numConvLayers-1], gOut, "full", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
-	// 	RangeDelay(1), RadiusRF(2,2,-1), SYN_PLASTIC);
+	// Connect EACH Convolutional Layer to EACH Max Pooling Layer
+	for (int i=0; i<numFeatureMaps; i++) {
+		gaus_rand = distribution(generator);
+		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
+			RangeDelay(1), RadiusRF(2,2,-1), SYN_PLASTIC);
+	}
 
-	// sim.setHomeostasis(gOut, true);
-	// sim.setHomeoBaseFiringRate(gOut, 1.0f, 0.0f);
-	// sim.setSTDP(gOut, true);
 
 	// Use CUBA mode
 	sim.setConductances(false);
 
 	// ---------------- SETUP STATE -------------------
+	
 	sim.setupNetwork();
-
-	sim.setSpikeMonitor(gIn, "DEFAULT");
-	sim.setSpikeMonitor(convLayer[numConvLayers-1], "DEFAULT");
 
 
 	// ---------------- RUN STATE -------------------
 	// for (int n = 0; n < training_files.size(); n++)
-	for (int n = 0; n < 10; n++)
+	for (int n = 0; n < 1; n++)
 	{
 		VisualStimulus stim(training_files[n]);
 		for (int i=0; i<stim.getLength(); i++) {
 			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
 			sim.setSpikeRate(gIn, rates);
-			sim.runNetwork(2,0); // run the network
+			sim.runNetwork(1,0); // run the network
 		}
 	}
 	

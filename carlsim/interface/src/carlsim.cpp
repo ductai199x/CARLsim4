@@ -164,7 +164,7 @@ public:
 			userWarnings_.push_back("RadiusRF>0 will be ignored for connection type \"one-to-one\"");
 		}
 
-		// TODO: enable support for non-zero min
+		// TODO UCI: enable support for non-zero min
 		if (fabs(wt.min)>1e-15) {
 			std::cerr << funcName << ": " << wt << ". Non-zero minimum weights are not yet supported.\n" << std::endl;
 			assert(false);
@@ -211,7 +211,7 @@ public:
 		// add synaptic connection to 2D matrix
 		connSyn_[grpId1].push_back(grpId2);
 
-		// TODO: check for sign of weights
+		// TODO UCI: check for sign of weights
 		// ConnectionGeneratorCore* CGC = new ConnectionGeneratorCore(this, conn);
 		ConnectionGeneratorCore* CGC = new ConnectionGeneratorCore(sim_, conn);
 		connGen_.push_back(CGC);
@@ -382,6 +382,45 @@ public:
 			userWarnings_.push_back("Make sure to call setHomeoBaseFiringRate on group "+grpName);
 
 		int grpId = snn_->createGroupLIF(grpName.c_str(), grid, neurType, preferredPartition, preferredBackend);
+		grpIds_.push_back(grpId); // keep track of all groups
+
+		int partitionOffset = 0;
+		if (preferredBackend == CPU_CORES)
+			partitionOffset = MAX_NUM_CUDA_DEVICES;
+		else if (preferredBackend == GPU_CORES)
+			partitionOffset = 0;
+		int prefPartition = preferredPartition + partitionOffset;
+		groupPrefNetIds_.insert(std::pair<int, int>(grpId, prefPartition));
+
+		// extend 2D connection matrices to number of groups
+		connSyn_.resize(grpIds_.size());
+		connComp_.resize(grpIds_.size());
+
+		return grpId;
+	}
+
+	// create a group of LIF pooling neurons on 3D grid
+	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+		std::string funcName = "createGroupPoolingLIF(\""+grpName+"\")";
+		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
+			funcName, "CONFIG.");
+		UserErrors::assertTrue(grid.numX>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numX");
+		UserErrors::assertTrue(grid.numY>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numY");
+		UserErrors::assertTrue(grid.numZ>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numZ");
+
+		// if user has called any set functions with grpId=ALL, and is now adding another group, previously set properties
+		// will not apply to newly added group
+		if (hasSetSTPALL_)
+			userWarnings_.push_back("Make sure to call setSTP on group "+grpName);
+		if (hasSetSTDPALL_)
+			userWarnings_.push_back("Make sure to call setSTDP on group "+grpName);
+		if (hasSetHomeoALL_)
+			userWarnings_.push_back("Make sure to call setHomeostasis on group "+grpName);
+		if (hasSetHomeoBaseFiringALL_)
+			userWarnings_.push_back("Make sure to call setHomeoBaseFiringRate on group "+grpName);
+
+		int grpId = snn_->createGroupPoolingLIF(grpName.c_str(), grid, neurType, preferredPartition, preferredBackend);
+
 		grpIds_.push_back(grpId); // keep track of all groups
 
 		int partitionOffset = 0;
@@ -1585,12 +1624,12 @@ private:
 		snn_ = new SNN(netName_, preferredSimMode_, loggerMode_, randSeed_);
 
 		// set default time constants for synaptic current decay
-		// TODO: add ref
+		// TODO UCI: add ref
 		setDefaultConductanceTimeConstants(5, 0, 150, 6, 0, 150);
 
 		// set default values for STDP params
 		// \deprecated
-		// \TODO: replace with STDP structs
+		// \TODO UCI: replace with STDP structs
 		setDefaultESTDPparams(0.001f, 20.0f, -0.0012f, 20.0f, STANDARD);
 		setDefaultISTDPparams(0.001f, 0.0012f, 12.0f, 40.0f, STANDARD);
 
@@ -1604,7 +1643,7 @@ private:
 		setDefaultHomeostasisParams(0.1f, 10.0f);
 
 		// set default save sim params
-		// TODO: when we run executable from local dir, put save file in results/
+		// TODO UCI: when we run executable from local dir, put save file in results/
 		setDefaultSaveOptions("results/sim_"+netName_+".dat",false);
 
 		connSyn_.clear();
@@ -1742,7 +1781,7 @@ short int CARLsim::connect(int grpId1, int grpId2, const std::string& connType, 
 }
 
 // connect with custom ConnectionGenerator (short)
-// TODO: don't need two versions of this... make it (grpId1, grpId2, conn, synWtType, mulSynFast, mulSynSlow)
+// TODO UCI: don't need two versions of this... make it (grpId1, grpId2, conn, synWtType, mulSynFast, mulSynSlow)
 short int CARLsim::connect(int grpId1, int grpId2, ConnectionGenerator* conn, bool synWtType) {
 	return _impl->connect(grpId1, grpId2, conn, synWtType);
 }
@@ -1770,6 +1809,11 @@ int CARLsim::createGroupLIF(const std::string& grpName, const Grid3D& grid, int 
 }
 int CARLsim::createGroupLIF(const std::string& grpName, int nNeur, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
 	return _impl->createGroupLIF(grpName, nNeur, neurType, preferredPartition, preferredBackend);
+}
+
+// create LIF group with grid	
+int CARLsim::createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+	return _impl->createGroupPoolingLIF(grpName, grid, neurType, preferredPartition, preferredBackend);
 }
 
 // create spike gen group with / without grid

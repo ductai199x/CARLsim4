@@ -200,6 +200,8 @@ public:
 	 */
 	int createGroupLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
 
+	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
+
 	//! Creates a spike generator group (dummy-neurons, not Izhikevich spiking neurons)
 	/*!
 	 * \param name the symbolic name of a group

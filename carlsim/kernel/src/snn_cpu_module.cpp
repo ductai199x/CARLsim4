@@ -115,7 +115,7 @@
 //void SNN::routeSpikes_CPU() {
 //	int firingTableIdxD2, firingTableIdxD1;
 //	int GtoLOffset;
-//	// ToDo: route spikes using routing table. currently only exchange spikes between GPU0 and GPU1
+//	// Cando: route spikes using routing table. currently only exchange spikes between GPU0 and GPU1
 //	// GPU0 -> GPU1
 //	if (!groupPartitionLists[0].empty() && !groupPartitionLists[1].empty()) {
 //		memcpy(managerRuntimeData.extFiringTableEndIdxD2, runtimeData[0].extFiringTableEndIdxD2, sizeof(int) * networkConfigs[0].numGroups);
@@ -425,7 +425,7 @@ void SNN::copyExtFiringTable(int netId) {
 				assert((t_pos + networkConfigs[netId].maxDelay - 1) >= 0);
 			}
 
-			// \TODO: Instead of using the complex timeTable, can neuronFiringTime value...???
+			// Cando: Instead of using the complex timeTable, can neuronFiringTime value...???
 			// Calculate the time difference between time of firing of neuron and the current time...
 			int tD = simTimeMs - t_pos;
 
@@ -472,7 +472,7 @@ void SNN::copyExtFiringTable(int netId) {
 	void* SNN::doSTPUpdateAndDecayCond_CPU(int netId) {
 #endif
 	assert(runtimeData[netId].memType == CPU_MEM);
-	// ToDo: This can be further optimized using multiple threads allocated on mulitple CPU cores
+	// Cando: This can be further optimized using multiple threads allocated on mulitple CPU cores
 	//decay the STP variables before adding new spikes.
 	for (int lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
 		for(int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
@@ -521,7 +521,7 @@ void SNN::copyExtFiringTable(int netId) {
 	void* SNN::findFiring_CPU(int netId) {
 #endif
 	assert(runtimeData[netId].memType == CPU_MEM);
-	// ToDo: This can be further optimized using multiple threads allocated on mulitple CPU cores
+	// Cando: This can be further optimized using multiple threads allocated on mulitple CPU cores
 	for(int lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
 		for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
 			bool needToWrite = false;
@@ -571,6 +571,10 @@ void SNN::copyExtFiringTable(int netId) {
 
 				if (fireId == -1) // no space availabe in firing table, drop the spike
 					continue;
+
+				// if (!groupConfigs[netId][lGrpId].isSpikeGenerator) {
+				// 	KERNEL_INFO("\nisLIF: %d -- isPooling: %d\n", groupConfigs[netId][lGrpId].isLIF, groupConfigs[netId][lGrpId].isPoolingLIF);
+				// }
 
 				// update firing table: firingTableD1(W), firingTableD2(W)
 				if (groupConfigs[netId][lGrpId].MaxDelay == 1) {
@@ -1005,7 +1009,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 								v_next = lif_vReset;
 								
 								if(lastIter){
-                                        				runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
+									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
 								else{
 									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
@@ -1016,11 +1020,34 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}						
 					}
+					// TODO: IMPLEMENT THIS 
 					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
-						// TODO: IMPLEMENT THIS 
+						if (lif_tau_ref_c > 0){
+							if(lastIter){
+								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
+								v_next = lif_vReset;
+							}
+						}
+						else {
+							if (v_next > lif_vTh) {
+								runtimeData[netId].curSpike[lNId] = true;
+								v_next = lif_vReset;
+								
+								if(lastIter){
+									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
+								}
+								else{
+									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
+								}
+							}
+							else{
+								v_next = v + dvdtLIF(v, lif_vReset, lif_gain, lif_bias, lif_tau_m, totalCurrent, timeStep);
+							}
+						}
 					}
-
-					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isPoolingLIF){
+					if (groupConfigs[netId][lGrpId].isLIF)
+						KERNEL_DEBUG("\nisPoolingLIF: %d\n", groupConfigs[netId][lGrpId].isLIF);
+					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isLIF){
 						if (v_next < lif_vReset) v_next = lif_vReset;
 					}
 					else{
@@ -1410,7 +1437,7 @@ void SNN::allocateSNN_CPU(int netId) {
 	//KERNEL_INFO("Auxiliary Data:\t\t%2.3f MB\t%2.3f MB\t%2.3f MB\n\n",(float)(previous-avail)/toMB,(float)((total-avail)/toMB), (float)(avail/toMB));
 	//previous=avail;
 
-	// TODO: move mulSynFast, mulSynSlow to ConnectConfig structure
+	// Cando: move mulSynFast, mulSynSlow to ConnectConfig structure
 	// copy connection configs
 	//CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(d_mulSynFast, mulSynFast, sizeof(float) * networkConfigs[netId].numConnections, 0, cudaMemcpyHostToDevice));
 	//CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(d_mulSynSlow, mulSynSlow, sizeof(float) * networkConfigs[netId].numConnections, 0, cudaMemcpyHostToDevice));
@@ -2156,7 +2183,7 @@ void SNN::copySTPState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* sr
 	memcpy(dest->stpx, src->stpx, sizeof(float) * networkConfigs[netId].numN * (networkConfigs[netId].maxDelay + 1));
 }
 
-// ToDo: move grpDA(5HT, ACh, NE)Buffer to copyAuxiliaryData
+// Cando: move grpDA(5HT, ACh, NE)Buffer to copyAuxiliaryData
 /*!
  * \brief this function allocates memory sapce and copies variables related to group state to it
  *
