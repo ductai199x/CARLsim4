@@ -2178,6 +2178,9 @@ void SNN::SNNinit() {
 	// initialize spike buffer
 	spikeBuf = new SpikeBuffer(0, MAX_TIME_SLICE);
 
+	// initialize spike buffer
+	poolingSpikeBuf = new SpikeBuffer(0, MAX_TIME_SLICE);
+
 	memset(networkConfigs, 0, sizeof(NetworkConfigRT) * MAX_NET_PER_SNN);
 	
 	// reset all runtime data
@@ -3004,11 +3007,6 @@ void SNN::generateRuntimeGroupConfigs() {
 			groupConfigs[netId][lGrpId].withParamModel_9 = groupConfigMap[gGrpId].withParamModel_9;
 			groupConfigs[netId][lGrpId].isLIF = groupConfigMap[gGrpId].isLIF;
 			groupConfigs[netId][lGrpId].isPoolingLIF = groupConfigMap[gGrpId].isPoolingLIF;
-			
-			KERNEL_INFO("\nisSpikeGenerator %s - %d\n", groupConfigMap[gGrpId].grpName.c_str(), groupConfigMap[gGrpId].isSpikeGenerator);
-			KERNEL_INFO("\nisLIF %s - %d\n", groupConfigMap[gGrpId].grpName.c_str(), groupConfigMap[gGrpId].isLIF);
-			KERNEL_INFO("\nisPoolingLIF %s - %d\n", groupConfigMap[gGrpId].grpName.c_str(), groupConfigMap[gGrpId].isPoolingLIF);
-
 			groupConfigs[netId][lGrpId].isSpikeGenFunc = groupConfigMap[gGrpId].spikeGenFunc != NULL ? true : false;
 			groupConfigs[netId][lGrpId].WithSTP =  groupConfigMap[gGrpId].stpConfig.WithSTP;
 			groupConfigs[netId][lGrpId].WithSTDP =  groupConfigMap[gGrpId].stdpConfig.WithSTDP;
@@ -4854,7 +4852,7 @@ void SNN::routeSpikes() {
 					firingTableIdxD1 += managerRuntimeData.extFiringTableEndIdxD1[lGrpId];
 				}
 			}
-			//KERNEL_DEBUG("GPU1 New D1:%d/D2:%d", firingTableIdxD1, firingTableIdxD2);
+			// KERNEL_DEBUG("GPU1 New D1:%d/D2:%d", firingTableIdxD1, firingTableIdxD2);
 		}
 
 		#if !defined(WIN32) && !defined(WIN64) && !defined(__APPLE__) // Linux or MAC

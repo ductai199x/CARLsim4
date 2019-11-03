@@ -908,6 +908,12 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 	// loop that allows smaller integration time step for v's and u's
 	for (int j = 1; j <= networkConfigs[netId].simNumStepsPerMs; j++) {
 		bool lastIter = (j == networkConfigs[netId].simNumStepsPerMs);
+		if (currPoolingTs > poolingWindow) {
+			currPoolingTs = 0;
+		} else {
+			currPoolingTs += 1;
+		}
+		
 		for (int lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
 			if (groupConfigs[netId][lGrpId].Type & POISSON_NEURON) {
 				if (groupConfigs[netId][lGrpId].WithHomeostasis & (lastIter)) {
@@ -1018,31 +1024,41 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 					// TODO: IMPLEMENT THIS 
 					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
-						if (lif_tau_ref_c > 0){
-							if(lastIter){
-								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
-								v_next = lif_vReset;
+						// Current Neuron ID: lNId
+						if (currPoolingTs == poolingWindow) {
+							std::map<int, int> poolingWindowTable;
+							int fireNeuronID = 0;
+							int maxfiringCnt = 0;
+							int maxfiringNID = 0;
+
+							for (int fireTableIdx = runtimeData[netId].spikeCountD1Sec-poolingWindow-1; fireTableIdx < runtimeData[netId].spikeCountD1Sec; fireTableIdx++) {
+								fireNeuronID = runtimeData[netId].firingTableD1[fireTableIdx];
+								if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
+									poolingWindowTable.insert({fireNeuronID, 1});
+								} else {
+									poolingWindowTable[fireNeuronID] += 1;
+								}
+							}
+
+							for ( const auto &p : poolingWindowTable ) {
+								if (p.second > maxfiringCnt)
+									maxfiringNID = p.first;
+							}
+							int poolingSpikesIdx = 0;
+							for (int fireTableIdx = runtimeData[netId].spikeCountD1Sec-poolingWindow-1; fireTableIdx < runtimeData[netId].spikeCountD1Sec; fireTableIdx++) {
+								if (runtimeData[netId].firingTableD1[fireTableIdx] == maxfiringNID) {
+									poolingSpikes[poolingSpikesIdx] = 1;
+								}
 							}
 						}
 						else {
-							if (v_next > lif_vTh) {
+							if (poolingSpikes[currPoolingTs] == 1) {
 								runtimeData[netId].curSpike[lNId] = true;
-								v_next = lif_vReset;
-								
-								if(lastIter){
-									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
-								}
-								else{
-									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
-								}
-							}
-							else{
-								v_next = v + dvdtLIF(v, lif_vReset, lif_gain, lif_bias, lif_tau_m, totalCurrent, timeStep);
 							}
 						}
 					}
-
-					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isLIF){
+					
+					if (groupConfigs[netId][lGrpId].isLIF){
 						if (v_next < lif_vReset) v_next = lif_vReset;
 					}
 					else{

@@ -1096,6 +1096,10 @@ private:
 
 	//! Buffer to store spikes
 	SpikeBuffer* spikeBuf;
+	SpikeBuffer* poolingSpikeBuf;
+	static const unsigned poolingWindow = 10;	//!< pooling window is 10 timesteps
+	unsigned currPoolingTs = 0;		//!< the current pooling window timestep
+	int poolingSpikes[poolingWindow] = { 0 };
 
 	bool sim_with_conductances; //!< flag to inform whether we run in COBA mode (true) or CUBA mode (false)
 	bool sim_with_NMDA_rise;    //!< a flag to inform whether to compute NMDA rise time

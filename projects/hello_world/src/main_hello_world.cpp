@@ -82,7 +82,7 @@ int main() {
 
 	// set some monitors
 	sim.setSpikeMonitor(gin,"DEFAULT");
-	sim.setSpikeMonitor(gout,"DEFAULT");
+	SpikeMonitor* spkMon = sim.setSpikeMonitor(gout,"DEFAULT");
 	sim.setConnectionMonitor(gin,gout,"DEFAULT");
 
 	//setup some baseline input
@@ -94,12 +94,15 @@ int main() {
 	// ---------------- RUN STATE -------------------
 	watch.lap("runNetwork");
 
+	spkMon->startRecording();
 	// run for a total of 10 seconds
 	// at the end of each runNetwork call, SpikeMonitor stats will be printed
 	for (int i=0; i<10; i++) {
 		sim.runNetwork(1,0);
 	}
 
+	spkMon->stopRecording();
+	spkMon->print();
 	// print stopwatch summary
 	watch.stop();
 	

@@ -53,13 +53,55 @@
 #include <vector>
 #include <cassert>
 #include <random>
-
 #include <string>
 #include <iostream>
-
 #include <dirent.h>
 
-int main()
+#include "utilities.h"
+
+
+poolingConnection::~poolingConnection()
+{
+
+}
+
+poolingConnection::poolingConnection(int stride, int inputX, int destX, int filterX)
+    :stride(stride), inputX(inputX), inputY(inputX), destX(destX), destY(destX), filterX(filterX), filterY(filterX)
+{
+    // add dummy connections to the map. 
+    for(int x=0; x<destX; x++)      
+    {
+        for(int y=0; y<destY; y++)      
+        {
+            int j = x*destX+y;              
+            vector<int> srcConnection;      
+            connectionsMap.insert(pair<int, vector<int>>(j,srcConnection)); 
+            
+            for(int fX=0; fX<filterX; fX++) 
+            {
+                for(int fY=0; fY<filterY; fY++) 
+                {
+                    connectionsMap[j].push_back((x*stride+fX)*inputX+(y*stride+fY));
+                }
+            }
+        }
+    }
+
+    
+	map<int, vector<int>>::iterator it;
+
+	for(it= connectionsMap.begin(); it!=connectionsMap.end(); it++)
+	{
+  		cout << "DestinationNeuron: " << it->first << endl;
+		// vector<int>::iterator itt;
+		// for(itt = it->second.begin(); itt!= it->second.end(); itt++ )
+		// {
+		// 	std::cout << *itt << " " << endl;
+		// } 
+	}	
+}
+
+int main(int argc, const char* argv[])
 {
 	// Get all training files in directory
 	const char *training_folder = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/";
@@ -112,15 +154,18 @@ int main()
 	}
 
 	// ----- POOLING LAYER INITIALIZATION -----
-	Grid3D numNeuronPoolingLayer(1,1,1);
+	int numConvFilters = 24;
+	Grid3D numNeuronPoolingLayer(numConvFilters,1,1);
 	int *poolingLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *convToPoolingIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
+	poolingConnection* poolConn = new poolingConnection(2, 10, 5, 2);
 
 	// Create Pooling Layers
+	SpikeMonitor* spkMon;
 	for (int i=0; i<numFeatureMaps; i++) {
 		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", numNeuronPoolingLayer, EXCITATORY_NEURON);
 		sim.setNeuronParametersPoolingLIF(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh-1, (float)vReset, RangeRmem(rMem));
-		sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
+		spkMon = sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
 	}
 
 	// ----- CONNECT ALL THE LAYERS -----
@@ -136,6 +181,7 @@ int main()
 		gaus_rand = distribution(generator);
 		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
 			RangeDelay(1), RadiusRF(2,2,-1), SYN_PLASTIC);
+		// convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn, SYN_PLASTIC);
 	}
 
 
@@ -143,9 +189,10 @@ int main()
 	sim.setConductances(false);
 
 	// ---------------- SETUP STATE -------------------
-	
 	sim.setupNetwork();
 
+	// start recording spikes associated with spkMon object
+	spkMon->startRecording();
 
 	// ---------------- RUN STATE -------------------
 	// for (int n = 0; n < training_files.size(); n++)
@@ -158,6 +205,21 @@ int main()
 			sim.runNetwork(1,0); // run the network
 		}
 	}
+
+	spkMon->stopRecording();
+	// print a summary of the spike information""
+	spkMon->print();
+	// get the average firing rate of each of the neurons in group excGrpId
+	std::vector<float> excFRs = spkMon->getAllFiringRates();
+
+	int max = 0;
+	std::vector<float>::iterator it = excFRs.begin();
+	for (it; it != excFRs.end(); it++) {
+		if (*it > max){
+			max = *it;
+		}
+	}
+	printf("max: %d", max);
 	
 	return 0;
 }
