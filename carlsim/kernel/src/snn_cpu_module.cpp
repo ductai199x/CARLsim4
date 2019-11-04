@@ -365,6 +365,9 @@ void SNN::copyExtFiringTable(int netId) {
 	int k     = runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay + 1] - 1;
 	int k_end = runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay];
 
+	// int k_10ms = runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay - 10];
+	// KERNEL_INFO("k: %d, k_10ms: %d", k, k_10ms);
+
 	while((k >= k_end) && (k >= 0)) {
 		int lNId = runtimeData[netId].firingTableD1[k];
 		//assert(lNId < networkConfigs[netId].numN);
@@ -904,6 +907,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 	assert(runtimeData[netId].memType == CPU_MEM);
 
 	float timeStep = networkConfigs[netId].timeStep;
+	float poolingWindowDur = poolingWindow * networkConfigs[netId].timeStep;
 
 	// loop that allows smaller integration time step for v's and u's
 	for (int j = 1; j <= networkConfigs[netId].simNumStepsPerMs; j++) {
@@ -999,6 +1003,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 
 					else if (groupConfigs[netId][lGrpId].isLIF){
+						
 						if (lif_tau_ref_c > 0){
 							if(lastIter){
 								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
@@ -1009,7 +1014,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							if (v_next > lif_vTh) {
 								runtimeData[netId].curSpike[lNId] = true;
 								v_next = lif_vReset;
-								
+
 								if(lastIter){
 									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
@@ -1025,35 +1030,73 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					// TODO: IMPLEMENT THIS 
 					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
 						// Current Neuron ID: lNId
+							
 						if (currPoolingTs == poolingWindow) {
-							std::map<int, int> poolingWindowTable;
-							int fireNeuronID = 0;
-							int maxfiringCnt = 0;
-							int maxfiringNID = 0;
-
-							for (int fireTableIdx = runtimeData[netId].spikeCountD1Sec-poolingWindow-1; fireTableIdx < runtimeData[netId].spikeCountD1Sec; fireTableIdx++) {
-								fireNeuronID = runtimeData[netId].firingTableD1[fireTableIdx];
-								if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
-									poolingWindowTable.insert({fireNeuronID, 1});
-								} else {
-									poolingWindowTable[fireNeuronID] += 1;
+							short int pre_grpId;
+							for ( const auto &p : connectConfigMap ) {
+								if (p.second.grpDest == lGrpId)
+									pre_grpId = p.second.grpSrc;
+							}
+							std::vector<int> connectedNIds;
+							std::list<ConnectionInfo>::iterator connIt = poolingConnectionLists[netId].begin();
+							// int offset = (groupConfigs[netId][pre_grpId].lEndN - groupConfigs[netId][pre_grpId].lStartN + groupConfigs[netId][pre_grpId].Noffset)*(lGrpId - pre_grpId);
+							for (connIt; connIt != poolingConnectionLists[netId].end(); connIt++) {
+								if (connIt->nDest == lNId) {
+									connectedNIds.push_back(connIt->nSrc);
+									// KERNEL_INFO("connected: %d", connIt->nSrc);
 								}
+								
 							}
 
-							for ( const auto &p : poolingWindowTable ) {
-								if (p.second > maxfiringCnt)
-									maxfiringNID = p.first;
-							}
-							int poolingSpikesIdx = 0;
-							for (int fireTableIdx = runtimeData[netId].spikeCountD1Sec-poolingWindow-1; fireTableIdx < runtimeData[netId].spikeCountD1Sec; fireTableIdx++) {
-								if (runtimeData[netId].firingTableD1[fireTableIdx] == maxfiringNID) {
-									poolingSpikes[poolingSpikesIdx] = 1;
+							int step_end = simTimeMs + networkConfigs[netId].maxDelay + 1;
+							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
+
+							if (step_begin > 0) {
+								int k_end   = runtimeData[netId].timeTableD1[step_end] - 1;
+								int k 		= runtimeData[netId].timeTableD1[step_begin];
+
+								std::map<int, int> poolingWindowTable;
+								poolingWindowTable.empty();
+								int fireNeuronID = 0;
+								int maxfiringCnt = 0;
+								int maxfiringNID = 0;
+								if(k >= 0) {
+									for (int fireTableIdx = k; fireTableIdx <= k_end; fireTableIdx++) {
+										fireNeuronID = runtimeData[netId].firingTableD1[fireTableIdx];
+										
+										std::vector<int>::iterator it = std::find(connectedNIds.begin(), connectedNIds.end(), fireNeuronID);
+										if (it == connectedNIds.end())
+											continue;
+										KERNEL_INFO("fire nid: %d", fireNeuronID);
+										if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
+											poolingWindowTable.insert({fireNeuronID, 1});
+										} else {
+											poolingWindowTable[fireNeuronID] += 1;
+										}
+									}
+									
+									for ( const auto &p : poolingWindowTable ) {
+										if (p.second > maxfiringCnt) {
+											maxfiringNID = p.first;
+											maxfiringCnt = p.second;
+										}
+										KERNEL_INFO("%d -- %d", maxfiringNID, p.second);
+									}
+									
+									int poolingSpikesIdx = 0;
+									for (int fireTableIdx = k; fireTableIdx <= k_end; fireTableIdx++) {
+										if (runtimeData[netId].firingTableD1[fireTableIdx] == maxfiringNID) {
+											poolingSpikes[poolingSpikesIdx] = 1;
+											poolingSpikesIdx+=networkConfigs[netId].simNumStepsPerMs;
+										}
+									}
 								}
 							}
 						}
 						else {
 							if (poolingSpikes[currPoolingTs] == 1) {
 								runtimeData[netId].curSpike[lNId] = true;
+								poolingSpikes[currPoolingTs] = 0;
 							}
 						}
 					}

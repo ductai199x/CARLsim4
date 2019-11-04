@@ -3731,7 +3731,10 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
 
 	connectionLists[netId].push_back(connInfo);
-
+	if(groupConfigMap[_grpDest].isPoolingLIF) {
+		poolingConnectionLists[netId].push_back(connInfo);
+	}
+		
 	// If the connection is external, copy the connection info to the external network
 	if (externalNetId >= 0)
 		connectionLists[externalNetId].push_back(connInfo);
@@ -3754,6 +3757,9 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.delay = delay;
 
 	connectionLists[netId].push_back(connInfo);
+	if(groupConfigMap[_grpDest].isPoolingLIF) {
+		poolingConnectionLists[netId].push_back(connInfo);
+	}
 
 	// If the connection is external, copy the connection info to the external network
 	if (externalNetId >= 0)

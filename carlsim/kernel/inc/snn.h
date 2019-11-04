@@ -1088,6 +1088,7 @@ private:
 	std::list<compConnectConfig> localCompConnectLists[MAX_NET_PER_SNN];
 
 	std::list<ConnectionInfo> connectionLists[MAX_NET_PER_SNN];
+	std::list<ConnectionInfo> poolingConnectionLists[MAX_NET_PER_SNN];
 
 	std::list<RoutingTableEntry> spikeRoutingTable;
 
@@ -1097,7 +1098,7 @@ private:
 	//! Buffer to store spikes
 	SpikeBuffer* spikeBuf;
 	SpikeBuffer* poolingSpikeBuf;
-	static const unsigned poolingWindow = 10;	//!< pooling window is 10 timesteps
+	static const unsigned poolingWindow = 200;	//!< pooling window is 10 timesteps -- 20 is 10ms
 	unsigned currPoolingTs = 0;		//!< the current pooling window timestep
 	int poolingSpikes[poolingWindow] = { 0 };
 
