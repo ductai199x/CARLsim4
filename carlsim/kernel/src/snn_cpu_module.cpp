@@ -1030,44 +1030,48 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					// TODO: IMPLEMENT THIS 
 					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
 						// Current Neuron ID: lNId
-							
-						if (currPoolingTs == poolingWindow) {
+						// KERNEL_INFO("cpts: %d, simts: %d", currPoolingTs, simTime);
+						
+						if (currPoolingTs == poolingWindow - 1) {
 							short int pre_grpId;
 							for ( const auto &p : connectConfigMap ) {
 								if (p.second.grpDest == lGrpId)
 									pre_grpId = p.second.grpSrc;
 							}
+
 							std::vector<int> connectedNIds;
 							std::list<ConnectionInfo>::iterator connIt = poolingConnectionLists[netId].begin();
-							// int offset = (groupConfigs[netId][pre_grpId].lEndN - groupConfigs[netId][pre_grpId].lStartN + groupConfigs[netId][pre_grpId].Noffset)*(lGrpId - pre_grpId);
+
 							for (connIt; connIt != poolingConnectionLists[netId].end(); connIt++) {
 								if (connIt->nDest == lNId) {
 									connectedNIds.push_back(connIt->nSrc);
-									// KERNEL_INFO("connected: %d", connIt->nSrc);
+									// KERNEL_INFO("conn id %d, nid %d", connIt->nSrc, lNId);
 								}
-								
 							}
 
-							int step_end = simTimeMs + networkConfigs[netId].maxDelay + 1;
+							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
 							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
 
-							if (step_begin > 0) {
-								int k_end   = runtimeData[netId].timeTableD1[step_end] - 1;
-								int k 		= runtimeData[netId].timeTableD1[step_begin];
+							// KERNEL_INFO("s_b: %d | s_e:%d", step_begin, step_end);
 
+							if (step_begin >= 0) {
+								int k_end   = runtimeData[netId].timeTableD1[step_end] - 1;
+								int k_begin = runtimeData[netId].timeTableD1[step_begin];
+								// KERNEL_INFO("k_b: %d | k_e:%d", k_begin, k_end)
+								
 								std::map<int, int> poolingWindowTable;
 								poolingWindowTable.empty();
 								int fireNeuronID = 0;
 								int maxfiringCnt = 0;
 								int maxfiringNID = 0;
-								if(k >= 0) {
-									for (int fireTableIdx = k; fireTableIdx <= k_end; fireTableIdx++) {
+								if(k_begin >= 0) {
+									for (int fireTableIdx = k_begin; fireTableIdx <= k_end; fireTableIdx++) {
 										fireNeuronID = runtimeData[netId].firingTableD1[fireTableIdx];
 										
-										std::vector<int>::iterator it = std::find(connectedNIds.begin(), connectedNIds.end(), fireNeuronID);
+										std::vector<int>::iterator it = std::find(connectedNIds.begin(), connectedNIds.end(), fireTableIdx);
 										if (it == connectedNIds.end())
 											continue;
-										KERNEL_INFO("fire nid: %d", fireNeuronID);
+										// KERNEL_INFO("fire nid: %d", fireNeuronID);
 										if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
 											poolingWindowTable.insert({fireNeuronID, 1});
 										} else {
@@ -1080,23 +1084,38 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 											maxfiringNID = p.first;
 											maxfiringCnt = p.second;
 										}
-										KERNEL_INFO("%d -- %d", maxfiringNID, p.second);
+										
 									}
+									// KERNEL_INFO("maxfiringNID: %d | maxfiringCnt: %d", maxfiringNID, maxfiringCnt);
 									
 									int poolingSpikesIdx = 0;
-									for (int fireTableIdx = k; fireTableIdx <= k_end; fireTableIdx++) {
+									int fireTableIdx = k_begin;
+									int numProcessedNeuron = k_begin;
+									while (fireTableIdx <= k_end) {
 										if (runtimeData[netId].firingTableD1[fireTableIdx] == maxfiringNID) {
-											poolingSpikes[poolingSpikesIdx] = 1;
-											poolingSpikesIdx+=networkConfigs[netId].simNumStepsPerMs;
+											poolingSpikesMap[lNId][poolingSpikesIdx] = 1;
+											
 										}
+										for (int w = step_begin + poolingSpikesIdx/2; w < step_end; w++) {
+											if (numProcessedNeuron < runtimeData[netId].timeTableD1[w]) {
+												poolingSpikesIdx = (w-step_begin)*2;
+												// KERNEL_INFO("poolingSpikesIdx %d", poolingSpikesIdx);
+												break;
+											}
+										}
+										numProcessedNeuron++;
+										
+										fireTableIdx++;
 									}
 								}
 							}
 						}
 						else {
-							if (poolingSpikes[currPoolingTs] == 1) {
+							// KERNEL_INFO("lNId %d isspike %d", lNId, poolingSpikesMap[lNId][currPoolingTs]);
+							if (poolingSpikesMap[lNId][currPoolingTs] == 1) {
+								
 								runtimeData[netId].curSpike[lNId] = true;
-								poolingSpikes[currPoolingTs] = 0;
+								poolingSpikesMap[lNId][currPoolingTs] = 0;
 							}
 						}
 					}

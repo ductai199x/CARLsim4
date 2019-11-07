@@ -81,7 +81,7 @@ class convolutionConnection : public ConnectionGenerator
 class poolingConnection : public ConnectionGenerator
 {
     public:
-    poolingConnection(int stride, int inputX, int destX, int filterX);
+    poolingConnection(int stride, int inputX, int inputY, int dest_size, int filter_size);
     ~poolingConnection();
     
     private:
@@ -110,13 +110,9 @@ class poolingConnection : public ConnectionGenerator
             //cout << "Connected: " << i << " " << j << endl;
             connected=1;
         }
-        weight = 10.0f;
         maxWt = 10.0f;
         delay = 1.0f;
-        if(weight>1)
-        {
-            weight = 1;
-        }
+        weight = 1;
     }
 
 };

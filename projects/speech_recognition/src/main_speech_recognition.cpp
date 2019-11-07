@@ -65,54 +65,108 @@ poolingConnection::~poolingConnection()
 
 }
 
-poolingConnection::poolingConnection(int stride, int inputX, int destX, int filterX)
-    :stride(stride), inputX(inputX), inputY(inputX), destX(destX), destY(destX), filterX(filterX), filterY(filterX)
+poolingConnection::poolingConnection(int stride, int inputX, int inputY, int dest_size, int filter_size)
+    :stride(stride), inputX(inputX), inputY(inputY), destX(dest_size), destY(dest_size), filterX(filter_size), filterY(filter_size)
 {
+	vector<int> srcConnection;
+	int j = 0,h = 0,k = 0;
+	for (int y = 0; y < filterX; y++) {
+		for (int x = 0; x < filterY; x++) {
+			k = x + filterX*y;
+			connectionsMap.insert(pair<int, vector<int>>(k, srcConnection));
+		}
+	}
+
+	k = 0;
+	for (int y = 0; y < inputY; y+=stride) {
+		for (int x = 0; x < inputX; x+=stride) {
+			k = x + inputX*y;
+			cout << j << " - ";
+			for (int fy = 0; fy < destX; fy++) {
+				for (int fx = 0; fx < destX; fx++) {
+					h = k + fx + inputX*fy;
+					connectionsMap[j].push_back(h);
+					cout << h << "  ";
+				}
+			}
+			j++;
+			cout << endl;
+		}
+	}
+
+
     // add dummy connections to the map. 
-    for(int x=0; x<destX; x++)      
-    {
-        for(int y=0; y<destY; y++)      
-        {
-            int j = x*destX+y;              
-            vector<int> srcConnection;      
-            connectionsMap.insert(pair<int, vector<int>>(j,srcConnection)); 
+    // for(int x=0; x<destX; x++)      
+    // {
+    //     for(int y=0; y<destY; y++)      
+    //     {
+    //         int j = x*destX+y;              
+    //         vector<int> srcConnection;      
+    //         connectionsMap.insert(pair<int, vector<int>>(j,srcConnection)); 
             
-            for(int fX=0; fX<filterX; fX++) 
-            {
-                for(int fY=0; fY<filterY; fY++) 
-                {
-                    connectionsMap[j].push_back((x*stride+fX)*inputX+(y*stride+fY));
-                }
-            }
-        }
-    }
+    //         for(int fX=0; fX<filterX; fX++) 
+    //         {
+    //             for(int fY=0; fY<filterY; fY++) 
+    //             {
+    //                 connectionsMap[j].push_back((x*stride+fX)*inputX+(y*stride+fY));
+    //             }
+    //         }
+    //     }
+    // }
 
-    
-	map<int, vector<int>>::iterator it;
+	// map<int, vector<int>>::iterator it;
 
-	for(it= connectionsMap.begin(); it!=connectionsMap.end(); it++)
-	{
-  		cout << "DestinationNeuron: " << it->first << endl;
-		// vector<int>::iterator itt;
-		// for(itt = it->second.begin(); itt!= it->second.end(); itt++ )
-		// {
-		// 	std::cout << *itt << " " << endl;
-		// } 
-	}	
+	// for(it= connectionsMap.begin(); it!=connectionsMap.end(); it++)
+	// {
+  	// 	cout << "DestinationNeuron: " << it->first << endl;
+	// 	vector<int>::iterator itt;
+	// 	for(itt = it->second.begin(); itt!= it->second.end(); itt++ )
+	// 	{
+
+	// 		cout << *itt << " " << endl;
+	// 	} 
+	// }	
 }
+
+/*****************************************************************************************************************************************/
+
+poolingFullConnection::poolingFullConnection(int inputSize, int filterNumber, vector<vector<float>> &weights, int connectionType)
+    :inputSize(inputSize), filterNumber(filterNumber), weights(weights), connectionType(connectionType){}
+
+
+poolingFullConnection::~poolingFullConnection(){}
+
+/****************************************************************************************************************************************/
 
 int main(int argc, const char* argv[])
 {
 	// Get all training files in directory
-	const char *training_folder = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/";
+	const char *training_folder_M = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/male/";
+	const char *training_folder_F = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/female/";
 
 	std::vector <std::string> training_files;
+	int num_files = 10;
 
-    if (auto dir = opendir(training_folder)) {
+    if (auto dir = opendir(training_folder_M)) {
+		int i = 0;
 		while (auto f = readdir(dir)) {
+			if (i >= num_files) break;
 			if (!f->d_name || f->d_name[0] == '.')
 				continue; // Skip everything that starts with a dot
-			training_files.push_back(std::string(training_folder) + std::string(f->d_name));
+			training_files.push_back(std::string(training_folder_M) + std::string(f->d_name));
+			i++;
+		}
+		closedir(dir);
+	}
+
+	    if (auto dir = opendir(training_folder_F)) {
+		int i = 0;
+		while (auto f = readdir(dir)) {
+			if (i >= num_files) break;
+			if (!f->d_name || f->d_name[0] == '.')
+				continue; // Skip everything that starts with a dot
+			training_files.push_back(std::string(training_folder_F) + std::string(f->d_name));
+			i++;
 		}
 		closedir(dir);
 	}
@@ -121,7 +175,7 @@ int main(int argc, const char* argv[])
 	stim.print();
 
 	// ---------------- CONFIG STATE -------------------
-	CARLsim sim("smooth", CPU_MODE, DEVELOPER);
+	CARLsim sim("smooth", CPU_MODE, DEVELOPER, 1, 123);
 
 	// ----- INPUT LAYER INITIALIZATION -----
 	Grid3D inDim(stim.getWidth(), stim.getHeight(), stim.getChannels());
@@ -154,11 +208,13 @@ int main(int argc, const char* argv[])
 	}
 
 	// ----- POOLING LAYER INITIALIZATION -----
-	int numConvFilters = 24;
-	Grid3D numNeuronPoolingLayer(numConvFilters,1,1);
+	// int numConvFilters = 5;
+	Grid3D numNeuronPoolingLayer(10,10,1);
 	int *poolingLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *convToPoolingIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
-	poolingConnection* poolConn = new poolingConnection(2, 10, 5, 2);
+	// int stride, int inputX, int inputY, int dest_size, int filter_size
+	poolingConnection* poolConn = new poolingConnection(4, inDim.numX, inDim.numY, 4, 10);
+	// poolingFullConnection* poolConn2 =  new poolingFullConnection(25, i, wConv3, EXCITATORY);
 
 	// Create Pooling Layers
 	SpikeMonitor* spkMon;
@@ -179,11 +235,9 @@ int main(int argc, const char* argv[])
 	// Connect EACH Convolutional Layer to EACH Max Pooling Layer
 	for (int i=0; i<numFeatureMaps; i++) {
 		gaus_rand = distribution(generator);
-		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
-			RangeDelay(1), RadiusRF(2,2,-1), SYN_PLASTIC);
-		// convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn, SYN_PLASTIC);
+		// convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f, RangeDelay(1), RadiusRF(10,10,-1), SYN_PLASTIC);
+		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn, SYN_PLASTIC);
 	}
-
 
 	// Use CUBA mode
 	sim.setConductances(false);
@@ -195,8 +249,8 @@ int main(int argc, const char* argv[])
 	spkMon->startRecording();
 
 	// ---------------- RUN STATE -------------------
-	// for (int n = 0; n < training_files.size(); n++)
-	for (int n = 0; n < 1; n++)
+	for (int n = 0; n < training_files.size(); n++)
+	// for (int n = 0; n < 1; n++)
 	{
 		VisualStimulus stim(training_files[n]);
 		for (int i=0; i<stim.getLength(); i++) {
@@ -210,16 +264,16 @@ int main(int argc, const char* argv[])
 	// print a summary of the spike information""
 	spkMon->print();
 	// get the average firing rate of each of the neurons in group excGrpId
-	std::vector<float> excFRs = spkMon->getAllFiringRates();
+	// std::vector<float> excFRs = spkMon->getAllFiringRates();
 
-	int max = 0;
-	std::vector<float>::iterator it = excFRs.begin();
-	for (it; it != excFRs.end(); it++) {
-		if (*it > max){
-			max = *it;
-		}
-	}
-	printf("max: %d", max);
+	// int max = 0;
+	// std::vector<float>::iterator it = excFRs.begin();
+	// for (it; it != excFRs.end(); it++) {
+	// 	if (*it > max){
+	// 		max = *it;
+	// 	}
+	// }
+	// printf("max: %d", max);
 	
 	return 0;
 }

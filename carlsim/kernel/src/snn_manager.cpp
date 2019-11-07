@@ -2178,9 +2178,6 @@ void SNN::SNNinit() {
 	// initialize spike buffer
 	spikeBuf = new SpikeBuffer(0, MAX_TIME_SLICE);
 
-	// initialize spike buffer
-	poolingSpikeBuf = new SpikeBuffer(0, MAX_TIME_SLICE);
-
 	memset(networkConfigs, 0, sizeof(NetworkConfigRT) * MAX_NET_PER_SNN);
 	
 	// reset all runtime data
@@ -3731,8 +3728,10 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
 
 	connectionLists[netId].push_back(connInfo);
+	int poolingSpikesArr[poolingWindow] = { 0 };
 	if(groupConfigMap[_grpDest].isPoolingLIF) {
 		poolingConnectionLists[netId].push_back(connInfo);
+		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
 	}
 		
 	// If the connection is external, copy the connection info to the external network
@@ -3757,8 +3756,11 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.delay = delay;
 
 	connectionLists[netId].push_back(connInfo);
+	// int poolingSpikesArr[poolingWindow] = { 0 };
+	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
 	if(groupConfigMap[_grpDest].isPoolingLIF) {
 		poolingConnectionLists[netId].push_back(connInfo);
+		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
 	}
 
 	// If the connection is external, copy the connection info to the external network
