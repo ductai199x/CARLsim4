@@ -130,7 +130,7 @@ int main(int argc, const char* argv[])
 	const char *training_folder_F = "/home/sweet/2-coursework/spreg487/src/processed_data/female/";
 
 	std::vector <std::string> training_files;
-	int num_files = 300;
+	int num_files = 600;
 
     if (auto dir = opendir(training_folder_M)) {
 		int i = 0;
@@ -162,9 +162,9 @@ int main(int argc, const char* argv[])
 	// ---------------------------------------------- CONFIG STATE ---------------------------------------------- //
 	// ---------------------------------------------------------------------------------------------------------- //
 	CARLsim sim("spreg487", CPU_MODE, USER, 1, 123);
-	Grid3D inDim(13, 99, 1);
-	Grid3D convDim(9, 96, 1);
-	Grid3D poolingDim(3, 32, 1);
+	Grid3D inDim(5, 99, 1);
+	Grid3D convDim(2, 96, 1);
+	Grid3D poolingDim(1, 48, 1);
 	int numFeatureMaps = 1;
 	// Random number generator (from gaussian dist)
 	std::default_random_engine generator (0);
@@ -176,14 +176,13 @@ int main(int argc, const char* argv[])
 	sim.setSpikeMonitor(gIn, "DEFAULT");
 	// -------------------- INPUT LAYER INITIALIZATION ---------------------------- END
 
-	
 
 	// -------------------- CONVOLUTIONAL LAYER INITIALIZATION -------------------- START
 
 	// LIF Parameters Initialization
     int tau_mE = 10;
     int tau_refE = 1;
-    float vTh = -78.0f;
+    float vTh = -79.0f;
     float vReset = -80.0f;
     float vInit = -80.0f;
     float rMem = 10;
@@ -195,16 +194,17 @@ int main(int argc, const char* argv[])
 	// homeostasis constants
 	float homeoScale= 1.0; // homeostatic scaling factor
 	float avgTimeScale = 5.0; // homeostatic time constant
-	float targetFiringRate = 70.0;
+	float targetFiringRate = 45.0;
 
 	int *convLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *inputToConvIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
 
 	// Create Convolutional Layers
+	SpikeMonitor* spkMonConv;
 	for (int i=0; i<numFeatureMaps; i++) {
 		convLayers[i] = sim.createGroupLIF("convolutional", convDim, EXCITATORY_NEURON);
 		sim.setNeuronParametersLIF(convLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
-		sim.setSpikeMonitor(convLayers[i], "DEFAULT");
+		spkMonConv = sim.setSpikeMonitor(convLayers[i], "DEFAULT");
 	}
 	// -------------------- CONVOLUTIONAL LAYER INITIALIZATION -------------------- END
 
@@ -216,25 +216,25 @@ int main(int argc, const char* argv[])
 	SpikeMonitor* spkMon;
 	for (int i=0; i<numFeatureMaps; i++) {
 		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", poolingDim, EXCITATORY_NEURON);
-		sim.setNeuronParametersPoolingLIF(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh-1, (float)vReset, RangeRmem(rMem));
+		sim.setNeuronParametersPoolingLIF(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
 		spkMon = sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
 	}
 	// -------------------- POOLING LAYER INITIALIZATION -------------------------- END
 
 	// -------------------- CONNECT ALL THE LAYERS -------------------------------- START
 	// Connect Input Layer to ALL Convolutional Layers
-	int conv_kernel_size = 5;
+	int conv_kernel_size = 4;
 	for (int i=0; i<numFeatureMaps; i++) {
 		convolutionConnection* convConn = new convolutionConnection(0, inDim.numX, inDim.numY, conv_kernel_size, convDim.numX, convDim.numY, distribution(generator), EXCITATORY);
 		inputToConvIDs[i] = sim.connect(gIn, convLayers[i], convConn, SYN_PLASTIC);
 		sim.setESTDP(convLayers[i], true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTP));
-		// sim.setHomeostasis(convLayers[i],true,homeoScale,avgTimeScale);
-		// sim.setHomeoBaseFiringRate(convLayers[i],targetFiringRate,0);
+		sim.setHomeostasis(convLayers[i],true,homeoScale,avgTimeScale);
+		sim.setHomeoBaseFiringRate(convLayers[i],targetFiringRate,0);
 	}
 
 	// Connect EACH Convolutional Layer to EACH Max Pooling Layer
-	int pooling_kernel_size = 3;
-	int stride = 3;
+	int pooling_kernel_size = 2;
+	int stride = 2;
 	for (int i=0; i<numFeatureMaps; i++) {
 		poolingConnection* poolConn = new poolingConnection(stride, convDim.numX, convDim.numY, pooling_kernel_size, poolingDim.numX, poolingDim.numY);
 		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn);
@@ -250,6 +250,7 @@ int main(int argc, const char* argv[])
 
 	// start recording spikes associated with spkMon object
 	spkMon->startRecording();
+	spkMonConv->startRecording();
 
 
 	// ---------------------------------------------- RUN STATE ------------------------------------------------- //
@@ -263,9 +264,10 @@ int main(int argc, const char* argv[])
 	// 		sim.runNetwork(1,0); // run the network
 	// 	}
 	// }
+	
 
-
-	for (int n = 0; n < num_files/2; n++)
+	// for (int n = 0; n < num_files/2; n++)
+	for (int n = 0; n < training_files.size(); n++)
 	{
 		VisualStimulus stim(training_files[n]);
 		for (int i=0; i<stim.getLength(); i++) {
@@ -275,21 +277,22 @@ int main(int argc, const char* argv[])
 		}
 	}
 
-	for (int n = num_files; n < num_files*3/2; n++)
-	{
-		VisualStimulus stim(training_files[n]);
-		for (int i=0; i<stim.getLength(); i++) {
-			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
-			sim.setSpikeRate(gIn, rates);
-			sim.runNetwork(1,0); // run the network
-		}
-	}
+	// for (int n = num_files; n < num_files*3/2; n++)
+	// {
+	// 	VisualStimulus stim(training_files[n]);
+	// 	for (int i=0; i<stim.getLength(); i++) {
+	// 		PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
+	// 		sim.setSpikeRate(gIn, rates);
+	// 		sim.runNetwork(1,0); // run the network
+	// 	}
+	// }
 
 	spkMon->stopRecording();
-
+	spkMonConv->stopRecording();
 	sim.startTesting();
 	
-	for (int n = num_files/2; n < num_files; n++)
+	// for (int n = num_files/2; n < num_files; n++)
+	for (int n = 0; n < training_files.size(); n++)
 	{
 		VisualStimulus stim(training_files[n]);
 		for (int i=0; i<stim.getLength(); i++) {
@@ -300,21 +303,21 @@ int main(int argc, const char* argv[])
 	}
 
 	// for (int n = num_files+num_files/2; n < num_files*2; n++)
-	for (int n = num_files*3/2; n < num_files*2; n++)
-	{
-		VisualStimulus stim(training_files[n]);
-		for (int i=0; i<stim.getLength(); i++) {
-			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
-			sim.setSpikeRate(gIn, rates);
-			sim.runNetwork(1,0); // run the network
-		}
-	}
+	// for (int n = num_files*3/2; n < num_files*2; n++)
+	// {
+	// 	VisualStimulus stim(training_files[n]);
+	// 	for (int i=0; i<stim.getLength(); i++) {
+	// 		PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
+	// 		sim.setSpikeRate(gIn, rates);
+	// 		sim.runNetwork(1,0); // run the network
+	// 	}
+	// }
 
 	sim.stopTesting();
 
 
 	// print a summary of the spike information""
-	// spkMon->print();
+	// spkMonConv->print();
 	// get the average firing rate of each of the neurons in group excGrpId
 	// std::vector<float> excFRs = spkMon->getAllFiringRates();
 
