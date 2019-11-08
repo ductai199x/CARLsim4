@@ -19,7 +19,8 @@ typedef vector<vector<float>> weightVector;
 class convolutionConnection : public ConnectionGenerator
 {
     public:
-    convolutionConnection(int padding, int inputX, int destX, int filterX, vector<float> &weights, int neuronType);
+    convolutionConnection(int padding, int inputX, int inputY, int destX, int destY, int filterX, int filterY, vector<float> &weights, int neuronType);
+    convolutionConnection(int padding, int inputX, int inputY, int dest_size, int filterX, int filterY, float weights, int neuronType);
     ~convolutionConnection();
     
     private:
@@ -81,7 +82,7 @@ class convolutionConnection : public ConnectionGenerator
 class poolingConnection : public ConnectionGenerator
 {
     public:
-    poolingConnection(int stride, int inputX, int inputY, int dest_size, int filter_size);
+    poolingConnection(int stride, int inputX, int inputY, int dest_size, int filterX, int filterY);
     ~poolingConnection();
     
     private:

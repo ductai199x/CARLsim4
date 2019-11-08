@@ -1,42 +1,35 @@
-% A simple demo of the NetworkMonitor functionality
+
+clear all; close all;
 
 % add Offline Analysis Toolbox to path
 initOAT;
 
-SR = SpikeReader('/home/sweet/1-workdir/carlsim4_ductai199x/projects/speech_recognition/results/spk_pooling.dat')
+SR = SpikeReader('/home/sweet/1-workdir/carlsim4_ductai199x/projects/speech_recognition/results/spk_pooling.dat');
+spk = SR.readSpikes(1000);
+
+X_train = spk(1:size(spk,1)/2,:);
+X_test = spk(size(spk,1)/2+1:end,:);
+
+Y_train = [ones(size(X_train, 1)/2,1); ones(size(X_train, 1)/2,1)*-1];
+Y_test = [ones(size(X_test, 1)/2,1); ones(size(X_test, 1)/2,1)*-1];
+
+tol = 0.01;
+C = 1;
+sigma = 0.1;
+% C = 7.0301;
+% sigma = 5.8171;
 
 
+svm = fitcsvm(X_train, Y_train,'KernelFunction','rbf',...
+    'KernelScale',sigma,'BoxConstraint',C,...
+    'Solver','SMO','KKTTolerance',tol,...
+    'IterationLimit',20000,'CacheSize',10000);
 
-% % init NetworkMonitor
-% NM = NetworkMonitor('/home/sweet/1-workdir/carlsim4_ductai199x/projects/speech_recognition/results/sim_pooling.dat');
-% 
-% % plot network activity
-% disp('NetworkMonitor.plot')
-% disp('-------------------')
-% disp('Press ''p'' to pause.')
-% disp('Press ''q'' to quit.')
-% disp(['Press ''s'' to enter stepping mode; then press the ' ...
-% 	'right arrow key to step'])
-% disp('one frame forward, press the left arrow key to step one frame back.')
-% disp('Press ''s'' again to leave stepping mode.')
-% disp(' ')
-% NM.setPlottingAttributes('binwindowms', 1000);
-% NM.plot;
+% svm = fitcsvm(X_train, Y_train, 'OptimizeHyperparameters','auto');
+    
+%Computation of the error probability
+train_res = predict(svm,X_train);
+pe_train = sum(Y_train~=train_res)/length(Y_train)
 
-
-% % init ConnectionMonitor
-% CM = ConnectionMonitor('input','output','/home/sweet/1-workdir/carlsim4_ductai199x/projects/speech_recognition/results/');
-% 
-% % visualize receptive fields (little 2D Gaussian kernels for each post-neuron)
-% disp('ConnectionMonitor.plot(''receptivefield'')')
-% disp('-------------------')
-% disp('Press ''p'' to pause.')
-% disp('Press ''q'' to quit.')
-% disp(['Press ''s'' to enter stepping mode; then press the ' ...
-% 	'right arrow key to step'])
-% disp('one frame forward, press the left arrow key to step one frame back.')
-% disp('Press ''s'' again to leave stepping mode.')
-% CM.plot('receptivefield')
-% 
-% % analogously, the response field of each pre-neuron can be visualized:
-% % CM.plot('responsefield')
+train_res = predict(svm,X_test);
+pe_test = sum(Y_test~=train_res)/length(Y_test)

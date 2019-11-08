@@ -59,20 +59,20 @@
 
 #include "utilities.h"
 
+#define INHIBITORY 1
+#define EXCITATORY 0
 
-poolingConnection::~poolingConnection()
+
+poolingConnection::~poolingConnection() {}
+
+poolingConnection::poolingConnection(int stride, int inputX, int inputY, int dest_size, int filterX, int filterY)
+    :stride(stride), inputX(inputX), inputY(inputY), destX(dest_size), destY(dest_size), filterX(filterX), filterY(filterY)
 {
-
-}
-
-poolingConnection::poolingConnection(int stride, int inputX, int inputY, int dest_size, int filter_size)
-    :stride(stride), inputX(inputX), inputY(inputY), destX(dest_size), destY(dest_size), filterX(filter_size), filterY(filter_size)
-{
-	vector<int> srcConnection;
 	int j = 0,h = 0,k = 0;
 	for (int y = 0; y < filterX; y++) {
 		for (int x = 0; x < filterY; x++) {
 			k = x + filterX*y;
+			vector<int> srcConnection;
 			connectionsMap.insert(pair<int, vector<int>>(k, srcConnection));
 		}
 	}
@@ -81,71 +81,56 @@ poolingConnection::poolingConnection(int stride, int inputX, int inputY, int des
 	for (int y = 0; y < inputY; y+=stride) {
 		for (int x = 0; x < inputX; x+=stride) {
 			k = x + inputX*y;
-			cout << j << " - ";
+			// cout << j << " - ";
 			for (int fy = 0; fy < destX; fy++) {
 				for (int fx = 0; fx < destX; fx++) {
 					h = k + fx + inputX*fy;
 					connectionsMap[j].push_back(h);
-					cout << h << "  ";
+					// cout << h << "  ";
 				}
 			}
 			j++;
-			cout << endl;
+			// cout << endl;
 		}
 	}
-
-
-    // add dummy connections to the map. 
-    // for(int x=0; x<destX; x++)      
-    // {
-    //     for(int y=0; y<destY; y++)      
-    //     {
-    //         int j = x*destX+y;              
-    //         vector<int> srcConnection;      
-    //         connectionsMap.insert(pair<int, vector<int>>(j,srcConnection)); 
-            
-    //         for(int fX=0; fX<filterX; fX++) 
-    //         {
-    //             for(int fY=0; fY<filterY; fY++) 
-    //             {
-    //                 connectionsMap[j].push_back((x*stride+fX)*inputX+(y*stride+fY));
-    //             }
-    //         }
-    //     }
-    // }
-
-	// map<int, vector<int>>::iterator it;
-
-	// for(it= connectionsMap.begin(); it!=connectionsMap.end(); it++)
-	// {
-  	// 	cout << "DestinationNeuron: " << it->first << endl;
-	// 	vector<int>::iterator itt;
-	// 	for(itt = it->second.begin(); itt!= it->second.end(); itt++ )
-	// 	{
-
-	// 		cout << *itt << " " << endl;
-	// 	} 
-	// }	
 }
 
-/*****************************************************************************************************************************************/
+convolutionConnection::~convolutionConnection() {}
+
+convolutionConnection::convolutionConnection(int padding, int inputX, int inputY, int dest_size, int filterX, int filterY, float weight, int neuronType)
+    :padding(padding), inputX(inputX), inputY(inputY), destX(dest_size), destY(dest_size), filterX(filterX), filterY(filterY), neuronType(neuronType)
+{
+    for(int x=0; x<destX; x++) {
+        for(int y=0; y<destY; y++) {
+            int j = x*destX+y;
+           
+            if((x>inputX-filterX) || y>inputY-filterY)
+                continue;
+            
+            for(int fX=0; fX<filterX; fX++) {
+                for(int fY=0; fY<filterY; fY++) {
+                    connectionsMap[j][(x+fX)*inputX+(y+fY)] = weight;
+                }
+            }
+        }
+    }
+}
 
 poolingFullConnection::poolingFullConnection(int inputSize, int filterNumber, vector<vector<float>> &weights, int connectionType)
     :inputSize(inputSize), filterNumber(filterNumber), weights(weights), connectionType(connectionType){}
 
 
-poolingFullConnection::~poolingFullConnection(){}
+poolingFullConnection::~poolingFullConnection() {}
 
-/****************************************************************************************************************************************/
 
 int main(int argc, const char* argv[])
 {
 	// Get all training files in directory
-	const char *training_folder_M = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/male/";
-	const char *training_folder_F = "/home/sweet/2-coursework/ecec487/speech_recognition/src/processed_data/female/";
+	const char *training_folder_M = "/home/sweet/2-coursework/spreg487/src/processed_data/male/";
+	const char *training_folder_F = "/home/sweet/2-coursework/spreg487/src/processed_data/female/";
 
 	std::vector <std::string> training_files;
-	int num_files = 10;
+	int num_files = 300;
 
     if (auto dir = opendir(training_folder_M)) {
 		int i = 0;
@@ -159,7 +144,7 @@ int main(int argc, const char* argv[])
 		closedir(dir);
 	}
 
-	    if (auto dir = opendir(training_folder_F)) {
+	if (auto dir = opendir(training_folder_F)) {
 		int i = 0;
 		while (auto f = readdir(dir)) {
 			if (i >= num_files) break;
@@ -174,20 +159,26 @@ int main(int argc, const char* argv[])
 	VisualStimulus stim(training_files[0]);
 	stim.print();
 
-	// ---------------- CONFIG STATE -------------------
-	CARLsim sim("smooth", CPU_MODE, DEVELOPER, 1, 123);
-
-	// ----- INPUT LAYER INITIALIZATION -----
-	Grid3D inDim(stim.getWidth(), stim.getHeight(), stim.getChannels());
-	int gIn = sim.createSpikeGeneratorGroup("input", inDim, EXCITATORY_NEURON);
-	sim.setSpikeMonitor(gIn, "DEFAULT");
-
+	// ---------------------------------------------- CONFIG STATE ---------------------------------------------- //
+	// ---------------------------------------------------------------------------------------------------------- //
+	CARLsim sim("spreg487", CPU_MODE, USER, 1, 123);
+	Grid3D inDim(13, 99, 1);
+	Grid3D convDim(9, 96, 1);
+	Grid3D poolingDim(3, 32, 1);
 	int numFeatureMaps = 1;
 	// Random number generator (from gaussian dist)
 	std::default_random_engine generator (0);
 	std::normal_distribution<double> distribution (20.0,0.33);
-	double gaus_rand = distribution(generator);
-	// ----- CONVOLUTIONAL LAYER INITIALIZATION -----
+
+	// -------------------- INPUT LAYER INITIALIZATION ---------------------------- START
+
+	int gIn = sim.createSpikeGeneratorGroup("input", inDim, EXCITATORY_NEURON);
+	sim.setSpikeMonitor(gIn, "DEFAULT");
+	// -------------------- INPUT LAYER INITIALIZATION ---------------------------- END
+
+	
+
+	// -------------------- CONVOLUTIONAL LAYER INITIALIZATION -------------------- START
 
 	// LIF Parameters Initialization
     int tau_mE = 10;
@@ -197,60 +188,94 @@ int main(int argc, const char* argv[])
     float vInit = -80.0f;
     float rMem = 10;
 
+	// set E-STDP parameters.
+	float alpha_LTP=0.001f/100; float tau_LTP=20.0f;
+	float alpha_LTD=0.0015f/100; float tau_LTD=20.0f;
+
+	// homeostasis constants
+	float homeoScale= 1.0; // homeostatic scaling factor
+	float avgTimeScale = 5.0; // homeostatic time constant
+	float targetFiringRate = 70.0;
+
 	int *convLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *inputToConvIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
 
 	// Create Convolutional Layers
 	for (int i=0; i<numFeatureMaps; i++) {
-		convLayers[i] = sim.createGroupLIF("convolutional", inDim, EXCITATORY_NEURON);
+		convLayers[i] = sim.createGroupLIF("convolutional", convDim, EXCITATORY_NEURON);
 		sim.setNeuronParametersLIF(convLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
 		sim.setSpikeMonitor(convLayers[i], "DEFAULT");
 	}
+	// -------------------- CONVOLUTIONAL LAYER INITIALIZATION -------------------- END
 
-	// ----- POOLING LAYER INITIALIZATION -----
-	// int numConvFilters = 5;
-	Grid3D numNeuronPoolingLayer(10,10,1);
+	// -------------------- POOLING LAYER INITIALIZATION -------------------------- START
 	int *poolingLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *convToPoolingIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
-	// int stride, int inputX, int inputY, int dest_size, int filter_size
-	poolingConnection* poolConn = new poolingConnection(4, inDim.numX, inDim.numY, 4, 10);
-	// poolingFullConnection* poolConn2 =  new poolingFullConnection(25, i, wConv3, EXCITATORY);
-
+	
 	// Create Pooling Layers
 	SpikeMonitor* spkMon;
 	for (int i=0; i<numFeatureMaps; i++) {
-		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", numNeuronPoolingLayer, EXCITATORY_NEURON);
+		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", poolingDim, EXCITATORY_NEURON);
 		sim.setNeuronParametersPoolingLIF(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh-1, (float)vReset, RangeRmem(rMem));
 		spkMon = sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
 	}
+	// -------------------- POOLING LAYER INITIALIZATION -------------------------- END
 
-	// ----- CONNECT ALL THE LAYERS -----
+	// -------------------- CONNECT ALL THE LAYERS -------------------------------- START
 	// Connect Input Layer to ALL Convolutional Layers
+	int conv_kernel_size = 5;
 	for (int i=0; i<numFeatureMaps; i++) {
-		gaus_rand = distribution(generator);
-		inputToConvIDs[i] = sim.connect(gIn, convLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f,
-			RangeDelay(1), RadiusRF(2,2,-1), SYN_PLASTIC);
+		convolutionConnection* convConn = new convolutionConnection(0, inDim.numX, inDim.numY, conv_kernel_size, convDim.numX, convDim.numY, distribution(generator), EXCITATORY);
+		inputToConvIDs[i] = sim.connect(gIn, convLayers[i], convConn, SYN_PLASTIC);
+		sim.setESTDP(convLayers[i], true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTP));
+		// sim.setHomeostasis(convLayers[i],true,homeoScale,avgTimeScale);
+		// sim.setHomeoBaseFiringRate(convLayers[i],targetFiringRate,0);
 	}
 
 	// Connect EACH Convolutional Layer to EACH Max Pooling Layer
+	int pooling_kernel_size = 3;
+	int stride = 3;
 	for (int i=0; i<numFeatureMaps; i++) {
-		gaus_rand = distribution(generator);
-		// convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], "gaussian", RangeWeight(0, gaus_rand, gaus_rand), 1.0f, RangeDelay(1), RadiusRF(10,10,-1), SYN_PLASTIC);
-		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn, SYN_PLASTIC);
+		poolingConnection* poolConn = new poolingConnection(stride, convDim.numX, convDim.numY, pooling_kernel_size, poolingDim.numX, poolingDim.numY);
+		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn);
 	}
+	// -------------------- CONNECT ALL THE LAYERS -------------------------------- END
 
 	// Use CUBA mode
 	sim.setConductances(false);
 
-	// ---------------- SETUP STATE -------------------
+	// ---------------------------------------------- SETUP STATE ----------------------------------------------- //
+	// ---------------------------------------------------------------------------------------------------------- //
 	sim.setupNetwork();
 
 	// start recording spikes associated with spkMon object
 	spkMon->startRecording();
 
-	// ---------------- RUN STATE -------------------
-	for (int n = 0; n < training_files.size(); n++)
-	// for (int n = 0; n < 1; n++)
+
+	// ---------------------------------------------- RUN STATE ------------------------------------------------- //
+	// ---------------------------------------------------------------------------------------------------------- //
+	// for (int n = 1; n < 2; n++)
+	// {
+	// 	VisualStimulus stim(training_files[n]);
+	// 	for (int i=0; i<stim.getLength(); i++) {
+	// 		PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
+	// 		sim.setSpikeRate(gIn, rates);
+	// 		sim.runNetwork(1,0); // run the network
+	// 	}
+	// }
+
+
+	for (int n = 0; n < num_files/2; n++)
+	{
+		VisualStimulus stim(training_files[n]);
+		for (int i=0; i<stim.getLength(); i++) {
+			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
+			sim.setSpikeRate(gIn, rates);
+			sim.runNetwork(1,0); // run the network
+		}
+	}
+
+	for (int n = num_files; n < num_files*3/2; n++)
 	{
 		VisualStimulus stim(training_files[n]);
 		for (int i=0; i<stim.getLength(); i++) {
@@ -261,8 +286,35 @@ int main(int argc, const char* argv[])
 	}
 
 	spkMon->stopRecording();
+
+	sim.startTesting();
+	
+	for (int n = num_files/2; n < num_files; n++)
+	{
+		VisualStimulus stim(training_files[n]);
+		for (int i=0; i<stim.getLength(); i++) {
+			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
+			sim.setSpikeRate(gIn, rates);
+			sim.runNetwork(1,0); // run the network
+		}
+	}
+
+	// for (int n = num_files+num_files/2; n < num_files*2; n++)
+	for (int n = num_files*3/2; n < num_files*2; n++)
+	{
+		VisualStimulus stim(training_files[n]);
+		for (int i=0; i<stim.getLength(); i++) {
+			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
+			sim.setSpikeRate(gIn, rates);
+			sim.runNetwork(1,0); // run the network
+		}
+	}
+
+	sim.stopTesting();
+
+
 	// print a summary of the spike information""
-	spkMon->print();
+	// spkMon->print();
 	// get the average firing rate of each of the neurons in group excGrpId
 	// std::vector<float> excFRs = spkMon->getAllFiringRates();
 

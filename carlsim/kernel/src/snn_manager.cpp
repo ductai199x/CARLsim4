@@ -3728,7 +3728,7 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
 
 	connectionLists[netId].push_back(connInfo);
-	int poolingSpikesArr[poolingWindow] = { 0 };
+	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
 	if(groupConfigMap[_grpDest].isPoolingLIF) {
 		poolingConnectionLists[netId].push_back(connInfo);
 		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
@@ -3756,7 +3756,6 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.delay = delay;
 
 	connectionLists[netId].push_back(connInfo);
-	// int poolingSpikesArr[poolingWindow] = { 0 };
 	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
 	if(groupConfigMap[_grpDest].isPoolingLIF) {
 		poolingConnectionLists[netId].push_back(connInfo);

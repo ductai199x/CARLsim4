@@ -1032,13 +1032,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 						// Current Neuron ID: lNId
 						// KERNEL_INFO("cpts: %d, simts: %d", currPoolingTs, simTime);
 						
-						if (currPoolingTs == poolingWindow - 1) {
-							short int pre_grpId;
-							for ( const auto &p : connectConfigMap ) {
-								if (p.second.grpDest == lGrpId)
-									pre_grpId = p.second.grpSrc;
-							}
-
+						if (currPoolingTs == poolingWindow) {
 							std::vector<int> connectedNIds;
 							std::list<ConnectionInfo>::iterator connIt = poolingConnectionLists[netId].begin();
 
@@ -1052,11 +1046,22 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
 							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
 
+							// int step_end = simTimeMs + 1;
+							// int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
+
 							// KERNEL_INFO("s_b: %d | s_e:%d", step_begin, step_end);
 
 							if (step_begin >= 0) {
-								int k_end   = runtimeData[netId].timeTableD1[step_end] - 1;
-								int k_begin = runtimeData[netId].timeTableD1[step_begin];
+								unsigned int* timeTable 	= runtimeData[netId].timeTableD1;
+								int* firingTable 			= runtimeData[netId].firingTableD1;
+								int k_end   = timeTable[step_end] - 1;
+								int k_begin = timeTable[step_begin];
+								if (k_end < 0) {
+									timeTable 		= runtimeData[netId].timeTableD2;
+									firingTable 	= runtimeData[netId].firingTableD2;
+									k_end   = timeTable[step_end] - 1;
+									k_begin = timeTable[step_begin];
+								}
 								// KERNEL_INFO("k_b: %d | k_e:%d", k_begin, k_end)
 								
 								std::map<int, int> poolingWindowTable;
@@ -1066,9 +1071,9 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 								int maxfiringNID = 0;
 								if(k_begin >= 0) {
 									for (int fireTableIdx = k_begin; fireTableIdx <= k_end; fireTableIdx++) {
-										fireNeuronID = runtimeData[netId].firingTableD1[fireTableIdx];
+										fireNeuronID = firingTable[fireTableIdx];
 										
-										std::vector<int>::iterator it = std::find(connectedNIds.begin(), connectedNIds.end(), fireTableIdx);
+										auto it = std::find(connectedNIds.begin(), connectedNIds.end(), fireNeuronID);
 										if (it == connectedNIds.end())
 											continue;
 										// KERNEL_INFO("fire nid: %d", fireNeuronID);
@@ -1086,19 +1091,21 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 										}
 										
 									}
-									// KERNEL_INFO("maxfiringNID: %d | maxfiringCnt: %d", maxfiringNID, maxfiringCnt);
 									
+									if (maxfiringNID == 0) continue;
+									// KERNEL_INFO("lNId: %d, maxfiringNID: %d | maxfiringCnt: %d", lNId, maxfiringNID, maxfiringCnt);
+
 									int poolingSpikesIdx = 0;
 									int fireTableIdx = k_begin;
 									int numProcessedNeuron = k_begin;
 									while (fireTableIdx <= k_end) {
-										if (runtimeData[netId].firingTableD1[fireTableIdx] == maxfiringNID) {
+										if (firingTable[fireTableIdx] == maxfiringNID) {
 											poolingSpikesMap[lNId][poolingSpikesIdx] = 1;
 											
 										}
-										for (int w = step_begin + poolingSpikesIdx/2; w < step_end; w++) {
-											if (numProcessedNeuron < runtimeData[netId].timeTableD1[w]) {
-												poolingSpikesIdx = (w-step_begin)*2;
+										for (int w = step_begin + poolingSpikesIdx/networkConfigs[netId].simNumStepsPerMs; w < step_end; w++) {
+											if (numProcessedNeuron < timeTable[w]) {
+												poolingSpikesIdx = (w-step_begin)*networkConfigs[netId].simNumStepsPerMs;
 												// KERNEL_INFO("poolingSpikesIdx %d", poolingSpikesIdx);
 												break;
 											}
