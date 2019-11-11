@@ -219,24 +219,42 @@ class fullConnection : public ConnectionGenerator
 
 };
 
-class ConstantISI : public SpikeGenerator
-{
-	public:
-		// Constructor	
-		ConstantISI(int numNeurons)
-		{_numNeur = numNeurons;}
-		// Destructor
-		~ConstantISI(){};
+class ConstantISI : public SpikeGenerator {
+public:
+	ConstantISI(int numNeur) {
+		_numNeur = numNeur;
+	}
+	~ConstantISI() {}
 
-        // Functions 
-        void updateISI(unsigned char* stimGray, float maxRateHz, float minRateHz);
-	    int nextSpikeTime(CARLsim* sim, int grpId, int nid, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice);		
-    
-    private:
-        // Data
-        int _numNeur;
-        vector <int> _isi;
+	void updateISI(unsigned char* stimGray, float maxRateHz=50.0f, float minRateHz=0.0f) {
+		_isi.clear();
 
+		// calculate inter-spike interval (ISI) from firing rate
+		for (int i=0; i<_numNeur; i++) {
+			// convert grayscale value to firing rate
+			float rateHz = (float)stimGray[i] / 255.0f * (maxRateHz - minRateHz) + minRateHz;
+
+			// invert firing rate to get inter-spike interval (ISI)
+			int isi = (rateHz > 0.0f) ? max(1, (int)(1000 / rateHz)) : 1000000;
+
+			// add value to vector
+			_isi.push_back(isi);
+		}
+	}
+
+	int nextSpikeTime(CARLsim* sim, int grpId, int nid, int currentTime,
+		int lastScheduledSpikeTime, int endOfTimeSlice)
+	{
+		// printf("_numNeur=%d, getGroupNumNeurons=%d\n",_numNeur, sim->getGroupNumNeurons(grpId));
+		assert(_numNeur == sim->getGroupNumNeurons(grpId));
+
+		// periodic spiking according to ISI
+		return (max(currentTime, lastScheduledSpikeTime) + _isi[nid]);
+	}
+
+private:
+	int _numNeur;
+	std::vector<int> _isi;
 };
 
 #endif
