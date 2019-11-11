@@ -480,8 +480,8 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdNMDA*trNMDA*log(1.0*trNMDA/tdNMDA))/(tdNMDA-trNMDA); // t at which cond will be max
 		sNMDA = 1.0/(exp(-tmax/tdNMDA)-exp(-tmax/trNMDA)); // scaling factor, 1 over max amplitude
-		assert(!isinf(tmax) && !isnan(tmax) && tmax>=0);
-		assert(!isinf(sNMDA) && !isnan(sNMDA) && sNMDA>0);
+		assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax>=0);
+		assert(!std::isinf(sNMDA) && !std::isnan(sNMDA) && sNMDA>0);
 	}
 
 	if (trGABAb>0) {
@@ -493,7 +493,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdGABAb*trGABAb*log(1.0*trGABAb/tdGABAb))/(tdGABAb-trGABAb); // t at which cond will be max
 		sGABAb = 1.0/(exp(-tmax/tdGABAb)-exp(-tmax/trGABAb)); // scaling factor, 1 over max amplitude
-		assert(!isinf(tmax) && !isnan(tmax)); assert(!isinf(sGABAb) && !isnan(sGABAb) && sGABAb>0);
+		assert(!std::isinf(tmax) && !std::isnan(tmax)); assert(!std::isinf(sGABAb) && !std::isnan(sGABAb) && sGABAb>0);
 	}
 
 	if (sim_with_conductances) {
@@ -5485,7 +5485,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 	//			exitSimulation(-1);
 	//		}
 
-	//		assert(!isnan(weight));
+	//		assert(!std::isnan(weight));
 	//		// read plastic/fixed
 	//		result = fread(&plastic, sizeof(uint8_t), 1, loadSimFID);
 	//		readErr |= (result!=1);

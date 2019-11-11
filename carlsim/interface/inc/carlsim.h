@@ -81,12 +81,12 @@ class SpikeGenerator;
 #include <float.h>
 #include <time.h>
 
-#ifndef isnan
-#define isnan(x) _isnan(x)
+#ifndef std::isnan
+#define std::isnan(x) _std::isnan(x)
 #endif
 
-#ifndef isinf
-#define isinf(x) (!_finite(x))
+#ifndef std::isinf
+#define std::isinf(x) (!_finite(x))
 #endif
 
 #ifndef srand48
