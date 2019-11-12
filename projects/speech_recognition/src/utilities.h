@@ -19,25 +19,17 @@ typedef vector<vector<float>> weightVector;
 class convolutionConnection : public ConnectionGenerator
 {
     public:
-    convolutionConnection(int padding, int inputX, int inputY, int destX, int destY, int filterX, int filterY, vector<float> &weights, int neuronType);
-    convolutionConnection(int padding, int inputX, int inputY, int dest_size, int filterX, int filterY, float weights, int neuronType);
+    convolutionConnection(int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY, vector<float>& weights, int neuronType);
+    convolutionConnection(int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY, float weight, int neuronType);
     ~convolutionConnection();
     
     private:
     
     int padding;
-    // destination group x dimension. 
-    int destX; 
-    // destination group y dimension. 
-    int destY;
-    // Filter x dimension. 
-    int filterX; 
-    // Filter y dimension. 
-    int filterY;
-    // input group X dimension. 
-    int inputX;
-    // input group Y dimension. 
-    int inputY;
+    int strideX, strideY;
+    int kernelX, kernelY; 
+    int outputX, outputY; 
+    int inputX, inputY;
     // Inhibitory(1) or Excitatory (0) neuron group.  
     int neuronType;
 
@@ -68,10 +60,6 @@ class convolutionConnection : public ConnectionGenerator
                 weight=0;
             }
         }
-        if(weight>1)
-        {
-            weight = 1;
-        }
         maxWt = 10.0f;
         delay = 1.0f;
     }
@@ -82,24 +70,15 @@ class convolutionConnection : public ConnectionGenerator
 class poolingConnection : public ConnectionGenerator
 {
     public:
-    poolingConnection(int stride, int inputX, int inputY, int dest_size, int filterX, int filterY);
+    poolingConnection(int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY);
     ~poolingConnection();
     
     private:
     
-    int stride;
-    // destination group x dimension. 
-    int destX; 
-    // destination group y dimension. 
-    int destY;
-    // Filter x dimension. 
-    int filterX; 
-    // Filter y dimension. 
-    int filterY;
-    // input group X dimension. 
-    int inputX;
-    // input group Y dimension. 
-    int inputY;
+    int strideX, strideY;
+    int kernelX, kernelY; 
+    int outputX, outputY; 
+    int inputX, inputY;
 
     map<int, vector<int>> connectionsMap;
 

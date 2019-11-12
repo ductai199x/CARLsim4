@@ -67,60 +67,61 @@
 
 poolingConnection::~poolingConnection() {}
 
-poolingConnection::poolingConnection(int stride, int inputX, int inputY, int dest_size, int filterX, int filterY)
-    :stride(stride), inputX(inputX), inputY(inputY), destX(dest_size), destY(dest_size), filterX(filterX), filterY(filterY)
+poolingConnection::poolingConnection(int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY)
+    :strideX(strideX), strideY(strideY), inputX(inputX), inputY(inputY), kernelX(kernelX), kernelY(kernelY), outputX(outputX), outputY(outputY)
 {
 	int j = 0,h = 0,k = 0;
-	for (int y = 0; y < filterX; y++) {
-		for (int x = 0; x < filterY; x++) {
-			k = x + filterX*y;
+	for (int y = 0; y < outputX; y++) {
+		for (int x = 0; x < outputY; x++) {
+			k = x + outputX*y;
 			vector<int> srcConnection;
 			connectionsMap.insert(pair<int, vector<int>>(k, srcConnection));
 		}
 	}
 
+	cout << "pooling layer conn" << endl;
 	k = 0;
-	for (int y = 0; y < inputY; y+=stride) {
-		for (int x = 0; x < inputX; x+=stride) {
-			if (j >= filterX*filterY) return;
+	for (int y = 0; y < inputY; y+=strideY) {
+		for (int x = 0; x < inputX; x+=strideX) {
+			if (j >= outputX*outputY) return;
 			k = x + inputX*y;
-			// cout << j << " - ";
-			for (int fy = 0; fy < destX; fy++) {
-				for (int fx = 0; fx < destX; fx++) {
+			cout << j << " - ";
+			for (int fy = 0; fy < kernelY; fy++) {
+				for (int fx = 0; fx < kernelX; fx++) {
 					h = k + fx + inputX*fy;
 					connectionsMap[j].push_back(h);
-					// cout << h << "  ";
+					cout << h << "  ";
 				}
 			}
 			j++;
-			// cout << endl;
-			if (x + destX >= inputX) break;
+			cout << endl;
+			if (x + kernelX >= inputX) break;
 		}
 	}
 }
 
 convolutionConnection::~convolutionConnection() {}
 
-convolutionConnection::convolutionConnection(int padding, int inputX, int inputY, int dest_size, int filterX, int filterY, float weight, int neuronType)
-    :padding(padding), inputX(inputX), inputY(inputY), destX(dest_size), destY(dest_size), filterX(filterX), filterY(filterY), neuronType(neuronType)
+convolutionConnection::convolutionConnection(int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY, vector<float>& weights, int neuronType)
+    :strideX(strideX), strideY(strideY), inputX(inputX), inputY(inputY), kernelX(kernelX), kernelY(kernelY), outputX(outputX), outputY(outputY), neuronType(neuronType)
 {
+	cout << "conv layer conn" << endl;
 	int j = 0,h = 0,k = 0;
-	int stride = 1;
-	for (int y = 0; y < inputY; y+=stride) {
-		for (int x = 0; x < inputX; x+=stride) {
-			if (j >= filterX*filterY) return;
+	for (int y = 0; y < inputY; y+=strideY) {
+		for (int x = 0; x < inputX; x+=strideX) {
+			if (j >= outputX*outputY) return;
 			k = x + inputX*y;
 			cout << j << " - ";
-			for (int fy = 0; fy < destX; fy++) {
-				for (int fx = 0; fx < destX; fx++) {
+			for (int fy = 0; fy < kernelY; fy++) {
+				for (int fx = 0; fx < kernelX; fx++) {
 					h = k + fx + inputX*fy;
-					connectionsMap[j][h] = weight;
-					cout << h << "," << y << "  ";
+					connectionsMap[j][h] = weights[fx + kernelX*fy];
+					cout << h << "  ";
 				}
 			}
 			j++;
 			cout << endl;
-			if (x + destX >= inputX) break;
+			if (x + kernelX >= inputX) break;
 		}
 	}
 }
@@ -138,7 +139,7 @@ int main(int argc, const char* argv[])
 	const char *training_folder_F = "/home/sweet/2-coursework/spreg487/src/processed_data/female/";
 
 	std::vector <std::string> training_files;
-	int num_files = 600;
+	int num_files = 1000;
 
     if (auto dir = opendir(training_folder_M)) {
 		int i = 0;
@@ -167,15 +168,25 @@ int main(int argc, const char* argv[])
 	VisualStimulus stim(training_files[0]);
 	stim.print();
 
+	// Random number generator (from gaussian dist)
+	std::default_random_engine generator (0);
+	std::normal_distribution<float> distribution (0.5,0.1);
 	// ---------------------------------------------- CONFIG STATE ---------------------------------------------- //
 	// ---------------------------------------------------------------------------------------------------------- //
 	CARLsim sim("spreg487", CPU_MODE, DEVELOPER, 1, 123);
-	Grid3D inDim(13, 99, 1);
-	Grid3D convDim(9, 96, 1);
-	Grid3D poolingDim(3, 32, 1);
-	int conv_kernel_size = 5;
-	int pooling_kernel_size = 3;
-	int stride = 3;
+	Grid3D inDim(13, 40, 1);
+	Grid3D convDim(13, 20, 1);
+	Grid3D poolingDim(13, 10, 1);
+	int conv_kernelX = 1;
+	int conv_kernelY = 2;
+	int conv_strideX = 1;
+	int conv_strideY = 2;
+	vector<float> conv_weights = {distribution(generator), distribution(generator)};
+	// vector<float> conv_weights = {1, 1};
+	int pooling_kernelX = 1;
+	int pooling_kernelY = 2;
+	int pooling_strideX = 1;
+	int pooling_strideY = 2;
 	
 	// Grid3D inDim(5, 99, 1);
 	// Grid3D convDim(2, 96, 1);
@@ -184,9 +195,7 @@ int main(int argc, const char* argv[])
 	// int pooling_kernel_size = 2;
 	// int stride = 2;
 	int numFeatureMaps = 1;
-	// Random number generator (from gaussian dist)
-	std::default_random_engine generator (0);
-	std::normal_distribution<double> distribution (20.0,0.33);
+	
 
 	// -------------------- INPUT LAYER INITIALIZATION ---------------------------- START
 	int gIn = sim.createSpikeGeneratorGroup("input", inDim, EXCITATORY_NEURON);
@@ -242,8 +251,9 @@ int main(int argc, const char* argv[])
 
 	// -------------------- CONNECT ALL THE LAYERS -------------------------------- START
 	// Connect Input Layer to ALL Convolutional Layers
+	// int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY
 	for (int i=0; i<numFeatureMaps; i++) {
-		convolutionConnection* convConn = new convolutionConnection(0, inDim.numX, inDim.numY, conv_kernel_size, convDim.numX, convDim.numY, distribution(generator), EXCITATORY);
+		convolutionConnection* convConn = new convolutionConnection(conv_strideX, conv_strideY, inDim.numX, inDim.numY, conv_kernelX, conv_kernelY, convDim.numX, convDim.numY, conv_weights, EXCITATORY);
 		inputToConvIDs[i] = sim.connect(gIn, convLayers[i], convConn, SYN_PLASTIC);
 		sim.setESTDP(convLayers[i], true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTP));
 		sim.setHomeostasis(convLayers[i],true,homeoScale,avgTimeScale);
@@ -252,7 +262,7 @@ int main(int argc, const char* argv[])
 
 	// Connect EACH Convolutional Layer to EACH Max Pooling Layer
 	for (int i=0; i<numFeatureMaps; i++) {
-		poolingConnection* poolConn = new poolingConnection(stride, convDim.numX, convDim.numY, pooling_kernel_size, poolingDim.numX, poolingDim.numY);
+		poolingConnection* poolConn = new poolingConnection(pooling_strideX, pooling_strideY, convDim.numX, convDim.numY, pooling_kernelX, pooling_kernelY, poolingDim.numX, poolingDim.numY);
 		convToPoolingIDs[i] = sim.connect(convLayers[i], poolingLayers[i], poolConn);
 	}
 	// -------------------- CONNECT ALL THE LAYERS -------------------------------- END
@@ -347,6 +357,10 @@ int main(int argc, const char* argv[])
 	// 	}
 	// }
 	// printf("max: %d", max);
+	cout << "weight vector: ";
+	for (auto& it : conv_weights) {
+		cout << it << ", ";
+	}
 	
 	return 0;
 }
