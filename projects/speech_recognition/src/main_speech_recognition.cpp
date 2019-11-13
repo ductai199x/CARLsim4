@@ -139,7 +139,7 @@ int main(int argc, const char* argv[])
 	const char *training_folder_F = "/home/sweet/2-coursework/spreg487/src/processed_data/female/";
 
 	std::vector <std::string> training_files;
-	int num_files = 1000;
+	int num_files = 600;
 
     if (auto dir = opendir(training_folder_M)) {
 		int i = 0;

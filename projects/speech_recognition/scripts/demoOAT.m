@@ -47,7 +47,7 @@ sigma = 177.63;
 % svm = fitcsvm(X_train, Y_train, 'OptimizeHyperparameters','auto',...
 %     'HyperparameterOptimizationOptions',...
 %     struct('MaxObjectiveEvaluations',50, 'UseParallel', true, 'Repartition', true));
-
+% 
 % %Computation of the error probability
 % train_res = predict(svm,X_train);
 % acc_train = 1 - sum(Y_train~=train_res)/length(Y_train)
@@ -65,3 +65,5 @@ acc_train = 1 - sum(Y_train~=train_res)/length(Y_train)
 
 train_res = predict(knn,X_test);
 acc_test = 1 - sum(Y_test~=train_res)/length(Y_test)
+
+
