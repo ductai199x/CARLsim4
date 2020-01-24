@@ -52,6 +52,8 @@
 // include stopwatch for timing
 #include <stopwatch.h>
 
+#include "reservoir.h"
+
 int main() {
 	// keep track of execution time
 	Stopwatch watch;
@@ -62,15 +64,22 @@ int main() {
 	// create a network on GPU
 	int numGPUs = 1;
 	int randSeed = 42;
-	CARLsim sim("hello world", CPU_MODE, USER, numGPUs, randSeed);
+	CARLsim sim("reservoir", CPU_MODE, USER, numGPUs, randSeed);
 
-	// configure the network
-	// set up a COBA two-layer network with gaussian connectivity
-	Grid3D gridIn(13,9,1); // pre is on a 13x9 grid
-	Grid3D gridOut(3,3,1); // post is on a 3x3 grid
-	int gin=sim.createSpikeGeneratorGroup("input", gridIn, EXCITATORY_NEURON);
-	int gout=sim.createGroup("output", gridOut, EXCITATORY_NEURON);
-	sim.setNeuronParameters(gout, 0.02f, 0.2f, -65.0f, 8.0f);
+
+	int num_resv_neurons = 10;
+	int gSpikeGen = sim.createSpikeGeneratorGroup("input", num_resv_neurons, EXCITATORY_NEURON);
+	
+	Reservoir resv(&sim, "test", num_resv_neurons, 0.5, 0.5, gSpikeGen);
+	resv.create();
+	resv.connectToReservoir();
+
+	resv.startMonitoring();
+
+
+
+
+
 	sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(1), RadiusRF(3,3,1));
 	sim.setConductances(true);
 	// sim.setIntegrationMethod(FORWARD_EULER, 2);
