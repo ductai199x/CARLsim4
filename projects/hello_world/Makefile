@@ -86,11 +86,11 @@ default: $(proj_target)
 $(proj_target): $(main_src_file) $(inc_files) $(obj_cpp) $(obj_cu)
 	$(eval CARLSIM4_FLG += -Wno-deprecated-gpu-targets)
 	$(eval CARLSIM4_LIB += -lcurand)
-	$(NVCC) $(CARLSIM4_FLG) $(obj_cpp) $(obj_cu) $< -o $(proj_target) $(CARLSIM4_LIB)
+	$(NVCC) $(CARLSIM4_FLG) $(obj_cpp) $(obj_cu) $< -o $(proj_target).o $(CARLSIM4_LIB)
 
 nocuda: $(main_src_file) $(inc_files) $(obj_cpp)
 	$(eval CARLSIM4_FLG += -D__NO_CUDA__)
-	$(CXX) $(CARLSIM4_FLG) $(obj_cpp) $(obj_cu) $< -o $(proj_target) $(CARLSIM4_LIB) -lpthread
+	$(CXX) $(CARLSIM4_FLG) $(obj_cpp) $(obj_cu) $< -o $(proj_target).o $(CARLSIM4_LIB) -lpthread
 
 $(proj_src_dir)/%-cpp.o: $(proj_src_dir)/%.cpp $(inc_files)
 	$(CXX) -c $(CXXINCFL) $(CXXFL) $< -o $@

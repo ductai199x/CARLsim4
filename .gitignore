@@ -42,6 +42,10 @@ external
 projects/speech_recognition/results/*.dat
 projects/speech_recognition/results/*.log
 
+*.dat
+*.log
+libcarlsim.a.4.0.0
+
 # =====================
 # emacs ignore list
 # =====================

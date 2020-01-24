@@ -58,11 +58,22 @@
 #include <dirent.h>
 #include <algorithm>    // For std::shuffle
 #include <random>       // For std::mt19937, std::random_device
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/inotify.h>
+#include <limits.h>
 
 #include "utilities.h"
 
 #define INHIBITORY 1
 #define EXCITATORY 0
+
+#define MAX_EVENTS 1024 /*Max. number of events to process at one go*/
+#define LEN_NAME 16 /*Assuming that the length of the filename won't exceed 16 bytes*/
+#define EVENT_SIZE  ( sizeof (struct inotify_event) ) /*size of one event*/
+#define BUF_LEN     ( MAX_EVENTS * ( EVENT_SIZE + LEN_NAME )) /*buffer to store the data of events*/
 
 
 poolingConnection::~poolingConnection() {}
@@ -79,22 +90,18 @@ poolingConnection::poolingConnection(int strideX, int strideY, int inputX, int i
 		}
 	}
 
-	// cout << "pooling layer conn" << endl;
 	k = 0;
 	for (int y = 0; y < inputY; y+=strideY) {
 		for (int x = 0; x < inputX; x+=strideX) {
 			if (j >= outputX*outputY) return;
 			k = x + inputX*y;
-			// cout << j << " - ";
 			for (int fy = 0; fy < kernelY; fy++) {
 				for (int fx = 0; fx < kernelX; fx++) {
 					h = k + fx + inputX*fy;
 					connectionsMap[j].push_back(h);
-					// cout << h << "  ";
 				}
 			}
 			j++;
-			// cout << endl;
 			if (x + kernelX >= inputX) break;
 		}
 	}
@@ -105,22 +112,18 @@ convolutionConnection::~convolutionConnection() {}
 convolutionConnection::convolutionConnection(int strideX, int strideY, int inputX, int inputY, int kernelX, int kernelY, int outputX, int outputY, vector<float>& weights, int neuronType)
     :strideX(strideX), strideY(strideY), inputX(inputX), inputY(inputY), kernelX(kernelX), kernelY(kernelY), outputX(outputX), outputY(outputY), neuronType(neuronType)
 {
-	// cout << "conv layer conn" << endl;
 	int j = 0,h = 0,k = 0;
 	for (int y = 0; y < inputY; y+=strideY) {
 		for (int x = 0; x < inputX; x+=strideX) {
 			if (j >= outputX*outputY) return;
 			k = x + inputX*y;
-			// cout << j << " - ";
 			for (int fy = 0; fy < kernelY; fy++) {
 				for (int fx = 0; fx < kernelX; fx++) {
 					h = k + fx + inputX*fy;
 					connectionsMap[j][h] = weights[fx + kernelX*fy];
-					// cout << h << "  ";
 				}
 			}
 			j++;
-			// cout << endl;
 			if (x + kernelX >= inputX) break;
 		}
 	}
@@ -134,58 +137,12 @@ poolingFullConnection::~poolingFullConnection() {}
 
 int main(int argc, const char* argv[])
 {
-	// Get all training files in directory
-	const char *training_folder_M = "/home/sweet/2-coursework/spreg487/src/processed_data/male/";
-	const char *training_folder_F = "/home/sweet/2-coursework/spreg487/src/processed_data/female/";
-
-	std::vector <std::string> training_files;
-	int num_files = 800;
-
-    if (auto dir = opendir(training_folder_M)) {
-		int i = 0;
-		while (auto f = readdir(dir)) {
-			if (i >= num_files) break;
-			if (!f->d_name || f->d_name[0] == '.')
-				continue; // Skip everything that starts with a dot
-			training_files.push_back(std::string(training_folder_M) + std::string(f->d_name));
-			i++;
-		}
-		closedir(dir);
-	}
-
-	if (auto dir = opendir(training_folder_F)) {
-		int i = 0;
-		while (auto f = readdir(dir)) {
-			if (i >= num_files) break;
-			if (!f->d_name || f->d_name[0] == '.')
-				continue; // Skip everything that starts with a dot
-			training_files.push_back(std::string(training_folder_F) + std::string(f->d_name));
-			i++;
-		}
-		closedir(dir);
-	}
-
-	VisualStimulus stim(training_files[0]);
-	stim.print();
-
 	// Random number generator (from gaussian dist)
 	std::default_random_engine generator (0);
 	std::normal_distribution<float> distribution (0.5,0.1);
 	// ---------------------------------------------- CONFIG STATE ---------------------------------------------- //
 	// ---------------------------------------------------------------------------------------------------------- //
-	CARLsim sim("spreg487", CPU_MODE, DEVELOPER, 1, 123);
-	// Grid3D inDim(13, 40, 1);
-	// Grid3D convDim(13, 20, 1);
-	// Grid3D poolingDim(13, 10, 1);
-	// int conv_kernelX = 1;
-	// int conv_kernelY = 22
-	// int conv_strideX = 1;
-	// int conv_strideY = 2;
-	// vector<float> conv_weights = {distribution(generator), distribution(generator)};
-	// int pooling_kernelX = 1;
-	// int pooling_kernelY = 2;
-	// int pooling_strideX = 1;
-	// int pooling_strideY = 2;
+	CARLsim sim("demo_spreg487", CPU_MODE, SHOWTIME, 1, 123);
 	
 	Grid3D inDim(13, 99, 1);
 	Grid3D convDim(13, 33, 1);
@@ -204,8 +161,6 @@ int main(int argc, const char* argv[])
 
 	// -------------------- INPUT LAYER INITIALIZATION ---------------------------- START
 	int gIn = sim.createSpikeGeneratorGroup("input", inDim, EXCITATORY_NEURON);
-	// ConstantISI constISI(inDim.N);
-	// sim.setSpikeGenerator(gIn, &constISI);
 	sim.setSpikeMonitor(gIn, "DEFAULT");
 	// -------------------- INPUT LAYER INITIALIZATION ---------------------------- END
 
@@ -227,7 +182,7 @@ int main(int argc, const char* argv[])
 	// homeostasis constants
 	float homeoScale= 1.0; // homeostatic scaling factor
 	float avgTimeScale = 5.0; // homeostatic time constant
-	float targetFiringRate = 30.0;
+	float targetFiringRate = 35.0;
 
 	int *convLayers = (int*)malloc(sizeof(int)*numFeatureMaps);
 	int *inputToConvIDs = (int*)malloc(sizeof(int)*numFeatureMaps);
@@ -277,49 +232,34 @@ int main(int argc, const char* argv[])
 
 	// ---------------------------------------------- SETUP STATE ----------------------------------------------- //
 	// ---------------------------------------------------------------------------------------------------------- //
+	FILE* simfId = NULL;
+	simfId = fopen("/home/sweet/1-workdir/carlsim4_ductai199x/projects/speech_recognition/trained_network.dat", "rb");
+	sim.loadSimulation(simfId);
 	sim.setupNetwork();
 
-	// start recording spikes associated with spkMon object
-	spkMon->startRecording();
-	spkMonConv->startRecording();
+	fclose(simfId);
 
-
-	// ---------------------------------------------- RUN STATE ------------------------------------------------- //
+	sim.scaleWeights(inputToConvIDs[0], 10);
+	// ---------------------------------------------- TEST STATE ------------------------------------------------- //
 	// ---------------------------------------------------------------------------------------------------------- //
-	for (int n = 0; n < training_files.size(); n++)
-	{
-		VisualStimulus stim(training_files[n]);
-		for (int i=0; i<stim.getLength(); i++) {
-			// constISI.updateISI(stim.readFrameChar(), 50.0f, 0.0f);
-			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
-			sim.setSpikeRate(gIn, rates);
-			sim.runNetwork(1,0); // run the network
-		}
-	}
-
-	sim.saveSimulation("trained_network.dat", true);
-
-	spkMon->stopRecording();
-	spkMonConv->stopRecording();
 	sim.startTesting();
-	
-	for (int n = 0; n < training_files.size(); n++)
-	{
-		VisualStimulus stim(training_files[n]);
+
+	// VisualStimulus stim("/home/sweet/2-coursework/spreg487/src/demo/demo.dat");
+	VisualStimulus stim("/home/sweet/2-coursework/487ecec/speech_recognition/src/processed_data/female/FCAJ0_SX129.WAV.dat");
+	// VisualStimulus stim("/home/sweet/2-coursework/487ecec/speech_recognition/src/processed_data/male/MCEW0_SI1442.WAV.dat");
+	// for (int j = 0; j < 20; j++) {
 		for (int i=0; i<stim.getLength(); i++) {
-			// constISI.updateISI(stim.readFrameChar(), 50.0f, 0.0f);
 			PoissonRate* rates = stim.readFramePoisson(50.0f, 0.0f);
 			sim.setSpikeRate(gIn, rates);
 			sim.runNetwork(1,0); // run the network
 		}
-	}
+	// }
+	
+	
 
 	sim.stopTesting();
 
-	// cout << "weight vector: ";
-	// for (auto& it : conv_weights) {
-	// 	cout << it << ", ";
-	// }
+	
 	
 	return 0;
 }
