@@ -52,7 +52,7 @@
 // include stopwatch for timing
 #include <stopwatch.h>
 
-#include "reservoir.h"
+#include <reservoir.h>
 
 int main() {
 	// keep track of execution time
@@ -63,57 +63,69 @@ int main() {
 	
 	// create a network on GPU
 	int numGPUs = 1;
-	int randSeed = 42;
-	CARLsim sim("reservoir", CPU_MODE, USER, numGPUs, randSeed);
+	int randSeed = 10;
+	CARLsim sim("reservoir", GPU_MODE, USER, numGPUs, randSeed);
 
 
-	int num_resv_neurons = 10;
+	int num_resv_neurons = 11;
 	int gSpikeGen = sim.createSpikeGeneratorGroup("input", num_resv_neurons, EXCITATORY_NEURON);
 	
-	Reservoir resv(&sim, "test", num_resv_neurons, 0.5, 0.5, gSpikeGen);
+	Reservoir resv(&sim, "test", num_resv_neurons, 0.5, 0.2, randSeed, gSpikeGen);
 	resv.create();
 	resv.connectToReservoir();
 
-	resv.startMonitoring();
-
-
-
-
-
-	sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(1), RadiusRF(3,3,1));
-	sim.setConductances(true);
-	// sim.setIntegrationMethod(FORWARD_EULER, 2);
-
-	// ---------------- SETUP STATE -------------------
-	// build the network
-	watch.lap("setupNetwork");
+	sim.setConductances(false);
 	sim.setupNetwork();
+	
+	resv.randomizeWeights();
 
-	// set some monitors
-	sim.setSpikeMonitor(gin,"DEFAULT");
-	SpikeMonitor* spkMon = sim.setSpikeMonitor(gout,"DEFAULT");
-	sim.setConnectionMonitor(gin,gout,"DEFAULT");
+	resv.setupMonitors();
+	resv.startMonitors();
 
-	//setup some baseline input
-	PoissonRate in(gridIn.N);
+	PoissonRate in(num_resv_neurons);
 	in.setRates(30.0f);
-	sim.setSpikeRate(gin,&in);
+	sim.setSpikeRate(gSpikeGen, &in);
 
-
-	// ---------------- RUN STATE -------------------
-	watch.lap("runNetwork");
-
-	spkMon->startRecording();
-	// run for a total of 10 seconds
-	// at the end of each runNetwork call, SpikeMonitor stats will be printed
-	for (int i=0; i<10; i++) {
-		sim.runNetwork(1,0);
+	for (int i=0; i<2; i++) {
+		sim.runNetwork(2,0);
 	}
 
-	spkMon->stopRecording();
-	spkMon->print();
-	// print stopwatch summary
-	watch.stop();
+	resv.stopMonitors();
+
+	resv.getSpkMon(0)->print();
+	resv.getSpkMon(1)->print();
+
+	// sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(1), RadiusRF(3,3,1));
+	
+	// // sim.setIntegrationMethod(FORWARD_EULER, 2);
+
+	// // ---------------- SETUP STATE -------------------
+	// // build the network
+	// watch.lap("setupNetwork");
+	// 
+
+	// // set some monitors
+	// sim.setSpikeMonitor(gin,"DEFAULT");
+	// SpikeMonitor* spkMon = sim.setSpikeMonitor(gout,"DEFAULT");
+	// sim.setConnectionMonitor(gin,gout,"DEFAULT");
+
+
+
+
+	// // ---------------- RUN STATE -------------------
+	// watch.lap("runNetwork");
+
+	// spkMon->startRecording();
+	// // run for a total of 10 seconds
+	// // at the end of each runNetwork call, SpikeMonitor stats will be printed
+	// for (int i=0; i<10; i++) {
+	// 	sim.runNetwork(1,0);
+	// }
+
+	// spkMon->stopRecording();
+	// spkMon->print();
+	// // print stopwatch summary
+	// watch.stop();
 	
 	return 0;
 }
