@@ -203,8 +203,8 @@ int main(int argc, const char* argv[])
 	// Create Pooling Layers
 	SpikeMonitor* spkMon;
 	for (int i=0; i<numFeatureMaps; i++) {
-		poolingLayers[i] = sim.createGroupPoolingLIF("pooling", poolingDim, EXCITATORY_NEURON);
-		sim.setNeuronParametersPoolingLIF(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
+		poolingLayers[i] = sim.createGroupPoolingMaxRate("pooling", poolingDim, EXCITATORY_NEURON);
+		sim.setNeuronParametersPoolingMaxRate(poolingLayers[i], (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
 		spkMon = sim.setSpikeMonitor(poolingLayers[i], "DEFAULT");
 	}
 	// -------------------- POOLING LAYER INITIALIZATION -------------------------- END

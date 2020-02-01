@@ -1,131 +1,123 @@
-/* * Copyright (c) 2016 Regents of the University of California. All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions
-* are met:
-*
-* 1. Redistributions of source code must retain the above copyright
-*    notice, this list of conditions and the following disclaimer.
-*
-* 2. Redistributions in binary form must reproduce the above copyright
-*    notice, this list of conditions and the following disclaimer in the
-*    documentation and/or other materials provided with the distribution.
-*
-* 3. The names of its contributors may not be used to endorse or promote
-*    products derived from this software without specific prior written
-*    permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-* A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-* EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-* PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-* PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-* LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-* NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-* *********************************************************************************************** *
-* CARLsim
-* created by: (MDR) Micah Richert, (JN) Jayram M. Nageswaran
-* maintained by:
-* (MA) Mike Avery <averym@uci.edu>
-* (MB) Michael Beyeler <mbeyeler@uci.edu>,
-* (KDC) Kristofor Carlson <kdcarlso@uci.edu>
-* (TSC) Ting-Shuo Chou <tingshuc@uci.edu>
-* (HK) Hirak J Kashyap <kashyaph@uci.edu>
-*
-* CARLsim v1.0: JM, MDR
-* CARLsim v2.0/v2.1/v2.2: JM, MDR, MA, MB, KDC
-* CARLsim3: MB, KDC, TSC
-* CARLsim4: TSC, HK
-*
-* CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
-* Ver 12/31/2016
-*/
-
-// include CARLsim user interface
 #include <carlsim.h>
+#include <visual_stimulus.h>
 
-// include stopwatch for timing
-#include <stopwatch.h>
+#include <assert.h>
+#include <iostream>
+#include <string.h>
+#include <vector>
+#include <memory>
+#include <random>
 
 #include <reservoir.h>
 
+class TimeToFirstSpike : public SpikeGenerator
+{
+	public:
+
+		TimeToFirstSpike(vector<float>* spikeVector, int max_intensity) 
+		{
+			spikeVector_ = spikeVector;
+			max_intensity_ = max_intensity + 1;
+
+			isSpikedArr_ = std::unique_ptr<int>(new int[(*spikeVector_).size()]);
+		}
+
+		~TimeToFirstSpike() {};
+
+		void newSpikeVector(vector<float>* spikeVector);
+	    int nextSpikeTime(CARLsim*s, int grpId, int nId, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice);
+    
+    private:
+
+        vector<float>* spikeVector_;
+		std::unique_ptr<int> isSpikedArr_;
+		int max_intensity_;
+		bool isRefSpike_;
+
+		
+};
+
+void TimeToFirstSpike::newSpikeVector(vector<float>* spikeVector) 
+{
+	spikeVector_ = spikeVector;
+	memset(isSpikedArr_.get(), 0, (*spikeVector_).size()*sizeof(*isSpikedArr_.get()));
+}
+
+int TimeToFirstSpike::nextSpikeTime(CARLsim*s, int grpId, int nId, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice)
+{
+	if (isSpikedArr_.get()[nId] == 0)
+	{
+		isSpikedArr_.get()[nId] = 1;
+		int scheduleTime = currentTime + (endOfTimeSlice - currentTime)/(max_intensity_)*(max_intensity_ - (*spikeVector_)[nId]);
+		// cout << (*spikeVector_)[nId] << endl;
+		return scheduleTime;
+	}
+	else
+	{ 
+		return endOfTimeSlice;
+	}
+	
+}
+
 int main() {
-	// keep track of execution time
-	Stopwatch watch;
-	
-
-	// ---------------- CONFIG STATE -------------------
-	
-	// create a network on GPU
-	int numGPUs = 1;
-	int randSeed = 10;
-	CARLsim sim("reservoir", GPU_MODE, USER, numGPUs, randSeed);
+		// ---------------- CONFIG STATE -------------------
+	int randSeed = 15;
+	CARLsim sim("reservoir", CPU_MODE, USER, 1, randSeed);
 
 
-	int num_resv_neurons = 11;
-	int gSpikeGen = sim.createSpikeGeneratorGroup("input", num_resv_neurons, EXCITATORY_NEURON);
+	int n = 10;
+	int m = 2;
+
+	std::uniform_real_distribution<float> distribution(0, 255);
+	std::default_random_engine generator;
+	generator.seed(100);
+	vector<vector<float>> coordinates;
+	for (int i = 0; i < n; i++) {
+		vector<float> r { distribution(generator), distribution(generator) };
+		coordinates.push_back(r);
+	}
+
+	int num_resv_neurons = 100;
+	// int num_resv_neurons = 100;
+	int gSpikeGen = sim.createSpikeGeneratorGroup("input", m, EXCITATORY_NEURON);
+	int gResvOut = sim.createGroupReservoirOutput("output", m, EXCITATORY_NEURON);
+
+	TimeToFirstSpike ttfs(&coordinates[0], 255);
+	sim.setSpikeGenerator(gSpikeGen, &ttfs);
+
+	SpikeMonitor* spkMonSpkGen = sim.setSpikeMonitor(gSpikeGen, "DEFAULT");
+	SpikeMonitor* spkMonResvOutput = sim.setSpikeMonitor(gResvOut, "DEFAULT");
 	
-	Reservoir resv(&sim, "test", num_resv_neurons, 0.5, 0.2, randSeed, gSpikeGen);
+	Reservoir resv(&sim, "test", num_resv_neurons, 1, 0.01, randSeed, gSpikeGen, gResvOut);
 	resv.create();
 	resv.connectToReservoir();
 
 	sim.setConductances(false);
 	sim.setupNetwork();
-	
-	resv.randomizeWeights();
 
 	resv.setupMonitors();
 	resv.startMonitors();
 
-	PoissonRate in(num_resv_neurons);
-	in.setRates(30.0f);
-	sim.setSpikeRate(gSpikeGen, &in);
-
-	for (int i=0; i<2; i++) {
-		sim.runNetwork(2,0);
+	spkMonSpkGen->startRecording();
+	spkMonResvOutput->startRecording();
+	
+	
+	sim.runNetwork(1,0);
+	for (int i=1; i<n; i++) {
+		ttfs.newSpikeVector(&coordinates[i]);
+		sim.runNetwork(0,300);
 	}
-
+	
 	resv.stopMonitors();
 
-	resv.getSpkMon(0)->print();
-	resv.getSpkMon(1)->print();
+	spkMonSpkGen->stopRecording();
+	spkMonResvOutput->stopRecording();
 
-	// sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(1), RadiusRF(3,3,1));
-	
-	// // sim.setIntegrationMethod(FORWARD_EULER, 2);
+	// spkMonResvOutput->print();
+	spkMonSpkGen->print();
 
-	// // ---------------- SETUP STATE -------------------
-	// // build the network
-	// watch.lap("setupNetwork");
-	// 
+	// resv.getSpkMon(0)->print();
+	// resv.getSpkMon(1)->print();
 
-	// // set some monitors
-	// sim.setSpikeMonitor(gin,"DEFAULT");
-	// SpikeMonitor* spkMon = sim.setSpikeMonitor(gout,"DEFAULT");
-	// sim.setConnectionMonitor(gin,gout,"DEFAULT");
-
-
-
-
-	// // ---------------- RUN STATE -------------------
-	// watch.lap("runNetwork");
-
-	// spkMon->startRecording();
-	// // run for a total of 10 seconds
-	// // at the end of each runNetwork call, SpikeMonitor stats will be printed
-	// for (int i=0; i<10; i++) {
-	// 	sim.runNetwork(1,0);
-	// }
-
-	// spkMon->stopRecording();
-	// spkMon->print();
-	// // print stopwatch summary
-	// watch.stop();
-	
 	return 0;
 }

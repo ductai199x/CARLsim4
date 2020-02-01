@@ -399,9 +399,9 @@ public:
 		return grpId;
 	}
 
-	// create a group of LIF pooling neurons on 3D grid
-	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
-		std::string funcName = "createGroupPoolingLIF(\""+grpName+"\")";
+	// create a group of max rate pooling neurons on 3D grid
+	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+		std::string funcName = "createGroupPoolingMaxRate(\""+grpName+"\")";
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 		UserErrors::assertTrue(grid.numX>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numX");
@@ -419,7 +419,46 @@ public:
 		if (hasSetHomeoBaseFiringALL_)
 			userWarnings_.push_back("Make sure to call setHomeoBaseFiringRate on group "+grpName);
 
-		int grpId = snn_->createGroupPoolingLIF(grpName.c_str(), grid, neurType, preferredPartition, preferredBackend);
+		int grpId = snn_->createGroupPoolingMaxRate(grpName.c_str(), grid, neurType, preferredPartition, preferredBackend);
+
+		grpIds_.push_back(grpId); // keep track of all groups
+
+		int partitionOffset = 0;
+		if (preferredBackend == CPU_CORES)
+			partitionOffset = MAX_NUM_CUDA_DEVICES;
+		else if (preferredBackend == GPU_CORES)
+			partitionOffset = 0;
+		int prefPartition = preferredPartition + partitionOffset;
+		groupPrefNetIds_.insert(std::pair<int, int>(grpId, prefPartition));
+
+		// extend 2D connection matrices to number of groups
+		connSyn_.resize(grpIds_.size());
+		connComp_.resize(grpIds_.size());
+
+		return grpId;
+	}
+
+	// create a group of reservoir output neurons on 3D grid
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+		std::string funcName = "createGroupReservoirOutput(\""+grpName+"\")";
+		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
+			funcName, "CONFIG.");
+		UserErrors::assertTrue(grid.numX>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numX");
+		UserErrors::assertTrue(grid.numY>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numY");
+		UserErrors::assertTrue(grid.numZ>0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grid.numZ");
+
+		// if user has called any set functions with grpId=ALL, and is now adding another group, previously set properties
+		// will not apply to newly added group
+		if (hasSetSTPALL_)
+			userWarnings_.push_back("Make sure to call setSTP on group "+grpName);
+		if (hasSetSTDPALL_)
+			userWarnings_.push_back("Make sure to call setSTDP on group "+grpName);
+		if (hasSetHomeoALL_)
+			userWarnings_.push_back("Make sure to call setHomeostasis on group "+grpName);
+		if (hasSetHomeoBaseFiringALL_)
+			userWarnings_.push_back("Make sure to call setHomeoBaseFiringRate on group "+grpName);
+
+		int grpId = snn_->createGroupReservoirOutput(grpName.c_str(), grid, neurType, preferredPartition, preferredBackend);
 
 		grpIds_.push_back(grpId); // keep track of all groups
 
@@ -670,8 +709,8 @@ public:
 		snn_->setNeuronParametersLIF(grpId, tau_m, tau_ref, vTh, vReset,rMem.minRmem, rMem.maxRmem);
 	}
 
-		// set neuron parameters for LIF pooling neuron
-	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
+	// set neuron parameters for max rate pooling neuron
+	void setNeuronParametersPoolingMaxRate(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
 	{
 		std::string funcName = "setNeuronParametersLIF(\"" + getGroupName(grpId) + "\")";
 		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
@@ -686,7 +725,26 @@ public:
 		UserErrors::assertTrue(rMem.minRmem <= rMem.maxRmem , UserErrors::CANNOT_BE_LARGER, funcName, "rangeRmem.minRmem");
 
 		// wrapper identical to core func
-		snn_->setNeuronParametersPoolingLIF(grpId, tau_m, tau_ref, vTh, vReset,rMem.minRmem, rMem.maxRmem);
+		snn_->setNeuronParametersPoolingMaxRate(grpId, tau_m, tau_ref, vTh, vReset,rMem.minRmem, rMem.maxRmem);
+	}
+
+	// set neuron parameters for reservoir output neuron
+	void setNeuronParametersReservoirOutput(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
+	{
+		std::string funcName = "setNeuronParametersLIF(\"" + getGroupName(grpId) + "\")";
+		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		UserErrors::assertTrue(tau_m >= 0 , UserErrors::CANNOT_BE_NEGATIVE, funcName, "tau_m");
+		UserErrors::assertTrue(tau_ref >= 0 , UserErrors::CANNOT_BE_NEGATIVE, funcName, "tau_ref");
+
+		UserErrors::assertTrue(vReset < vTh , UserErrors::CANNOT_BE_LARGER, funcName, "vReset");
+
+		UserErrors::assertTrue(rMem.minRmem >= 0.0f , UserErrors::CANNOT_BE_NEGATIVE, funcName, "rangeRmem.minRmem");
+		UserErrors::assertTrue(rMem.minRmem <= rMem.maxRmem , UserErrors::CANNOT_BE_LARGER, funcName, "rangeRmem.minRmem");
+
+		// wrapper identical to core func
+		snn_->setNeuronParametersReservoirOutput(grpId, tau_m, tau_ref, vTh, vReset,rMem.minRmem, rMem.maxRmem);
 	}
 
 	// set parameters for each neuronmodulator
@@ -1327,8 +1385,12 @@ public:
 		return snn_->getGroupId(grpName);
 	}
 
-	int getGroupIsPoolingLIF(int grpId) {
-		return snn_->getGroupIsPoolingLIF(grpId);
+	int getGroupisPoolingMaxRate(int grpId) {
+		return snn_->getGroupisPoolingMaxRate(grpId);
+	}
+
+	int getGroupisReservoirOutput(int grpId) {
+		return snn_->getGroupisReservoirOutput(grpId);
 	}
 
 	std::string getGroupName(int grpId) {
@@ -1834,9 +1896,14 @@ int CARLsim::createGroupLIF(const std::string& grpName, int nNeur, int neurType,
 	return _impl->createGroupLIF(grpName, nNeur, neurType, preferredPartition, preferredBackend);
 }
 
-// create LIF group with grid	
-int CARLsim::createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
-	return _impl->createGroupPoolingLIF(grpName, grid, neurType, preferredPartition, preferredBackend);
+// create max rate pooling group with grid	
+int CARLsim::createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+	return _impl->createGroupPoolingMaxRate(grpName, grid, neurType, preferredPartition, preferredBackend);
+}
+
+// create reservoir output group with grid	
+int CARLsim::createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+	return _impl->createGroupReservoirOutput(grpName, grid, neurType, preferredPartition, preferredBackend);
 }
 
 // create spike gen group with / without grid
@@ -1909,9 +1976,14 @@ void CARLsim::setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vT
 	_impl->setNeuronParametersLIF(grpId, tau_m, tau_ref, vTh, vReset, rMem);
 }
 
-void CARLsim::setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
+void CARLsim::setNeuronParametersPoolingMaxRate(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
 {
-	_impl->setNeuronParametersPoolingLIF(grpId, tau_m, tau_ref, vTh, vReset, rMem);
+	_impl->setNeuronParametersPoolingMaxRate(grpId, tau_m, tau_ref, vTh, vReset, rMem);
+}
+
+void CARLsim::setNeuronParametersReservoirOutput(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
+{
+	_impl->setNeuronParametersReservoirOutput(grpId, tau_m, tau_ref, vTh, vReset, rMem);
 }
 
 void CARLsim::setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT, float baseACh, 

@@ -200,7 +200,9 @@ public:
 	 */
 	int createGroupLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
 
-	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
+	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
+
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
 
 	//! Creates a spike generator group (dummy-neurons, not Izhikevich spiking neurons)
 	/*!
@@ -276,7 +278,9 @@ public:
 	 */
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
 
-	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
+	void setNeuronParametersPoolingMaxRate(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
+
+	void setNeuronParametersReservoirOutput(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
 
 	//! Sets the Izhikevich parameters C, k, vr, vt, a, b, vpeak, c, and d of a neuron group.
 	/*!
@@ -551,7 +555,10 @@ public:
 	Grid3D getGroupGrid3D(int grpId);
 	int getGroupId(std::string grpName);
 	std::string getGroupName(int grpId);
-	int getGroupIsPoolingLIF(int gGrpId);
+
+	int getGroupisPoolingMaxRate(int gGrpId);
+	int getGroupisReservoirOutput(int gGrpId);
+
 	GroupSTDPInfo getGroupSTDPInfo(int grpId);
 	GroupNeuromodulatorInfo getGroupNeuromodulatorInfo(int grpId);
 

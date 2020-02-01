@@ -325,7 +325,9 @@ public:
 	 */
 	int createGroupLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
-	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
+	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
+
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
 	/*!
 	 * \brief  creates a spike generator group
@@ -587,7 +589,9 @@ public:
 	 */
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
 
-	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
+	void setNeuronParametersPoolingMaxRate(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
+
+	void setNeuronParametersReservoirOutput(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
     
    /*!
 	* \brief Sets coupling constants G_u and G_d for the compartment.

@@ -71,7 +71,7 @@ obj_cpp  := $(patsubst %.cpp, %-cpp.o, $(cpp_files))
 obj_cu  += $(patsubst %.cu, %-cu.o, $(cu_files))
 
 # handled by clean and distclean
-clean_files := $(obj_files) $(proj_target)
+clean_files := $(obj_files) $(proj_target).o
 distclean_files := $(clean_files) results/* *.dot *.dat *.csv *.log
 
 

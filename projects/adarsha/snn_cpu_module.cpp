@@ -905,7 +905,7 @@ void SNN::helperResetFired(int netId)
     {
         for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++)
         {
-            //if(groupConfigs[netId][lGrpId].isPoolingLIF)
+            //if(groupConfigs[netId][lGrpId].isPoolingMaxRate)
                 //runtimeData[netId].isFired[lNId] = false;
         }
            
@@ -987,7 +987,7 @@ void SNN::helperResetFired(int netId)
 
 				switch (networkConfigs[netId].simIntegrationMethod) {
 				case FORWARD_EULER:
-					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
+					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingMaxRate)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
@@ -998,7 +998,7 @@ void SNN::helperResetFired(int netId)
 							u += runtimeData[netId].Izh_d[lNId];
 						}
 					}
-					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
+					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingMaxRate)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
@@ -1036,7 +1036,7 @@ void SNN::helperResetFired(int netId)
 						}						
 				    }
 
-                    else if(groupConfigs[netId][lGrpId].isPoolingLIF){
+                    else if(groupConfigs[netId][lGrpId].isPoolingMaxRate){
 						if (lif_tau_ref_c > 0){
 							if(lastIter){
                                 runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
@@ -1068,7 +1068,7 @@ void SNN::helperResetFired(int netId)
                     }
 
 
-					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isPoolingLIF){
+					if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isPoolingMaxRate){
 						if (v_next < lif_vReset) v_next = lif_vReset;
 					}
 					else{

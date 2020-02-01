@@ -979,7 +979,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 				switch (networkConfigs[netId].simIntegrationMethod) {
 				case FORWARD_EULER:
-					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
+					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingMaxRate && !groupConfigs[netId][lGrpId].isReservoirOutput)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
@@ -990,7 +990,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							u += runtimeData[netId].Izh_d[lNId];
 						}
 					}
-					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
+					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingMaxRate && !groupConfigs[netId][lGrpId].isReservoirOutput)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
@@ -1027,11 +1027,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}						
 					}
-					// TODO: IMPLEMENT THIS 
-					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
-						// Current Neuron ID: lNId
-						// KERNEL_INFO("cpts: %d, simts: %d", currPoolingTs, simTime);
-						
+					else if(groupConfigs[netId][lGrpId].isPoolingMaxRate){
 						if (currPoolingTs == poolingWindow) {
 							std::vector<int> connectedNIds;
 							std::list<ConnectionInfo>::iterator connIt = poolingConnectionLists[netId].begin();
@@ -1039,17 +1035,11 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							for (connIt; connIt != poolingConnectionLists[netId].end(); connIt++) {
 								if (connIt->nDest == lNId) {
 									connectedNIds.push_back(connIt->nSrc);
-									// KERNEL_INFO("conn id %d, nid %d", connIt->nSrc, lNId);
 								}
 							}
 
 							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
 							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
-
-							// int step_end = simTimeMs + 1;
-							// int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
-
-							// KERNEL_INFO("s_b: %d | s_e:%d", step_begin, step_end);
 
 							if (step_begin >= 0) {
 								unsigned int* timeTable 	= runtimeData[netId].timeTableD1;
@@ -1062,7 +1052,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 									k_end   = timeTable[step_end] - 1;
 									k_begin = timeTable[step_begin];
 								}
-								// KERNEL_INFO("k_b: %d | k_e:%d", k_begin, k_end)
 								
 								std::map<int, int> poolingWindowTable;
 								poolingWindowTable.empty();
@@ -1076,7 +1065,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 										auto it = std::find(connectedNIds.begin(), connectedNIds.end(), fireNeuronID);
 										if (it == connectedNIds.end())
 											continue;
-										// KERNEL_INFO("fire nid: %d", fireNeuronID);
 										if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
 											poolingWindowTable.insert({fireNeuronID, 1});
 										} else {
@@ -1093,7 +1081,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 									}
 									
 									if (maxfiringNID == 0) continue;
-									// KERNEL_INFO("lNId: %d, maxfiringNID: %d | maxfiringCnt: %d", lNId, maxfiringNID, maxfiringCnt);
 
 									int poolingSpikesIdx = 0;
 									int fireTableIdx = k_begin;
@@ -1106,7 +1093,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 										for (int w = step_begin + poolingSpikesIdx/networkConfigs[netId].simNumStepsPerMs; w < step_end; w++) {
 											if (numProcessedNeuron < timeTable[w]) {
 												poolingSpikesIdx = (w-step_begin)*networkConfigs[netId].simNumStepsPerMs;
-												// KERNEL_INFO("poolingSpikesIdx %d", poolingSpikesIdx);
 												break;
 											}
 										}
@@ -1118,13 +1104,16 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}
 						else {
-							// KERNEL_INFO("lNId %d isspike %d", lNId, poolingSpikesMap[lNId][currPoolingTs]);
 							if (poolingSpikesMap[lNId][currPoolingTs] == 1) {
 								
 								runtimeData[netId].curSpike[lNId] = true;
 								poolingSpikesMap[lNId][currPoolingTs] = 0;
 							}
 						}
+					}
+					// TODO: DO THIS NOW
+					else if (groupConfigs[netId][lGrpId].isReservoirOutput) {
+
 					}
 					
 					if (groupConfigs[netId][lGrpId].isLIF){
