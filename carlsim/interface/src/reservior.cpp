@@ -2,16 +2,15 @@
 
 #include <math.h>
 #include <vector>
-#include <map>
-#include <cassert>
 #include <iostream>
 #include <cstdio>
 #include <random>
+#include <chrono>
 
 class Reservoir::Impl {
 
 public:
-    Impl(Reservoir* resv, CARLsim *sim, string name, int num_neurons, float exc_to_inh_ratio, float pConn, int rand_seed, int input_id, int output_id)
+    Impl(Reservoir* resv, CARLsim *sim, string name, int num_neurons, float exc_to_inh_ratio, float pConn, int input_id, int output_id)
     {
         exc_to_inh_ratio_ = exc_to_inh_ratio;
         num_neurons_ = num_neurons;
@@ -19,43 +18,47 @@ public:
         num_inh_ = num_neurons_ - num_exc_;
         sim_ = sim;
         pConn_ = pConn;
-        rand_seed_ = rand_seed;
         name_ = name;
         input_id_ = input_id;
         output_id_ = output_id;
 
         max_weight_ = 10.0f;
         min_weight_ = 0.0f;
-
-        generator_.seed(rand_seed_);
-
     }
 
     ~Impl() { }
 
     void create()
     {
+        // LIF Parameters Initialization
+        int tau_mE = 10;
+        int tau_refE = 1;
+        float vTh = -78.0f;
+        float vReset = -78.5f;
+        float vInit = -78.5f;
+        float rMem = 10;
+
         // Create excitory neuron group
-        exc_id_ = sim_->createGroup(name_ + " exc", num_exc_, EXCITATORY_NEURON);
-        sim_->setNeuronParameters(exc_id_, 0.02f, 0.2f, -65.0f, 8.0f); // RS
+        exc_id_ = sim_->createGroupLIF(name_ + " exc", num_exc_, EXCITATORY_NEURON);
+        sim_->setNeuronParametersLIF(exc_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem)); // RS
         // Create inhibitory neuron group
-        inh_id_ = sim_->createGroup(name_ + " inh", num_inh_, INHIBITORY_NEURON);
-        sim_->setNeuronParameters(inh_id_, 0.1f, 0.2f, -65.0f, 2.0f); // FS
+        inh_id_ = sim_->createGroupLIF(name_ + " inh", num_inh_, INHIBITORY_NEURON);
+        sim_->setNeuronParametersLIF(inh_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem)); // FS
 
         // Connect neurons inside the EXC group
-        RandConnRandWeight* exe_exc_conn = new RandConnRandWeight(max_weight_, min_weight_, rand_seed_, pConn_, num_exc_, num_exc_);
+        RandConnRandWeight* exe_exc_conn = new RandConnRandWeight(max_weight_, min_weight_, random_seed(), pConn_, num_exc_, num_exc_);
         exc_exc_ = sim_->connect(exc_id_, exc_id_, exe_exc_conn, SYN_FIXED);
 
         // Connect neurons inside the INH group
-        RandConnRandWeight* inh_inh_conn = new RandConnRandWeight(max_weight_, min_weight_, rand_seed_, pConn_, num_inh_, num_inh_);
+        RandConnRandWeight* inh_inh_conn = new RandConnRandWeight(max_weight_, min_weight_, random_seed(), pConn_, num_inh_, num_inh_);
         inh_inh_ = sim_->connect(inh_id_, inh_id_, inh_inh_conn, SYN_FIXED);
 
         // Connect neurons between EXC and INH group
-        RandConnRandWeight* exe_inh_conn = new RandConnRandWeight(max_weight_, min_weight_, rand_seed_, pConn_, num_exc_, num_inh_);
+        RandConnRandWeight* exe_inh_conn = new RandConnRandWeight(max_weight_, min_weight_, random_seed(), pConn_, num_exc_, num_inh_);
         exc_inh_ = sim_->connect(exc_id_, inh_id_, exe_inh_conn, SYN_FIXED);
 
         // Connect neurons between INH and EXC group
-        RandConnRandWeight* inh_exc_conn = new RandConnRandWeight(max_weight_, min_weight_, rand_seed_, pConn_, num_inh_, num_exc_);
+        RandConnRandWeight* inh_exc_conn = new RandConnRandWeight(max_weight_, min_weight_, random_seed(), pConn_, num_inh_, num_exc_);
         inh_exc_ = sim_->connect(inh_id_, exc_id_, inh_exc_conn, SYN_FIXED);
     }
 
@@ -69,16 +72,16 @@ public:
 
     void connectToReservoir()
     {
-        FullConnRandWeight* input_exc_conn = new FullConnRandWeight(max_weight_, min_weight_, rand_seed_, sim_->getGroupNumNeurons(input_id_), num_exc_);
+        FullConnRandWeight* input_exc_conn = new FullConnRandWeight(max_weight_, min_weight_, random_seed(), sim_->getGroupNumNeurons(input_id_), num_exc_);
         sim_->connect(input_id_, exc_id_, input_exc_conn, SYN_FIXED);
 
-        FullConnRandWeight* input_inh_conn = new FullConnRandWeight(max_weight_, min_weight_, rand_seed_, sim_->getGroupNumNeurons(input_id_), num_inh_);
+        FullConnRandWeight* input_inh_conn = new FullConnRandWeight(max_weight_, min_weight_, random_seed(), sim_->getGroupNumNeurons(input_id_), num_inh_);
         sim_->connect(input_id_, inh_id_, input_inh_conn, SYN_FIXED);
 
-        FullConnRandWeight* exc_output_conn = new FullConnRandWeight(max_weight_, min_weight_, rand_seed_, num_exc_, sim_->getGroupNumNeurons(output_id_));
+        FullConnRandWeight* exc_output_conn = new FullConnRandWeight(max_weight_, min_weight_, random_seed(), num_exc_, sim_->getGroupNumNeurons(output_id_));
         sim_->connect(exc_id_, output_id_, exc_output_conn, SYN_FIXED);
 
-        FullConnRandWeight* inh_output_conn = new FullConnRandWeight(max_weight_, min_weight_, rand_seed_, num_inh_, sim_->getGroupNumNeurons(output_id_));
+        FullConnRandWeight* inh_output_conn = new FullConnRandWeight(max_weight_, min_weight_, random_seed(), num_inh_, sim_->getGroupNumNeurons(output_id_));
         sim_->connect(inh_id_, output_id_, inh_output_conn, SYN_FIXED);
     }
 
@@ -117,9 +120,6 @@ private:
     int exc_id_;
     int inh_id_;
 
-    int rand_seed_;
-    std::default_random_engine generator_;
-
     int exc_exc_;
     int inh_inh_;
     int exc_inh_;
@@ -136,12 +136,16 @@ private:
     SpikeMonitor* spkMonExc_;
     SpikeMonitor* spkMonInh_;
 
+    unsigned random_seed()
+    {
+        return std::chrono::system_clock::now().time_since_epoch().count();
+    }
 };
 
 
-Reservoir::Reservoir(CARLsim *sim, string name, int num_neurons, float exc_to_inh_ratio, float pConn, int rand_seed, int input_id, int output_id)
+Reservoir::Reservoir(CARLsim *sim, string name, int num_neurons, float exc_to_inh_ratio, float pConn, int input_id, int output_id)
 :
-_impl( new Impl(this, sim, name, num_neurons, exc_to_inh_ratio, pConn, rand_seed, input_id, output_id) ) {}
+_impl( new Impl(this, sim, name, num_neurons, exc_to_inh_ratio, pConn, input_id, output_id) ) {}
 
 Reservoir::~Reservoir() { delete _impl; }
 
@@ -180,14 +184,15 @@ RandConnRandWeight::~RandConnRandWeight() {}
 
 void RandConnRandWeight::connect(CARLsim* sim, int srcGrp, int i, int destGrp, int j, float& weight, float& maxWt, float& delay, bool& connected) 
 {
-    std::uniform_real_distribution<double> distribution(min_weight_, max_weight_);
-    connected = (rand()/RAND_MAX < pConn_);
+    std::uniform_real_distribution<double> distribution_conn(0, 1);
+    std::uniform_real_distribution<double> distribution_w(min_weight_, max_weight_);
+    connected = ((float)distribution_conn(generator_) < pConn_);
     weight = 1.0f;
     maxWt = max_weight_;
     delay = 1;
 
     if (connected) {
-        weight = distribution(generator_);
+        weight = distribution_w(generator_);
         (*weightMatrix_)[i][j] = weight;
     } else {
         weight = 0.0f;
@@ -213,14 +218,14 @@ FullConnRandWeight::~FullConnRandWeight() {}
 
 void FullConnRandWeight::connect(CARLsim* sim, int srcGrp, int i, int destGrp, int j, float& weight, float& maxWt, float& delay, bool& connected) 
 {
-    std::uniform_real_distribution<double> distribution(min_weight_, max_weight_);
+    std::uniform_real_distribution<double> distribution_w(min_weight_, max_weight_);
     connected = 1;
     weight = 1.0f;
     maxWt = max_weight_;
     delay = 1;
 
     if (connected) {
-        weight = distribution(generator_);
+        weight = distribution_w(generator_);
         (*weightMatrix_)[i][j] = weight;
     } else {
         weight = 0.0f;

@@ -327,7 +327,7 @@ public:
 
 	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
-	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
 	/*!
 	 * \brief  creates a spike generator group
@@ -1132,6 +1132,8 @@ public:
 	 * \see \ref ch6s1_generating_spikes
 	 */
 	void setSpikeGenerator(int grpId, SpikeGenerator* spikeGenFunc);
+
+	void setReservoirSpikeGenerator(int grpId, ReservoirSpikeGenerator* spikeGenFunc);
 
 	/*!
 	 * \brief Sets a Spike Monitor for a groups, prints spikes to binary file

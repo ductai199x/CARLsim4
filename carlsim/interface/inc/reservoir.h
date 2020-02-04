@@ -12,7 +12,7 @@ class Reservoir
     public:
     
         ~Reservoir();
-        Reservoir(CARLsim *sim, string name, int num_neurons, float exc_to_inh_ratio, float pConn, int rand_seed, int input_id, int output_id);
+        Reservoir(CARLsim *sim, string name, int num_neurons, float exc_to_inh_ratio, float pConn, int input_id, int output_id);
 
         void create();
         int getExcID();

@@ -439,7 +439,7 @@ public:
 	}
 
 	// create a group of reservoir output neurons on 3D grid
-	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, int learning_rate, int preferredPartition, ComputingBackend preferredBackend) {
 		std::string funcName = "createGroupReservoirOutput(\""+grpName+"\")";
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
@@ -458,7 +458,7 @@ public:
 		if (hasSetHomeoBaseFiringALL_)
 			userWarnings_.push_back("Make sure to call setHomeoBaseFiringRate on group "+grpName);
 
-		int grpId = snn_->createGroupReservoirOutput(grpName.c_str(), grid, neurType, preferredPartition, preferredBackend);
+		int grpId = snn_->createGroupReservoirOutput(grpName.c_str(), grid, neurType, spkGen, num_resv_neurons, learning_rate, preferredPartition, preferredBackend);
 
 		grpIds_.push_back(grpId); // keep track of all groups
 
@@ -1201,6 +1201,20 @@ public:
 		snn_->setSpikeGenerator(grpId, SGC);
 	}
 
+	void setReservoirSpikeGenerator(int grpId, ReservoirSpikeGenerator* spikeGenFunc) {
+		std::string funcName = "setReservoirSpikeGenerator(\""+getGroupName(grpId)+"\")";
+		UserErrors::assertTrue(grpId!=ALL, UserErrors::ALL_NOT_ALLOWED, funcName, "grpId");  // groupId can't be ALL
+		UserErrors::assertTrue(isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
+		UserErrors::assertTrue(spikeGenFunc!=NULL, UserErrors::CANNOT_BE_NULL, funcName);
+		UserErrors::assertTrue(carlsimState_==CONFIG_STATE,	UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
+			funcName, "CONFIG.");
+
+		// SpikeGeneratorCore* SGC = new SpikeGeneratorCore(this, spikeGenFunc);
+		SpikeGeneratorCore* SGC = new SpikeGeneratorCore(sim_, spikeGenFunc);
+		spkGen_.push_back(SGC);
+		snn_->setSpikeGenerator(grpId, SGC);
+	}
+
 	// set spike monitor for group and write spikes to file
 	SpikeMonitor* setSpikeMonitor(int grpId, const std::string& fileName) {
 		std::string funcName = "setSpikeMonitor(\""+getGroupName(grpId)+"\",\""+fileName+"\")";
@@ -1902,8 +1916,8 @@ int CARLsim::createGroupPoolingMaxRate(const std::string& grpName, const Grid3D&
 }
 
 // create reservoir output group with grid	
-int CARLsim::createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
-	return _impl->createGroupReservoirOutput(grpName, grid, neurType, preferredPartition, preferredBackend);
+int CARLsim::createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition, ComputingBackend preferredBackend) {
+	return _impl->createGroupReservoirOutput(grpName, grid, neurType, spkGen, num_resv_neurons, learning_rate, preferredPartition, preferredBackend);
 }
 
 // create spike gen group with / without grid
@@ -2111,6 +2125,11 @@ GroupMonitor* CARLsim::setGroupMonitor(int grpId, const std::string& fname) {
 void CARLsim::setSpikeGenerator(int grpId, SpikeGenerator* spikeGenFunc) {
 	_impl->setSpikeGenerator(grpId, spikeGenFunc);
 }
+
+void CARLsim::setReservoirSpikeGenerator(int grpId, ReservoirSpikeGenerator* spikeGenFunc) {
+	_impl->setReservoirSpikeGenerator(grpId, spikeGenFunc);
+}
+
 
 // Sets a Spike Monitor for a groups, prints spikes to binary file
 SpikeMonitor* CARLsim::setSpikeMonitor(int grpId, const std::string& fileName) {

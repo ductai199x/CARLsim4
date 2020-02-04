@@ -82,6 +82,9 @@
 #include <cassert>
 #include <cstdio>
 #include <climits>
+#include <iostream> // TODO: delete this when done dev
+
+#include <Eigen/Dense>
 
 #include <carlsim.h>
 #include <callback_core.h>
@@ -202,7 +205,7 @@ public:
 
 	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
 
-	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition, ComputingBackend preferredBackend);
 
 	//! Creates a spike generator group (dummy-neurons, not Izhikevich spiking neurons)
 	/*!
@@ -1095,7 +1098,6 @@ private:
 	std::list<compConnectConfig> localCompConnectLists[MAX_NET_PER_SNN];
 
 	std::list<ConnectionInfo> connectionLists[MAX_NET_PER_SNN];
-	std::list<ConnectionInfo> poolingConnectionLists[MAX_NET_PER_SNN];
 
 	std::list<RoutingTableEntry> spikeRoutingTable;
 
@@ -1105,9 +1107,21 @@ private:
 	//! Buffer to store spikes
 	SpikeBuffer* spikeBuf;
 
-	static const unsigned poolingWindow = 200;	//!< pooling window is 10 timesteps -- 20 is 10ms
+	// Max Rate Pooling Neuron additional datastructures
+	std::list<ConnectionInfo> poolingConnLists[MAX_NET_PER_SNN];
+	static const unsigned poolingWindow = 200;	//!< pooling window is 200 timesteps -- 200 timesteps is 100ms
 	unsigned currPoolingTs = 0;		//!< the current pooling window timestep
 	std::map<int, int*> poolingSpikesMap;
+
+	// TODO: Reservoir Output Neuron additional datastructures
+	// std::list<ConnectionInfo> resvOutputConnLists[MAX_NET_PER_SNN];
+	// unsigned resvOuputPoolingWindow = 300;	//!< pooling window is 10 timesteps -- 20 is 10ms
+	ReservoirSpikeGenerator* resvSpkGen;
+	Eigen::MatrixXf P;
+	std::vector<float> resvOutputVec;
+	std::map<int, float> resvOutputWeightMat;
+	// Eigen::VectorXf resvOutputWeightMat;
+	
 
 	bool sim_with_conductances; //!< flag to inform whether we run in COBA mode (true) or CUBA mode (false)
 	bool sim_with_NMDA_rise;    //!< a flag to inform whether to compute NMDA rise time

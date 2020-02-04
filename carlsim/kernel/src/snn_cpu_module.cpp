@@ -376,7 +376,8 @@ void SNN::copyExtFiringTable(int netId) {
 
 		unsigned int offset = runtimeData[netId].cumulativePost[lNId];
 
-		for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1) {
+		for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1)
+		{
 			// get synaptic info...
 			SynInfo postInfo = runtimeData[netId].postSynapticIds[offset + idx_d];
 
@@ -1030,9 +1031,9 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					else if(groupConfigs[netId][lGrpId].isPoolingMaxRate){
 						if (currPoolingTs == poolingWindow) {
 							std::vector<int> connectedNIds;
-							std::list<ConnectionInfo>::iterator connIt = poolingConnectionLists[netId].begin();
+							std::list<ConnectionInfo>::iterator connIt = poolingConnLists[netId].begin();
 
-							for (connIt; connIt != poolingConnectionLists[netId].end(); connIt++) {
+							for (connIt; connIt != poolingConnLists[netId].end(); connIt++) {
 								if (connIt->nDest == lNId) {
 									connectedNIds.push_back(connIt->nSrc);
 								}
@@ -1077,7 +1078,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 											maxfiringNID = p.first;
 											maxfiringCnt = p.second;
 										}
-										
 									}
 									
 									if (maxfiringNID == 0) continue;
@@ -1097,7 +1097,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 											}
 										}
 										numProcessedNeuron++;
-										
 										fireTableIdx++;
 									}
 								}
@@ -1113,7 +1112,57 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 					// TODO: DO THIS NOW
 					else if (groupConfigs[netId][lGrpId].isReservoirOutput) {
+						if (lastIter)
+						{
+							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
+							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - 1;
 
+							if (step_begin >= 0) {
+								unsigned int* timeTable 	= runtimeData[netId].timeTableD1;
+								int* firingTable 			= runtimeData[netId].firingTableD1;
+								int k_end   = timeTable[step_end] - 1;
+								int k_begin = timeTable[step_begin];
+								if (k_end < 0) {
+									timeTable 		= runtimeData[netId].timeTableD2;
+									firingTable 	= runtimeData[netId].firingTableD2;
+									k_end   = timeTable[step_end] - 1;
+									k_begin = timeTable[step_begin];
+								}
+
+								float resvOutput = 0.0f;
+								if(k_begin >= 0) {
+									for (int fireTableIdx = k_begin; fireTableIdx <= k_end; fireTableIdx++) {
+										int preNId = firingTable[fireTableIdx];
+										DelayInfo dPar = runtimeData[netId].postDelayInfo[preNId * (networkConfigs[netId].maxDelay + 1)];
+
+										unsigned int offset = runtimeData[netId].cumulativePost[preNId];
+
+										for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1)
+										{
+											SynInfo postInfo = runtimeData[netId].postSynapticIds[offset + idx_d];
+											if (lNId == GET_CONN_NEURON_ID(postInfo)) { break; }
+										}
+
+										resvOutput += resvOutputWeightMat[preNId];
+
+									}
+								}
+								resvOutputVec.push_back(resvOutput);
+							}
+							if (simTimeRunStop-1 == simTimeMs)
+							{
+								float* ptr_data = &resvOutputVec[0];
+    							Eigen::MatrixXf v2 = Eigen::Map<Eigen::MatrixXf>(resvOutputVec.data(), resvOutputVec.size(), 1);
+
+								// std::cout << P << std::endl;
+
+								for (auto const& x : *(resvSpkGen->getTargetSpkTimes()))
+								{
+									KERNEL_INFO("%d : %d", x.first, x.second);
+								}
+							}
+								
+						}
 					}
 					
 					if (groupConfigs[netId][lGrpId].isLIF){
@@ -1206,7 +1255,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 								v_next = lif_vReset;
 								
 								if(lastIter){
-                                        				runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
+									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
 								else{
 									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;

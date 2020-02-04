@@ -396,7 +396,7 @@ int SNN::createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& gri
 	return grpConfigMD.gGrpId;
 }
 
-int SNN::createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+int SNN::createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition, ComputingBackend preferredBackend) {
 	assert(grid.numX * grid.numY * grid.numZ > 0);
 	assert(neurType >= 0);
 	assert(numGroups < MAX_GRP_PER_SNN);
@@ -421,6 +421,9 @@ int SNN::createGroupReservoirOutput(const std::string& grpName, const Grid3D& gr
 	grpConfig.isLIF = false;
 	grpConfig.isPoolingMaxRate = false;
 	grpConfig.isReservoirOutput = true;
+
+	resvSpkGen = spkGen;
+	P = Eigen::MatrixXf::Constant(num_resv_neurons, num_resv_neurons, 1/learning_rate);
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -466,6 +469,7 @@ int SNN::createSpikeGeneratorGroup(const std::string& grpName, const Grid3D& gri
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
 	grpConfig.isPoolingMaxRate = false;
+	grpConfig.isReservoirOutput = false;
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -3814,10 +3818,16 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
 
 	connectionLists[netId].push_back(connInfo);
+
 	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
 	if(groupConfigMap[_grpDest].isPoolingMaxRate) {
-		poolingConnectionLists[netId].push_back(connInfo);
+		poolingConnLists[netId].push_back(connInfo);
 		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
+	}
+
+	if(groupConfigMap[_grpDest].isReservoirOutput) {
+		// resvOutputConnLists[netId].push_back(connInfo);
+		resvOutputWeightMat.insert({connInfo.nSrc, connInfo.maxWt});
 	}
 		
 	// If the connection is external, copy the connection info to the external network
@@ -3842,10 +3852,16 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.delay = delay;
 
 	connectionLists[netId].push_back(connInfo);
+
 	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
 	if(groupConfigMap[_grpDest].isPoolingMaxRate) {
-		poolingConnectionLists[netId].push_back(connInfo);
+		poolingConnLists[netId].push_back(connInfo);
 		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
+	}
+
+	if(groupConfigMap[_grpDest].isReservoirOutput) {
+		// resvOutputConnLists[netId].push_back(connInfo);
+		resvOutputWeightMat.insert({connInfo.nSrc, connInfo.maxWt});
 	}
 
 	// If the connection is external, copy the connection info to the external network

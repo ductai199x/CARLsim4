@@ -54,6 +54,7 @@ class SNN;
 
 class ConnectionGenerator;
 class SpikeGenerator;
+class ReservoirSpikeGenerator;
 
 /// **************************************************************************************************************** ///
 /// Classes for relay callback
@@ -69,6 +70,8 @@ class SpikeGenerator;
 class SpikeGeneratorCore {
 public:
 	SpikeGeneratorCore(CARLsim* c, SpikeGenerator* s);
+
+	SpikeGeneratorCore(CARLsim* c, ReservoirSpikeGenerator* s);
 	//! controls spike generation using a callback mechanism
 	/*! \attention The virtual method should never be called directly
 	 */
@@ -77,6 +80,7 @@ public:
 private:
 	CARLsim* carlsim;
 	SpikeGenerator* sGen;
+	ReservoirSpikeGenerator* rsGen;
 };
 
 //! used for relaying callback to ConnectionGenerator
