@@ -32,18 +32,18 @@ public:
     {
         // LIF Parameters Initialization
         int tau_mE = 10;
-        int tau_refE = 1;
-        float vTh = -78.0f;
-        float vReset = -78.5f;
-        float vInit = -78.5f;
+        int tau_refE = 2;
+        float vTh = -60.0f;
+        float vReset = -62.0f;
+        float vInit = -60.01f;
         float rMem = 10;
 
         // Create excitory neuron group
         exc_id_ = sim_->createGroupLIF(name_ + " exc", num_exc_, EXCITATORY_NEURON);
-        sim_->setNeuronParametersLIF(exc_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem)); // RS
+        sim_->setNeuronParametersLIF(exc_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
         // Create inhibitory neuron group
         inh_id_ = sim_->createGroupLIF(name_ + " inh", num_inh_, INHIBITORY_NEURON);
-        sim_->setNeuronParametersLIF(inh_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem)); // FS
+        sim_->setNeuronParametersLIF(inh_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
 
         // Connect neurons inside the EXC group
         RandConnRandWeight* exe_exc_conn = new RandConnRandWeight(max_weight_, min_weight_, random_seed(), pConn_, num_exc_, num_exc_);

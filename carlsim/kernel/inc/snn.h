@@ -85,6 +85,7 @@
 #include <iostream> // TODO: delete this when done dev
 
 #include <Eigen/Dense>
+#include <Eigen/Core>
 
 #include <carlsim.h>
 #include <callback_core.h>
@@ -1114,14 +1115,17 @@ private:
 	std::map<int, int*> poolingSpikesMap;
 
 	// TODO: Reservoir Output Neuron additional datastructures
-	// std::list<ConnectionInfo> resvOutputConnLists[MAX_NET_PER_SNN];
-	// unsigned resvOuputPoolingWindow = 300;	//!< pooling window is 10 timesteps -- 20 is 10ms
+	std::list<ConnectionInfo> resvOutputConnLists[MAX_NET_PER_SNN];
 	ReservoirSpikeGenerator* resvSpkGen;
-	Eigen::MatrixXf P;
-	std::vector<float> resvOutputVec;
-	std::map<int, float> resvOutputWeightMat;
-	// Eigen::VectorXf resvOutputWeightMat;
-	
+	std::vector<Eigen::MatrixXf> P_v;
+	bool isMapTranslatedToMat = false;
+	int preNIdOffset = -1;
+	int preTraining = 50;
+	int cycle = 0;
+	std::vector<Eigen::VectorXf> resvOutputW_v;
+	std::vector<Eigen::VectorXf> resvNetOutput_v;
+	std::vector<Eigen::VectorXf> resvSpkAct_v;
+	std::vector<Eigen::VectorXf> resvSpkActHR_v;
 
 	bool sim_with_conductances; //!< flag to inform whether we run in COBA mode (true) or CUBA mode (false)
 	bool sim_with_NMDA_rise;    //!< a flag to inform whether to compute NMDA rise time

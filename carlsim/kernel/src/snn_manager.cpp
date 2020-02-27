@@ -423,7 +423,18 @@ int SNN::createGroupReservoirOutput(const std::string& grpName, const Grid3D& gr
 	grpConfig.isReservoirOutput = true;
 
 	resvSpkGen = spkGen;
-	P = Eigen::MatrixXf::Constant(num_resv_neurons, num_resv_neurons, 1/learning_rate);
+	for (int i = 0; i < grpConfig.numN; i++) {
+		Eigen::MatrixXf P = Eigen::MatrixXf::Identity(num_resv_neurons, num_resv_neurons);
+		Eigen::VectorXf resvOutputWeightVec = Eigen::VectorXf::Constant(num_resv_neurons, 1, 1);
+		Eigen::VectorXf resvSpkActVec = Eigen::VectorXf::Constant(num_resv_neurons, 1, 0);
+		Eigen::VectorXf resvSpkActVecHR = Eigen::VectorXf::Constant(num_resv_neurons, 1, 0);
+		Eigen::VectorXf resvNetOutput = Eigen::VectorXf::Constant(num_resv_neurons, 1, 0);
+		P_v.push_back(P/learning_rate);
+		resvOutputW_v.push_back(resvOutputWeightVec);
+		resvSpkAct_v.push_back(resvSpkActVec);
+		resvSpkActHR_v.push_back(resvSpkActVecHR);
+		resvNetOutput_v.push_back(resvNetOutput);
+	}
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -3826,8 +3837,8 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	}
 
 	if(groupConfigMap[_grpDest].isReservoirOutput) {
-		// resvOutputConnLists[netId].push_back(connInfo);
-		resvOutputWeightMat.insert({connInfo.nSrc, connInfo.maxWt});
+		resvOutputConnLists[netId].push_back(connInfo);
+		// resvOutputWeightMap.insert({connInfo, connInfo.maxWt});
 	}
 		
 	// If the connection is external, copy the connection info to the external network
@@ -3860,8 +3871,8 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	}
 
 	if(groupConfigMap[_grpDest].isReservoirOutput) {
-		// resvOutputConnLists[netId].push_back(connInfo);
-		resvOutputWeightMat.insert({connInfo.nSrc, connInfo.maxWt});
+		resvOutputConnLists[netId].push_back(connInfo);
+		// resvOutputWeightMap.insert({connInfo, connInfo.maxWt});
 	}
 
 	// If the connection is external, copy the connection info to the external network

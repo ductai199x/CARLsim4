@@ -24,33 +24,27 @@ struct LIFNeuronParam_s
 
 typedef struct LIFNeuronParam_s LIFNeuronParam;
 
-void generateTargetSpikeFn(SpikeGenerator* spkGen, int* spkArr)
-{
-
-}
-
-
 int main() {
 		// ---------------- CONFIG STATE -------------------
-	int randSeed = 15;
-	CARLsim sim("reservoir", CPU_MODE, USER, 1, randSeed);
+	int randSeed = 30;
+	CARLsim sim("reservoir", CPU_MODE, USER, 4, randSeed);
 
-	int simTime = 50; // in ms
-	int n = 2;
-	int m = 2;
+	int simTime = 500; // in s
+	int n = 1;
+	int m = 1;
 
 	std::uniform_real_distribution<float> distribution(0, 255);
 	std::default_random_engine generator;
-	generator.seed(100);
+	generator.seed(50);
 	vector<vector<float>> coordinates;
-	vector<float> r { distribution(generator), distribution(generator) };                                                      
+	vector<float> r { 255, 255 };                                                      
 	for (int i = 0; i < n; i++) {
 		
 		coordinates.push_back(r);
 	}
 
-	int num_resv_neurons = 1000;
-	float learning_rate = 10;
+	int num_resv_neurons = 2000;
+	float learning_rate = 30;
 	// int num_resv_neurons = 100;
 	TimeToFirstSpike ttfs(&coordinates[0], 255);
 	int gSpikeGen = sim.createSpikeGeneratorGroup("input", m, EXCITATORY_NEURON);
@@ -80,20 +74,21 @@ int main() {
 	sim.setupNetwork();
 
 	resv.setupMonitors();
-	// resv.startMonitors();
+	resv.startMonitors();
 
-	// spkMonSpkGen->startRecording();
-	// spkMonResvOutput->startRecording();
+	spkMonSpkGen->startRecording();
+	spkMonResvOutput->startRecording();
 	
 	for (int i=0; i<n; i++) {
 		ttfs.newSpikeVector(&coordinates[i]);
-		sim.runNetwork(0, simTime);
+		// sim.runNetwork(0, simTime);
+		sim.runNetwork(10, 0);
 	}
 	
-	// resv.stopMonitors();
+	resv.stopMonitors();
 
-	// spkMonSpkGen->stopRecording();
-	// spkMonResvOutput->stopRecording();
+	spkMonSpkGen->stopRecording();
+	spkMonResvOutput->stopRecording();
 
 	// spkMonResvOutput->print();
 	// spkMonSpkGen->print();

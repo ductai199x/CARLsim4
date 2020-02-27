@@ -1112,6 +1112,19 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 					// TODO: DO THIS NOW
 					else if (groupConfigs[netId][lGrpId].isReservoirOutput) {
+						//
+						if (!isMapTranslatedToMat) {
+							
+							for (auto const& x : resvOutputConnLists[netId])
+							{
+								if (preNIdOffset == -1) {
+									preNIdOffset = x.nSrc;
+								}
+								resvOutputW_v[x.nDest][x.nSrc - preNIdOffset] = x.maxWt;
+							}
+							isMapTranslatedToMat = true;
+						}
+
 						if (lastIter)
 						{
 							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
@@ -1133,6 +1146,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 								if(k_begin >= 0) {
 									for (int fireTableIdx = k_begin; fireTableIdx <= k_end; fireTableIdx++) {
 										int preNId = firingTable[fireTableIdx];
+										bool isFiringToResvOutput = false;
 										DelayInfo dPar = runtimeData[netId].postDelayInfo[preNId * (networkConfigs[netId].maxDelay + 1)];
 
 										unsigned int offset = runtimeData[netId].cumulativePost[preNId];
@@ -1140,28 +1154,67 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 										for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1)
 										{
 											SynInfo postInfo = runtimeData[netId].postSynapticIds[offset + idx_d];
-											if (lNId == GET_CONN_NEURON_ID(postInfo)) { break; }
+											if (lNId == GET_CONN_NEURON_ID(postInfo)) { 
+												isFiringToResvOutput = true;
+												break; 
+											}
 										}
-
-										resvOutput += resvOutputWeightMat[preNId];
-
+										if (isFiringToResvOutput)
+											resvSpkAct_v[lNId][preNId - preNIdOffset] = 1;
 									}
 								}
-								resvOutputVec.push_back(resvOutput);
-							}
-							if (simTimeRunStop-1 == simTimeMs)
-							{
-								float* ptr_data = &resvOutputVec[0];
-    							Eigen::MatrixXf v2 = Eigen::Map<Eigen::MatrixXf>(resvOutputVec.data(), resvOutputVec.size(), 1);
-
-								// std::cout << P << std::endl;
-
-								for (auto const& x : *(resvSpkGen->getTargetSpkTimes()))
-								{
-									KERNEL_INFO("%d : %d", x.first, x.second);
-								}
-							}
 								
+								resvNetOutput_v[lNId] = resvNetOutput_v[lNId]*exp(-0.1) + resvSpkActHR_v[lNId]*0.05;
+								resvSpkActHR_v[lNId] = resvSpkActHR_v[lNId]*exp(-0.1) + resvSpkAct_v[lNId]*0.05;
+
+								float z = (float)(resvOutputW_v[lNId].transpose()*resvNetOutput_v[lNId]);
+								// z = z*exp(-0.0250) + 
+								// resvNetOutput_v[lNId].push_back(z); 
+							// }
+							// if (simTimeRunStop-1 > simTimeMs)
+							// {
+								// Generate Target Output
+								int vecLen = simTimeRunStop - simTimeRunStart;
+								float maxTargetValue = 10.0f;
+								// float minTargetValue = maxTargetValue*0.01;
+								float minTargetValue = 0;
+								Eigen::VectorXf targetOutput = Eigen::VectorXf::Constant(vecLen, 1, maxTargetValue);
+								// Eigen::VectorXf targetOutput = Eigen::VectorXf::LinSpaced(vecLen, 1, vecLen);
+								// targetOutput = (targetOutput*3.14*4).sin();
+								// targetOutput[(resvSpkGen->getTargetSpkTimes())->at(lNId) - simTimeRunStart] = maxTargetValue;
+								// Eigen::VectorXf net_output = Eigen::Map<Eigen::VectorXf>(resvNetOutput_v[lNId].data(), vecLen, 1);
+								// std::cout << simTimeMs << " " << simTimeRunStart+1 << std::endl;
+								float error_minus = z - targetOutput[simTimeMs-simTimeRunStart];
+								if (cycle > preTraining) 
+								{
+									P_v[lNId] = P_v[lNId] - (P_v[lNId]*resvNetOutput_v[lNId]*resvNetOutput_v[lNId].transpose()*P_v[lNId])/(1+resvNetOutput_v[lNId].transpose()*P_v[lNId]*resvNetOutput_v[lNId]);
+
+									Eigen::VectorXf new_weights = resvOutputW_v[lNId] - (error_minus)*P_v[lNId]*resvNetOutput_v[lNId];
+
+									resvOutputW_v[lNId] = new_weights;
+
+									for (auto const& x : resvOutputConnLists[netId])
+									{
+										if (x.nDest == lNId) {
+											setWeight(x.connId, x.nSrc - getGroupStartNeuronId(x.grpSrc), lNId, fabs(new_weights[x.nSrc - preNIdOffset]), true);
+										}
+									}
+
+									std::cout << "neuron " << lNId << ", error " << error_minus << ", z " << z << ", t " << targetOutput[simTimeMs-simTimeRunStart] << std::endl;
+								}
+								
+
+								
+								
+								// Reset these for the next run:
+								// resvNetOutput_v[lNId].clear();
+								resvSpkAct_v[lNId].setZero();
+
+								// if (simTimeRunStop-1 == simTimeMs) {
+									cycle++;
+								// }
+
+							}
 						}
 					}
 					
