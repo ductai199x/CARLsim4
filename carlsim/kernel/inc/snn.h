@@ -1120,7 +1120,7 @@ private:
 	std::vector<Eigen::MatrixXf> P_v;
 	bool isMapTranslatedToMat = false;
 	int preNIdOffset = -1;
-	int preTraining = 50;
+	int preTraining = 200;
 	int cycle = 0;
 	std::vector<Eigen::VectorXf> resvOutputW_v;
 	std::vector<Eigen::VectorXf> resvNetOutput_v;

@@ -43,34 +43,28 @@ int main() {
 		coordinates.push_back(r);
 	}
 
-	int num_resv_neurons = 2000;
-	float learning_rate = 30;
+	int num_resv_neurons = 500;
+	float learning_rate = 20;
 	// int num_resv_neurons = 100;
 	TimeToFirstSpike ttfs(&coordinates[0], 255);
 	int gSpikeGen = sim.createSpikeGeneratorGroup("input", m, EXCITATORY_NEURON);
 	int gResvOut = sim.createGroupReservoirOutput("output", m, EXCITATORY_NEURON, &ttfs, num_resv_neurons, learning_rate);
 
-	// int gResvOut = sim.createGroupLIF("output", m, EXCITATORY_NEURON);
-
 	LIFNeuronParam param = LIFNeuronParam_default;
 	sim.setNeuronParametersReservoirOutput(gResvOut, (int)param.tau_mE, (int)param.tau_refE, (float)param.vTh, (float)param.vReset, RangeRmem(param.rMem));
-	// sim.setNeuronParametersLIF(gResvOut, (int)param.tau_mE, (int)param.tau_refE, (float)param.vTh, (float)param.vReset, RangeRmem(param.rMem));
 
-	
 	int* spkArr = new int[simTime];
-	// generateTargetSpikeFn(&ttfs, spkArr);
-
 
 	sim.setReservoirSpikeGenerator(gSpikeGen, &ttfs);
 
 	SpikeMonitor* spkMonSpkGen = sim.setSpikeMonitor(gSpikeGen, "DEFAULT");
 	SpikeMonitor* spkMonResvOutput = sim.setSpikeMonitor(gResvOut, "DEFAULT");
 	
-	Reservoir resv(&sim, "test", num_resv_neurons, 1, 0.1, gSpikeGen, gResvOut);
+	Reservoir resv(&sim, "test", num_resv_neurons, 10, 0.4, gSpikeGen, gResvOut);
 	resv.create();
 	resv.connectToReservoir();
 
-	sim.setConductances(false);
+	sim.setConductances(true);
 	sim.setupNetwork();
 
 	resv.setupMonitors();
@@ -82,7 +76,7 @@ int main() {
 	for (int i=0; i<n; i++) {
 		ttfs.newSpikeVector(&coordinates[i]);
 		// sim.runNetwork(0, simTime);
-		sim.runNetwork(10, 0);
+		sim.runNetwork(4, 0);
 	}
 	
 	resv.stopMonitors();

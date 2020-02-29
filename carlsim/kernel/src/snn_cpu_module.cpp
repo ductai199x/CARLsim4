@@ -1110,7 +1110,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}
 					}
-					// TODO: DO THIS NOW
 					else if (groupConfigs[netId][lGrpId].isReservoirOutput) {
 						//
 						if (!isMapTranslatedToMat) {
@@ -1164,28 +1163,23 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 									}
 								}
 								
-								resvNetOutput_v[lNId] = resvNetOutput_v[lNId]*exp(-0.1) + resvSpkActHR_v[lNId]*0.05;
-								resvSpkActHR_v[lNId] = resvSpkActHR_v[lNId]*exp(-0.1) + resvSpkAct_v[lNId]*0.05;
+								resvNetOutput_v[lNId] = resvNetOutput_v[lNId]*exp(-0.0400) + resvSpkActHR_v[lNId]*0.04;
+								resvSpkActHR_v[lNId] = resvSpkActHR_v[lNId]*exp(-0.0040) + resvSpkAct_v[lNId]*0.004;
 
 								float z = (float)(resvOutputW_v[lNId].transpose()*resvNetOutput_v[lNId]);
-								// z = z*exp(-0.0250) + 
-								// resvNetOutput_v[lNId].push_back(z); 
-							// }
-							// if (simTimeRunStop-1 > simTimeMs)
-							// {
+
 								// Generate Target Output
 								int vecLen = simTimeRunStop - simTimeRunStart;
 								float maxTargetValue = 10.0f;
-								// float minTargetValue = maxTargetValue*0.01;
 								float minTargetValue = 0;
-								Eigen::VectorXf targetOutput = Eigen::VectorXf::Constant(vecLen, 1, maxTargetValue);
+								Eigen::VectorXf targetOutput = Eigen::VectorXf::Constant(vecLen, 1, 10);
 								// Eigen::VectorXf targetOutput = Eigen::VectorXf::LinSpaced(vecLen, 1, vecLen);
 								// targetOutput = (targetOutput*3.14*4).sin();
 								// targetOutput[(resvSpkGen->getTargetSpkTimes())->at(lNId) - simTimeRunStart] = maxTargetValue;
 								// Eigen::VectorXf net_output = Eigen::Map<Eigen::VectorXf>(resvNetOutput_v[lNId].data(), vecLen, 1);
 								// std::cout << simTimeMs << " " << simTimeRunStart+1 << std::endl;
 								float error_minus = z - targetOutput[simTimeMs-simTimeRunStart];
-								if (cycle > preTraining) 
+								if (cycle > preTraining && cycle%5==0) 
 								{
 									P_v[lNId] = P_v[lNId] - (P_v[lNId]*resvNetOutput_v[lNId]*resvNetOutput_v[lNId].transpose()*P_v[lNId])/(1+resvNetOutput_v[lNId].transpose()*P_v[lNId]*resvNetOutput_v[lNId]);
 
@@ -1200,20 +1194,14 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 										}
 									}
 
-									std::cout << "neuron " << lNId << ", error " << error_minus << ", z " << z << ", t " << targetOutput[simTimeMs-simTimeRunStart] << std::endl;
+									if (cycle%50==0)
+										std::cout << "neuron " << lNId << ", error " << error_minus << ", z " << z << ", t " << targetOutput[simTimeMs-simTimeRunStart] << std::endl;
 								}
-								
-
-								
+										
 								
 								// Reset these for the next run:
-								// resvNetOutput_v[lNId].clear();
 								resvSpkAct_v[lNId].setZero();
-
-								// if (simTimeRunStop-1 == simTimeMs) {
-									cycle++;
-								// }
-
+								cycle++;
 							}
 						}
 					}

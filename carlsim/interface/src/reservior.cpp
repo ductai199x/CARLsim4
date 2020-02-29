@@ -22,8 +22,8 @@ public:
         input_id_ = input_id;
         output_id_ = output_id;
 
-        max_weight_ = 10.0f;
-        min_weight_ = 0.0f;
+        max_weight_ = 20.0f;
+        min_weight_ = 5.0f;
     }
 
     ~Impl() { }
@@ -31,19 +31,26 @@ public:
     void create()
     {
         // LIF Parameters Initialization
-        int tau_mE = 10;
-        int tau_refE = 2;
-        float vTh = -60.0f;
-        float vReset = -62.0f;
-        float vInit = -60.01f;
-        float rMem = 10;
+        // int tau_mE = 10;
+        // int tau_refE = 2;
+        // float vTh = -60.0f;
+        // float vReset = -62.0f;
+        // float vInit = -60.01f;
+        // float rMem = 10;
 
-        // Create excitory neuron group
-        exc_id_ = sim_->createGroupLIF(name_ + " exc", num_exc_, EXCITATORY_NEURON);
-        sim_->setNeuronParametersLIF(exc_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
-        // Create inhibitory neuron group
-        inh_id_ = sim_->createGroupLIF(name_ + " inh", num_inh_, INHIBITORY_NEURON);
-        sim_->setNeuronParametersLIF(inh_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
+        // // Create excitory neuron group
+        // exc_id_ = sim_->createGroupLIF(name_ + " exc", num_exc_, EXCITATORY_NEURON);
+        // sim_->setNeuronParametersLIF(exc_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
+        // // Create inhibitory neuron group
+        // inh_id_ = sim_->createGroupLIF(name_ + " inh", num_inh_, INHIBITORY_NEURON);
+        // sim_->setNeuronParametersLIF(inh_id_, (int)tau_mE, (int)tau_refE, (float)vTh, (float)vReset, RangeRmem(rMem));
+
+        // // Create excitory neuron group
+        exc_id_ = sim_->createGroup(name_ + " exc", num_exc_, EXCITATORY_NEURON);
+        sim_->setNeuronParameters(exc_id_, 250.0f, 2.5f, -60.0f, -25.0f, 0.01f, 2.0f, 30.0f, -55.0f, 200.0f);
+        // // Create inhibitory neuron group
+        inh_id_ = sim_->createGroup(name_ + " inh", num_inh_, INHIBITORY_NEURON);
+        sim_->setNeuronParameters(inh_id_, 250.0f, 2.5f, -60.0f, -25.0f, 0.01f, 2.0f, 30.0f, -55.0f, 200.0f);
 
         // Connect neurons inside the EXC group
         RandConnRandWeight* exe_exc_conn = new RandConnRandWeight(max_weight_, min_weight_, random_seed(), pConn_, num_exc_, num_exc_);
