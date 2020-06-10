@@ -311,7 +311,7 @@ typedef struct GroupConfig_s {
 	bool isSpikeGenerator;
 	bool withParamModel_9; //!< False = 4 parameter model; 1 = 9 parameter model.
 	bool isLIF;
-    bool isPoolingLIF;
+    bool isPoolingMaxRate;
 	bool withCompartments;
 
 	float compCouplingUp;
@@ -440,7 +440,7 @@ typedef struct GroupConfigRT_s {
 
 	bool withParamModel_9; //!< False = 4 parameter model; 1 = 9 parameter model.
 	bool isLIF; //!< True = a LIF spiking group
-	bool isPoolingLIF; //!< True = a LIF spiking group
+	bool isPoolingMaxRate; //!< True = a LIF spiking group
 
 	bool withCompartments;
 	float compCouplingUp;

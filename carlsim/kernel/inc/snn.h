@@ -82,6 +82,10 @@
 #include <cassert>
 #include <cstdio>
 #include <climits>
+#include <iostream> // TODO: delete this when done dev
+
+#include <Eigen/Dense>
+#include <Eigen/Core>
 
 #include <carlsim.h>
 #include <callback_core.h>
@@ -200,7 +204,9 @@ public:
 	 */
 	int createGroupLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
 
-	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
+	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend);
+
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition, ComputingBackend preferredBackend);
 
 	//! Creates a spike generator group (dummy-neurons, not Izhikevich spiking neurons)
 	/*!
@@ -276,7 +282,9 @@ public:
 	 */
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
 
-	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
+	void setNeuronParametersPoolingMaxRate(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
+
+	void setNeuronParametersReservoirOutput(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
 
 	//! Sets the Izhikevich parameters C, k, vr, vt, a, b, vpeak, c, and d of a neuron group.
 	/*!
@@ -551,7 +559,10 @@ public:
 	Grid3D getGroupGrid3D(int grpId);
 	int getGroupId(std::string grpName);
 	std::string getGroupName(int grpId);
-	int getGroupIsPoolingLIF(int gGrpId);
+
+	int getGroupisPoolingMaxRate(int gGrpId);
+	int getGroupisReservoirOutput(int gGrpId);
+
 	GroupSTDPInfo getGroupSTDPInfo(int grpId);
 	GroupNeuromodulatorInfo getGroupNeuromodulatorInfo(int grpId);
 
@@ -1096,10 +1107,25 @@ private:
 
 	//! Buffer to store spikes
 	SpikeBuffer* spikeBuf;
-	SpikeBuffer* poolingSpikeBuf;
-	static const unsigned poolingWindow = 10;	//!< pooling window is 10 timesteps
+
+	// Max Rate Pooling Neuron additional datastructures
+	std::list<ConnectionInfo> poolingConnLists[MAX_NET_PER_SNN];
+	static const unsigned poolingWindow = 200;	//!< pooling window is 200 timesteps -- 200 timesteps is 100ms
 	unsigned currPoolingTs = 0;		//!< the current pooling window timestep
-	int poolingSpikes[poolingWindow] = { 0 };
+	std::map<int, int*> poolingSpikesMap;
+
+	// TODO: Reservoir Output Neuron additional datastructures
+	std::list<ConnectionInfo> resvOutputConnLists[MAX_NET_PER_SNN];
+	ReservoirSpikeGenerator* resvSpkGen;
+	std::vector<Eigen::MatrixXf> P_v;
+	bool isMapTranslatedToMat = false;
+	int preNIdOffset = -1;
+	int preTraining = 200;
+	int cycle = 0;
+	std::vector<Eigen::VectorXf> resvOutputW_v;
+	std::vector<Eigen::VectorXf> resvNetOutput_v;
+	std::vector<Eigen::VectorXf> resvSpkAct_v;
+	std::vector<Eigen::VectorXf> resvSpkActHR_v;
 
 	bool sim_with_conductances; //!< flag to inform whether we run in COBA mode (true) or CUBA mode (false)
 	bool sim_with_NMDA_rise;    //!< a flag to inform whether to compute NMDA rise time

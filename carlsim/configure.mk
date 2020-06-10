@@ -69,7 +69,8 @@ ifneq ($(DARWIN),)
 endif 
 
 ifeq ("$(OSUPPER)","LINUX")
-     NVCC ?= $(CUDA_PATH)/bin/nvcc -ccbin $(CXX)
+     # NVCC ?= $(CUDA_PATH)/bin/nvcc -ccbin $(CXX)
+     NVCC = /usr/local/cuda/bin/nvcc
 else
   ifneq ($(DARWIN),)
     # for some newer versions of XCode, CLANG is the default compiler, so we need to include this
@@ -92,13 +93,13 @@ endif
 
 # nvcc compile flags
 NVCCFL             := -m${OS_SIZE}
-NVCCINCFL          := -I$(CUDA_PATH)/samples/common/inc
+NVCCINCFL          := -I/usr/local/cuda/samples/common/inc -I/usr/local/include/eigen3
 NVCCLDFL           :=
 
 # gcc compile flags
 CXXFL              :=
 CXXSHRFL           :=
-CXXINCFL           :=
+CXXINCFL           := -I/usr/local/include/eigen3
 CXXLIBFL           :=
 
 # link flags
@@ -125,6 +126,7 @@ GENCODE_SM70       := -gencode arch=compute_70,code=sm_70
 # Common to all supported CUDA versions:
 NVCCFL             += $(GENCODE_SM30) $(GENCODE_SM35) $(GENCODE_SM50) $(GENCODE_SM52)
 NVCCFL             += -Wno-deprecated-gpu-targets
+NVCCFL		   += --expt-relaxed-constexpr
 # Additional CC for CUDA >= 8:
 $(if $(shell [ $(NVCC_MAJOR_NUM) -ge 8 ] && echo "OK"), \
 	$(eval NVCCFL += $(GENCODE_SM60) $(GENCODE_SM61)) \

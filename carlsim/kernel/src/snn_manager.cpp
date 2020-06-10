@@ -274,7 +274,8 @@ int SNN::createGroup(const std::string& grpName, const Grid3D& grid, int neurTyp
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
-	grpConfig.isPoolingLIF = false;
+	grpConfig.isPoolingMaxRate = false;
+	grpConfig.isReservoirOutput = false;
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -322,7 +323,8 @@ int SNN::createGroupLIF(const std::string& grpName, const Grid3D& grid, int neur
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 	grpConfig.isLIF = true;
-	grpConfig.isPoolingLIF = false;
+	grpConfig.isPoolingMaxRate = false;
+	grpConfig.isReservoirOutput = false;
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -345,9 +347,9 @@ int SNN::createGroupLIF(const std::string& grpName, const Grid3D& grid, int neur
 	return grpConfigMD.gGrpId;
 }
 
-// create group of LIF pooling neurons
+// create group of max rate pooling neurons
 // use int for nNeur to avoid arithmetic underflow
-int SNN::createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
+int SNN::createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition, ComputingBackend preferredBackend) {
 	assert(grid.numX * grid.numY * grid.numZ > 0);
 	assert(neurType >= 0);
 	assert(numGroups < MAX_GRP_PER_SNN);
@@ -370,7 +372,69 @@ int SNN::createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, i
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
-	grpConfig.isPoolingLIF = true;
+	grpConfig.isPoolingMaxRate = true;
+	grpConfig.isReservoirOutput = false;
+
+	if (preferredPartition == ANY) {
+		grpConfig.preferredNetId = ANY;
+	} else if (preferredBackend == CPU_CORES) {
+		grpConfig.preferredNetId = preferredPartition + CPU_RUNTIME_BASE;
+	} else {
+		grpConfig.preferredNetId = preferredPartition + GPU_RUNTIME_BASE;
+	}
+
+	// assign a global group id
+	grpConfigMD.gGrpId = numGroups;
+
+	// store the configuration of a group
+	groupConfigMap[numGroups] = grpConfig; // numGroups == grpId
+	groupConfigMDMap[numGroups] = grpConfigMD;
+
+	assert(numGroups < MAX_GRP_PER_SNN); // make sure we don't overflow connId
+	numGroups++;
+
+	return grpConfigMD.gGrpId;
+}
+
+int SNN::createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition, ComputingBackend preferredBackend) {
+	assert(grid.numX * grid.numY * grid.numZ > 0);
+	assert(neurType >= 0);
+	assert(numGroups < MAX_GRP_PER_SNN);
+
+	if ( (!(neurType & TARGET_AMPA) && !(neurType & TARGET_NMDA) &&
+		  !(neurType & TARGET_GABAa) && !(neurType & TARGET_GABAb)) || (neurType & POISSON_NEURON)) {
+		KERNEL_ERROR("Invalid type using createGroup... Cannot create poisson generators here.");
+		exitSimulation(1);
+	}
+
+	// initialize group configuration
+	GroupConfig grpConfig;
+	GroupConfigMD grpConfigMD;
+	
+	// init parameters of neural group size and location
+	grpConfig.grpName = grpName;
+	grpConfig.type = neurType;
+	grpConfig.numN = grid.N;
+	
+	grpConfig.isSpikeGenerator = false;
+	grpConfig.grid = grid;
+	grpConfig.isLIF = false;
+	grpConfig.isPoolingMaxRate = false;
+	grpConfig.isReservoirOutput = true;
+
+	resvSpkGen = spkGen;
+	for (int i = 0; i < grpConfig.numN; i++) {
+		Eigen::MatrixXf P = Eigen::MatrixXf::Identity(num_resv_neurons, num_resv_neurons);
+		Eigen::VectorXf resvOutputWeightVec = Eigen::VectorXf::Constant(num_resv_neurons, 1, 1);
+		Eigen::VectorXf resvSpkActVec = Eigen::VectorXf::Constant(num_resv_neurons, 1, 0);
+		Eigen::VectorXf resvSpkActVecHR = Eigen::VectorXf::Constant(num_resv_neurons, 1, 0);
+		Eigen::VectorXf resvNetOutput = Eigen::VectorXf::Constant(num_resv_neurons, 1, 0);
+		P_v.push_back(P/learning_rate);
+		resvOutputW_v.push_back(resvOutputWeightVec);
+		resvSpkAct_v.push_back(resvSpkActVec);
+		resvSpkActHR_v.push_back(resvSpkActVecHR);
+		resvNetOutput_v.push_back(resvNetOutput);
+	}
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -415,7 +479,8 @@ int SNN::createSpikeGeneratorGroup(const std::string& grpName, const Grid3D& gri
 	grpConfig.isSpikeGenerator = true;
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
-	grpConfig.isPoolingLIF = false;
+	grpConfig.isPoolingMaxRate = false;
+	grpConfig.isReservoirOutput = false;
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -480,8 +545,8 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdNMDA*trNMDA*log(1.0*trNMDA/tdNMDA))/(tdNMDA-trNMDA); // t at which cond will be max
 		sNMDA = 1.0/(exp(-tmax/tdNMDA)-exp(-tmax/trNMDA)); // scaling factor, 1 over max amplitude
-		assert(!isinf(tmax) && !isnan(tmax) && tmax>=0);
-		assert(!isinf(sNMDA) && !isnan(sNMDA) && sNMDA>0);
+		assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax>=0);
+		assert(!std::isinf(sNMDA) && !std::isnan(sNMDA) && sNMDA>0);
 	}
 
 	if (trGABAb>0) {
@@ -493,7 +558,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdGABAb*trGABAb*log(1.0*trGABAb/tdGABAb))/(tdGABAb-trGABAb); // t at which cond will be max
 		sGABAb = 1.0/(exp(-tmax/tdGABAb)-exp(-tmax/trGABAb)); // scaling factor, 1 over max amplitude
-		assert(!isinf(tmax) && !isnan(tmax)); assert(!isinf(sGABAb) && !isnan(sGABAb) && sGABAb>0);
+		assert(!std::isinf(tmax) && !std::isnan(tmax)); assert(!std::isinf(sGABAb) && !std::isnan(sGABAb) && sGABAb>0);
 	}
 
 	if (sim_with_conductances) {
@@ -574,7 +639,8 @@ void SNN::setNeuronParameters(int gGrpId, float izh_a, float izh_a_sd, float izh
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_d_sd = izh_d_sd;
 		groupConfigMap[gGrpId].withParamModel_9 = 0;
 		groupConfigMap[gGrpId].isLIF = 0;
-		groupConfigMap[gGrpId].isPoolingLIF = 0;
+		groupConfigMap[gGrpId].isPoolingMaxRate = 0;
+		groupConfigMap[gGrpId].isReservoirOutput= 0;
 	}
 }
 
@@ -618,7 +684,8 @@ void SNN::setNeuronParameters(int gGrpId, float izh_C, float izh_C_sd, float izh
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak_sd = izh_vpeak_sd;
 		groupConfigMap[gGrpId].withParamModel_9 = 1;
 		groupConfigMap[gGrpId].isLIF = 0;
-		groupConfigMap[gGrpId].isPoolingLIF = 0;
+		groupConfigMap[gGrpId].isPoolingMaxRate = 0;
+		groupConfigMap[gGrpId].isReservoirOutput= 0;
 		KERNEL_INFO("Set a nine parameter group!");
 	}
 }
@@ -644,12 +711,13 @@ void SNN::setNeuronParametersLIF(int gGrpId, int tau_m, int tau_ref, float vTh, 
 		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_maxRmem = maxRmem;
 		groupConfigMap[gGrpId].withParamModel_9 = 0;
 		groupConfigMap[gGrpId].isLIF = 1;
-		groupConfigMap[gGrpId].isPoolingLIF = 0;
+		groupConfigMap[gGrpId].isPoolingMaxRate = 0;
+		groupConfigMap[gGrpId].isReservoirOutput= 0;
 	}
 }
 
-// set LIF pooling parameters for the group
-void SNN::setNeuronParametersPoolingLIF(int gGrpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem)
+// set max rate pooling parameters for the group
+void SNN::setNeuronParametersPoolingMaxRate(int gGrpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem)
 {
 	assert(gGrpId >= -1);
 	assert(tau_m >= 0); assert(tau_ref >= 0); assert(vReset < vTh);
@@ -657,7 +725,7 @@ void SNN::setNeuronParametersPoolingLIF(int gGrpId, int tau_m, int tau_ref, floa
 
 	if (gGrpId == ALL) { // shortcut for all groups
 		for(int grpId = 0; grpId < numGroups; grpId++) {
-			setNeuronParametersPoolingLIF(grpId, tau_m, tau_ref, vTh, vReset, minRmem, maxRmem);
+			setNeuronParametersPoolingMaxRate(grpId, tau_m, tau_ref, vTh, vReset, minRmem, maxRmem);
 		}
 	} else {
 		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m = tau_m;
@@ -668,7 +736,33 @@ void SNN::setNeuronParametersPoolingLIF(int gGrpId, int tau_m, int tau_ref, floa
 		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_maxRmem = maxRmem;
 		groupConfigMap[gGrpId].withParamModel_9 = 0;
 		groupConfigMap[gGrpId].isLIF = 0;
-		groupConfigMap[gGrpId].isPoolingLIF = 1;
+		groupConfigMap[gGrpId].isPoolingMaxRate = 1;
+		groupConfigMap[gGrpId].isReservoirOutput= 0;
+	}
+}
+
+// set reservoir output parameters for the group
+void SNN::setNeuronParametersReservoirOutput(int gGrpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem)
+{
+	assert(gGrpId >= -1);
+	assert(tau_m >= 0); assert(tau_ref >= 0); assert(vReset < vTh);
+	assert(minRmem >= 0.0f); assert(minRmem <= maxRmem);
+
+	if (gGrpId == ALL) { // shortcut for all groups
+		for(int grpId = 0; grpId < numGroups; grpId++) {
+			setNeuronParametersReservoirOutput(grpId, tau_m, tau_ref, vTh, vReset, minRmem, maxRmem);
+		}
+	} else {
+		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m = tau_m;
+		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_ref = tau_ref;
+		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_vTh = vTh;
+		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_vReset = vReset;
+		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_minRmem = minRmem;
+		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_maxRmem = maxRmem;
+		groupConfigMap[gGrpId].withParamModel_9 = 0;
+		groupConfigMap[gGrpId].isLIF = 0;
+		groupConfigMap[gGrpId].isPoolingMaxRate = 0;
+		groupConfigMap[gGrpId].isReservoirOutput= 1;
 	}
 }
 
@@ -1448,8 +1542,8 @@ void SNN::setWeight(short int connId, int neurIdPre, int neurIdPost, float weigh
 	}
 
 	if (!synapseFound) {
-		KERNEL_WARN("setWeight(%d,%d,%d,%f,%s): Synapse does not exist, not updated.", connId, neurIdPre, neurIdPost,
-			weight, (updateWeightRange?"true":"false"));
+		// KERNEL_WARN("setWeight(%d,%d,%d,%f,%s): Synapse does not exist, not updated.", connId, neurIdPre, neurIdPost,
+		// 	weight, (updateWeightRange?"true":"false"));
 	}
 }
 
@@ -1869,10 +1963,16 @@ std::string SNN::getGroupName(int gGrpId) {
 	return groupConfigMap[gGrpId].grpName;
 }
 
-int SNN::getGroupIsPoolingLIF(int gGrpId) {
+int SNN::getGroupisPoolingMaxRate(int gGrpId) {
 	assert(gGrpId >= -1 && gGrpId < numGroups);
 
-	return groupConfigMap[gGrpId].isPoolingLIF;
+	return groupConfigMap[gGrpId].isPoolingMaxRate;
+}
+
+int SNN::getGroupisReservoirOutput(int gGrpId) {
+	assert(gGrpId >= -1 && gGrpId < numGroups);
+
+	return groupConfigMap[gGrpId].isReservoirOutput;
 }
 
 GroupSTDPInfo SNN::getGroupSTDPInfo(int gGrpId) {
@@ -2177,9 +2277,6 @@ void SNN::SNNinit() {
 
 	// initialize spike buffer
 	spikeBuf = new SpikeBuffer(0, MAX_TIME_SLICE);
-
-	// initialize spike buffer
-	poolingSpikeBuf = new SpikeBuffer(0, MAX_TIME_SLICE);
 
 	memset(networkConfigs, 0, sizeof(NetworkConfigRT) * MAX_NET_PER_SNN);
 	
@@ -3006,7 +3103,8 @@ void SNN::generateRuntimeGroupConfigs() {
 			groupConfigs[netId][lGrpId].isSpikeGenerator = groupConfigMap[gGrpId].isSpikeGenerator;
 			groupConfigs[netId][lGrpId].withParamModel_9 = groupConfigMap[gGrpId].withParamModel_9;
 			groupConfigs[netId][lGrpId].isLIF = groupConfigMap[gGrpId].isLIF;
-			groupConfigs[netId][lGrpId].isPoolingLIF = groupConfigMap[gGrpId].isPoolingLIF;
+			groupConfigs[netId][lGrpId].isPoolingMaxRate = groupConfigMap[gGrpId].isPoolingMaxRate;
+			groupConfigs[netId][lGrpId].isReservoirOutput = groupConfigMap[gGrpId].isReservoirOutput;
 			groupConfigs[netId][lGrpId].isSpikeGenFunc = groupConfigMap[gGrpId].spikeGenFunc != NULL ? true : false;
 			groupConfigs[netId][lGrpId].WithSTP =  groupConfigMap[gGrpId].stpConfig.WithSTP;
 			groupConfigs[netId][lGrpId].WithSTDP =  groupConfigMap[gGrpId].stdpConfig.WithSTDP;
@@ -3732,6 +3830,17 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 
 	connectionLists[netId].push_back(connInfo);
 
+	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
+	if(groupConfigMap[_grpDest].isPoolingMaxRate) {
+		poolingConnLists[netId].push_back(connInfo);
+		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
+	}
+
+	if(groupConfigMap[_grpDest].isReservoirOutput) {
+		resvOutputConnLists[netId].push_back(connInfo);
+		// resvOutputWeightMap.insert({connInfo, connInfo.maxWt});
+	}
+		
 	// If the connection is external, copy the connection info to the external network
 	if (externalNetId >= 0)
 		connectionLists[externalNetId].push_back(connInfo);
@@ -3754,6 +3863,17 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.delay = delay;
 
 	connectionLists[netId].push_back(connInfo);
+
+	int *poolingSpikesArr = (int*)malloc(sizeof(int)*poolingWindow);
+	if(groupConfigMap[_grpDest].isPoolingMaxRate) {
+		poolingConnLists[netId].push_back(connInfo);
+		poolingSpikesMap.insert({_nDest, poolingSpikesArr});
+	}
+
+	if(groupConfigMap[_grpDest].isReservoirOutput) {
+		resvOutputConnLists[netId].push_back(connInfo);
+		// resvOutputWeightMap.insert({connInfo, connInfo.maxWt});
+	}
 
 	// If the connection is external, copy the connection info to the external network
 	if (externalNetId >= 0)
@@ -5478,7 +5598,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 	//			exitSimulation(-1);
 	//		}
 
-	//		assert(!isnan(weight));
+	//		assert(!std::isnan(weight));
 	//		// read plastic/fixed
 	//		result = fread(&plastic, sizeof(uint8_t), 1, loadSimFID);
 	//		readErr |= (result!=1);
@@ -5663,12 +5783,12 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	int gGrpId = groupConfigs[netId][lGrpId].gGrpId; // get global group id
 	assert(lNId < networkConfigs[netId].numNReg);
 
-	if (groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a == -1 && (groupConfigMap[gGrpId].isLIF == 0 && groupConfigMap[gGrpId].isPoolingLIF == 0)) {
+	if (groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a == -1 && (groupConfigMap[gGrpId].isLIF == 0 && groupConfigMap[gGrpId].isPoolingMaxRate == 0 && groupConfigMap[gGrpId].isReservoirOutput == 0)) {
 		KERNEL_ERROR("setNeuronParameters must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
 		exitSimulation(1);
 	}
 
-	if (groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m == -1 && (groupConfigMap[gGrpId].isLIF == 1 || groupConfigMap[gGrpId].isPoolingLIF == 1)) {
+	if (groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m == -1 && (groupConfigMap[gGrpId].isLIF == 1 || groupConfigMap[gGrpId].isPoolingMaxRate == 1 && groupConfigMap[gGrpId].isReservoirOutput == 0)) {
 		KERNEL_ERROR("setNeuronParametersLIF must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
 		exitSimulation(1);
 	}
@@ -5679,7 +5799,11 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	managerRuntimeData.Izh_d[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_d + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_d_sd * (float)drand48();
 	managerRuntimeData.Izh_C[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_C + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_C_sd * (float)drand48();
 	managerRuntimeData.Izh_k[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_k + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_k_sd * (float)drand48();
-	managerRuntimeData.Izh_vr[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr_sd * (float)drand48();
+
+	// managerRuntimeData.Izh_vr[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr_sd * (float)drand48();
+	managerRuntimeData.Izh_vr[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr + (groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak - groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr) * (float)drand48();
+	// managerRuntimeData.Izh_vr[lNId] = -0.5;
+
 	managerRuntimeData.Izh_vt[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt_sd * (float)drand48();
 	managerRuntimeData.Izh_vpeak[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak_sd * (float)drand48();
 	managerRuntimeData.lif_tau_m[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m;
@@ -5689,7 +5813,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	managerRuntimeData.lif_vReset[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.lif_vReset;
 	
 	// calculate gain and bias for the lif neuron
-	if (groupConfigs[netId][lGrpId].isLIF || groupConfigMap[gGrpId].isPoolingLIF){
+	if (groupConfigs[netId][lGrpId].isLIF || groupConfigMap[gGrpId].isPoolingMaxRate || groupConfigMap[gGrpId].isReservoirOutput){
 		// gain an bias of the LIF neuron is calculated based on Membrane resistance
 		float rmRange = (float)(groupConfigMap[gGrpId].neuralDynamicsConfig.lif_maxRmem - groupConfigMap[gGrpId].neuralDynamicsConfig.lif_minRmem);
 		float minRmem = (float)groupConfigMap[gGrpId].neuralDynamicsConfig.lif_minRmem;
@@ -6311,7 +6435,10 @@ void SNN::userDefinedSpikeGenerator(int gGrpId) {
 				// check how GPU mode does it, then do the same here.
 				nextTime = nextSchedTime;
 				spikeBuf->schedule(gNId, gGrpId, nextTime - currTime);
-			} else {
+			} else if (nextSchedTime == endOfTimeWindow) {
+				done = true;
+			}
+			else {
 				done = true;
 			}
 		}

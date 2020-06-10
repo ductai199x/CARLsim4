@@ -276,7 +276,7 @@ int SNN::createGroup(const std::string& grpName, const Grid3D& grid, int neurTyp
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
-	grpConfig.isPoolingLIF = false;
+	grpConfig.isPoolingMaxRate = false;
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -322,7 +322,7 @@ int SNN::createGroupLIF(const std::string& grpName, const Grid3D& grid, int neur
 	grpConfig.numN = grid.N;
 	
 	grpConfig.isLIF = true;
-	grpConfig.isPoolingLIF = false;
+	grpConfig.isPoolingMaxRate = false;
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 
@@ -371,7 +371,7 @@ int SNN::createPoolingGroupLIF(const std::string& grpName, const Grid3D& grid, i
 	grpConfig.numN = grid.N;
 
 	grpConfig.isLIF = false;
-	grpConfig.isPoolingLIF = true;
+	grpConfig.isPoolingMaxRate = true;
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 
@@ -650,7 +650,7 @@ void SNN::setNeuronParametersLIF(int gGrpId, int tau_m, int tau_ref, float vTh, 
 
 
 // set LIF parameters for the group
-void SNN::setNeuronParametersPoolingLIF(int gGrpId, int tau_m, int tau_ref, float vInit, float vTh, float vReset, double minRmem, double maxRmem)
+void SNN::setNeuronParametersPoolingMaxRate(int gGrpId, int tau_m, int tau_ref, float vInit, float vTh, float vReset, double minRmem, double maxRmem)
 {
 	assert(gGrpId >= -1);
 	assert(tau_m >= 0); assert(tau_ref >= 0); assert(vReset < vTh);
@@ -669,7 +669,7 @@ void SNN::setNeuronParametersPoolingLIF(int gGrpId, int tau_m, int tau_ref, floa
 		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_minRmem = minRmem;
 		groupConfigMap[gGrpId].neuralDynamicsConfig.lif_maxRmem = maxRmem;
 		groupConfigMap[gGrpId].withParamModel_9 = 0;
-		groupConfigMap[gGrpId].isPoolingLIF = 1;
+		groupConfigMap[gGrpId].isPoolingMaxRate = 1;
 	}
 }
 
@@ -3088,7 +3088,7 @@ void SNN::generateRuntimeGroupConfigs() {
 			}
 			groupConfigs[netId][lGrpId].withParamModel_9 = groupConfigMap[gGrpId].withParamModel_9;
 			groupConfigs[netId][lGrpId].isLIF = groupConfigMap[gGrpId].isLIF;
-			groupConfigs[netId][lGrpId].isPoolingLIF = groupConfigMap[gGrpId].isPoolingLIF;
+			groupConfigs[netId][lGrpId].isPoolingMaxRate = groupConfigMap[gGrpId].isPoolingMaxRate;
 
 		}
 
@@ -5671,12 +5671,12 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	int gGrpId = groupConfigs[netId][lGrpId].gGrpId; // get global group id
 	assert(lNId < networkConfigs[netId].numNReg);
 
-	if (groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a == -1 && (groupConfigMap[gGrpId].isLIF == 0 && groupConfigMap[gGrpId].isPoolingLIF == 0 )) {
+	if (groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a == -1 && (groupConfigMap[gGrpId].isLIF == 0 && groupConfigMap[gGrpId].isPoolingMaxRate == 0 )) {
 		KERNEL_ERROR("setNeuronParameters must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
 		exitSimulation(1);
 	}
 
-	if (groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m == -1 && (groupConfigMap[gGrpId].isLIF == 1 ||  groupConfigMap[gGrpId].isPoolingLIF == 0)) {
+	if (groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m == -1 && (groupConfigMap[gGrpId].isLIF == 1 ||  groupConfigMap[gGrpId].isPoolingMaxRate == 0)) {
 		KERNEL_ERROR("setNeuronParametersLIF must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
 		exitSimulation(1);
 	}
@@ -5698,7 +5698,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	managerRuntimeData.lif_vInit[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.lif_vInit;
 	
 	// calculate gain and bias for the lif neuron
-	if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isPoolingLIF){
+	if (groupConfigs[netId][lGrpId].isLIF || groupConfigs[netId][lGrpId].isPoolingMaxRate){
 		// gain an bias of the LIF neuron is calculated based on Membrane resistance
 		float rmRange = (float)(groupConfigMap[gGrpId].neuralDynamicsConfig.lif_maxRmem - groupConfigMap[gGrpId].neuralDynamicsConfig.lif_minRmem);
 		float minRmem = (float)groupConfigMap[gGrpId].neuralDynamicsConfig.lif_minRmem;
@@ -5708,7 +5708,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 
 	managerRuntimeData.nextVoltage[lNId] = managerRuntimeData.voltage[lNId] = groupConfigs[netId][lGrpId].isLIF ? managerRuntimeData.lif_vReset[lNId] : (groupConfigs[netId][lGrpId].withParamModel_9 ? managerRuntimeData.Izh_vr[lNId] : managerRuntimeData.Izh_c[lNId]);
 
-    if(groupConfigs[netId][lGrpId].isPoolingLIF)
+    if(groupConfigs[netId][lGrpId].isPoolingMaxRate)
     {
         managerRuntimeData.voltage[lNId] = managerRuntimeData.lif_vReset[lNId];
         managerRuntimeData.nextVoltage[lNId] = managerRuntimeData.lif_vReset[lNId];

@@ -49,6 +49,8 @@
 #ifndef _CALLBACK_H_
 #define _CALLBACK_H_
 
+#include <map>
+
 // CARLsim user interface classes
 class CARLsim; // forward-declaration
 
@@ -76,6 +78,26 @@ public:
 	 * \param lastScheduledSpikeTime the last spike time which was scheduled
 	 * \param endOfTimeSlice the end of the current scheduling time slice. Spike times after this will not be scheduled.
 	 */
+	virtual int nextSpikeTime(CARLsim* s, int grpId, int i, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice) = 0;
+};
+
+class ReservoirSpikeGenerator {
+public:
+	//SpikeGenerator() {};
+    virtual ~ReservoirSpikeGenerator() {}
+
+	/*!
+	 * \brief controls spike generation using a callback mechanism
+	 *
+	 * \attention The virtual method should never be called directly
+	 * \param s pointer to the simulator object
+	 * \param grpId the group id
+	 * \param i the neuron index in the group
+	 * \param currentTime the current simluation time
+	 * \param lastScheduledSpikeTime the last spike time which was scheduled
+	 * \param endOfTimeSlice the end of the current scheduling time slice. Spike times after this will not be scheduled.
+	 */
+	virtual std::map<int, int>* getTargetSpkTimes() = 0;
 	virtual int nextSpikeTime(CARLsim* s, int grpId, int i, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice) = 0;
 };
 

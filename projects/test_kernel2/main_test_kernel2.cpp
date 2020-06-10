@@ -49,7 +49,7 @@
 int main() {
 	// create a network on GPU
 	int numGPUs = 2;
-	int randSeed = 42;
+	int randSeed = 2;
 	float pConn = 100.0f / (N_EXC + N_INH); // connection probability
 	CARLsim sim("test kernel 2", CPU_MODE, USER, numGPUs, randSeed);
 

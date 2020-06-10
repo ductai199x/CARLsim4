@@ -365,6 +365,9 @@ void SNN::copyExtFiringTable(int netId) {
 	int k     = runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay + 1] - 1;
 	int k_end = runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay];
 
+	// int k_10ms = runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay - 10];
+	// KERNEL_INFO("k: %d, k_10ms: %d", k, k_10ms);
+
 	while((k >= k_end) && (k >= 0)) {
 		int lNId = runtimeData[netId].firingTableD1[k];
 		//assert(lNId < networkConfigs[netId].numN);
@@ -373,7 +376,8 @@ void SNN::copyExtFiringTable(int netId) {
 
 		unsigned int offset = runtimeData[netId].cumulativePost[lNId];
 
-		for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1) {
+		for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1)
+		{
 			// get synaptic info...
 			SynInfo postInfo = runtimeData[netId].postSynapticIds[offset + idx_d];
 
@@ -904,6 +908,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 	assert(runtimeData[netId].memType == CPU_MEM);
 
 	float timeStep = networkConfigs[netId].timeStep;
+	float poolingWindowDur = poolingWindow * networkConfigs[netId].timeStep;
 
 	// loop that allows smaller integration time step for v's and u's
 	for (int j = 1; j <= networkConfigs[netId].simNumStepsPerMs; j++) {
@@ -975,7 +980,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 				switch (networkConfigs[netId].simIntegrationMethod) {
 				case FORWARD_EULER:
-					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
+					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingMaxRate && !groupConfigs[netId][lGrpId].isReservoirOutput)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
@@ -986,7 +991,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							u += runtimeData[netId].Izh_d[lNId];
 						}
 					}
-					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingLIF)
+					else if (!groupConfigs[netId][lGrpId].isLIF && !groupConfigs[netId][lGrpId].isPoolingMaxRate && !groupConfigs[netId][lGrpId].isReservoirOutput)
 					{	
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
@@ -999,6 +1004,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 
 					else if (groupConfigs[netId][lGrpId].isLIF){
+						
 						if (lif_tau_ref_c > 0){
 							if(lastIter){
 								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
@@ -1009,7 +1015,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							if (v_next > lif_vTh) {
 								runtimeData[netId].curSpike[lNId] = true;
 								v_next = lif_vReset;
-								
+
 								if(lastIter){
 									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
@@ -1022,38 +1028,180 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							}
 						}						
 					}
-					// TODO: IMPLEMENT THIS 
-					else if(groupConfigs[netId][lGrpId].isPoolingLIF){
-						// Current Neuron ID: lNId
+					else if(groupConfigs[netId][lGrpId].isPoolingMaxRate){
 						if (currPoolingTs == poolingWindow) {
-							std::map<int, int> poolingWindowTable;
-							int fireNeuronID = 0;
-							int maxfiringCnt = 0;
-							int maxfiringNID = 0;
+							std::vector<int> connectedNIds;
+							std::list<ConnectionInfo>::iterator connIt = poolingConnLists[netId].begin();
 
-							for (int fireTableIdx = runtimeData[netId].spikeCountD1Sec-poolingWindow-1; fireTableIdx < runtimeData[netId].spikeCountD1Sec; fireTableIdx++) {
-								fireNeuronID = runtimeData[netId].firingTableD1[fireTableIdx];
-								if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
-									poolingWindowTable.insert({fireNeuronID, 1});
-								} else {
-									poolingWindowTable[fireNeuronID] += 1;
+							for (connIt; connIt != poolingConnLists[netId].end(); connIt++) {
+								if (connIt->nDest == lNId) {
+									connectedNIds.push_back(connIt->nSrc);
 								}
 							}
 
-							for ( const auto &p : poolingWindowTable ) {
-								if (p.second > maxfiringCnt)
-									maxfiringNID = p.first;
-							}
-							int poolingSpikesIdx = 0;
-							for (int fireTableIdx = runtimeData[netId].spikeCountD1Sec-poolingWindow-1; fireTableIdx < runtimeData[netId].spikeCountD1Sec; fireTableIdx++) {
-								if (runtimeData[netId].firingTableD1[fireTableIdx] == maxfiringNID) {
-									poolingSpikes[poolingSpikesIdx] = 1;
+							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
+							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - (int)poolingWindowDur;
+
+							if (step_begin >= 0) {
+								unsigned int* timeTable 	= runtimeData[netId].timeTableD1;
+								int* firingTable 			= runtimeData[netId].firingTableD1;
+								int k_end   = timeTable[step_end] - 1;
+								int k_begin = timeTable[step_begin];
+								if (k_end < 0) {
+									timeTable 		= runtimeData[netId].timeTableD2;
+									firingTable 	= runtimeData[netId].firingTableD2;
+									k_end   = timeTable[step_end] - 1;
+									k_begin = timeTable[step_begin];
+								}
+								
+								std::map<int, int> poolingWindowTable;
+								poolingWindowTable.empty();
+								int fireNeuronID = 0;
+								int maxfiringCnt = 0;
+								int maxfiringNID = 0;
+								if(k_begin >= 0) {
+									for (int fireTableIdx = k_begin; fireTableIdx <= k_end; fireTableIdx++) {
+										fireNeuronID = firingTable[fireTableIdx];
+										
+										auto it = std::find(connectedNIds.begin(), connectedNIds.end(), fireNeuronID);
+										if (it == connectedNIds.end())
+											continue;
+										if (poolingWindowTable.find(fireNeuronID) == poolingWindowTable.end()) {
+											poolingWindowTable.insert({fireNeuronID, 1});
+										} else {
+											poolingWindowTable[fireNeuronID] += 1;
+										}
+									}
+									
+									for ( const auto &p : poolingWindowTable ) {
+										if (p.second > maxfiringCnt) {
+											maxfiringNID = p.first;
+											maxfiringCnt = p.second;
+										}
+									}
+									
+									if (maxfiringNID == 0) continue;
+
+									int poolingSpikesIdx = 0;
+									int fireTableIdx = k_begin;
+									int numProcessedNeuron = k_begin;
+									while (fireTableIdx <= k_end) {
+										if (firingTable[fireTableIdx] == maxfiringNID) {
+											poolingSpikesMap[lNId][poolingSpikesIdx] = 1;
+											
+										}
+										for (int w = step_begin + poolingSpikesIdx/networkConfigs[netId].simNumStepsPerMs; w < step_end; w++) {
+											if (numProcessedNeuron < timeTable[w]) {
+												poolingSpikesIdx = (w-step_begin)*networkConfigs[netId].simNumStepsPerMs;
+												break;
+											}
+										}
+										numProcessedNeuron++;
+										fireTableIdx++;
+									}
 								}
 							}
 						}
 						else {
-							if (poolingSpikes[currPoolingTs] == 1) {
+							if (poolingSpikesMap[lNId][currPoolingTs] == 1) {
+								
 								runtimeData[netId].curSpike[lNId] = true;
+								poolingSpikesMap[lNId][currPoolingTs] = 0;
+							}
+						}
+					}
+					else if (groupConfigs[netId][lGrpId].isReservoirOutput) {
+						//
+						if (!isMapTranslatedToMat) {
+							
+							for (auto const& x : resvOutputConnLists[netId])
+							{
+								if (preNIdOffset == -1) {
+									preNIdOffset = x.nSrc;
+								}
+								resvOutputW_v[x.nDest][x.nSrc - preNIdOffset] = x.maxWt;
+							}
+							isMapTranslatedToMat = true;
+						}
+
+						if (lastIter)
+						{
+							int step_end = simTimeMs + networkConfigs[netId].maxDelay;
+							int step_begin = simTimeMs + networkConfigs[netId].maxDelay - 1;
+
+							if (step_begin >= 0) {
+								unsigned int* timeTable 	= runtimeData[netId].timeTableD1;
+								int* firingTable 			= runtimeData[netId].firingTableD1;
+								int k_end   = timeTable[step_end] - 1;
+								int k_begin = timeTable[step_begin];
+								if (k_end < 0) {
+									timeTable 		= runtimeData[netId].timeTableD2;
+									firingTable 	= runtimeData[netId].firingTableD2;
+									k_end   = timeTable[step_end] - 1;
+									k_begin = timeTable[step_begin];
+								}
+
+								float resvOutput = 0.0f;
+								if(k_begin >= 0) {
+									for (int fireTableIdx = k_begin; fireTableIdx <= k_end; fireTableIdx++) {
+										int preNId = firingTable[fireTableIdx];
+										bool isFiringToResvOutput = false;
+										DelayInfo dPar = runtimeData[netId].postDelayInfo[preNId * (networkConfigs[netId].maxDelay + 1)];
+
+										unsigned int offset = runtimeData[netId].cumulativePost[preNId];
+
+										for(int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d = idx_d + 1)
+										{
+											SynInfo postInfo = runtimeData[netId].postSynapticIds[offset + idx_d];
+											if (lNId == GET_CONN_NEURON_ID(postInfo)) { 
+												isFiringToResvOutput = true;
+												break; 
+											}
+										}
+										if (isFiringToResvOutput)
+											resvSpkAct_v[lNId][preNId - preNIdOffset] = 1;
+									}
+								}
+								
+								resvNetOutput_v[lNId] = resvNetOutput_v[lNId]*exp(-0.0400) + resvSpkActHR_v[lNId]*0.04;
+								resvSpkActHR_v[lNId] = resvSpkActHR_v[lNId]*exp(-0.0040) + resvSpkAct_v[lNId]*0.004;
+
+								float z = (float)(resvOutputW_v[lNId].transpose()*resvNetOutput_v[lNId]);
+
+								// Generate Target Output
+								int vecLen = simTimeRunStop - simTimeRunStart;
+								float maxTargetValue = 10.0f;
+								float minTargetValue = 0;
+								Eigen::VectorXf targetOutput = Eigen::VectorXf::Constant(vecLen, 1, 10);
+								// Eigen::VectorXf targetOutput = Eigen::VectorXf::LinSpaced(vecLen, 1, vecLen);
+								// targetOutput = (targetOutput*3.14*4).sin();
+								// targetOutput[(resvSpkGen->getTargetSpkTimes())->at(lNId) - simTimeRunStart] = maxTargetValue;
+								// Eigen::VectorXf net_output = Eigen::Map<Eigen::VectorXf>(resvNetOutput_v[lNId].data(), vecLen, 1);
+								// std::cout << simTimeMs << " " << simTimeRunStart+1 << std::endl;
+								float error_minus = z - targetOutput[simTimeMs-simTimeRunStart];
+								if (cycle > preTraining && cycle%5==0) 
+								{
+									P_v[lNId] = P_v[lNId] - (P_v[lNId]*resvNetOutput_v[lNId]*resvNetOutput_v[lNId].transpose()*P_v[lNId])/(1+resvNetOutput_v[lNId].transpose()*P_v[lNId]*resvNetOutput_v[lNId]);
+
+									Eigen::VectorXf new_weights = resvOutputW_v[lNId] - (error_minus)*P_v[lNId]*resvNetOutput_v[lNId];
+
+									resvOutputW_v[lNId] = new_weights;
+
+									for (auto const& x : resvOutputConnLists[netId])
+									{
+										if (x.nDest == lNId) {
+											setWeight(x.connId, x.nSrc - getGroupStartNeuronId(x.grpSrc), lNId, fabs(new_weights[x.nSrc - preNIdOffset]), true);
+										}
+									}
+
+									if (cycle%50==0)
+										std::cout << "neuron " << lNId << ", error " << error_minus << ", z " << z << ", t " << targetOutput[simTimeMs-simTimeRunStart] << std::endl;
+								}
+										
+								
+								// Reset these for the next run:
+								resvSpkAct_v[lNId].setZero();
+								cycle++;
 							}
 						}
 					}
@@ -1148,7 +1296,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 								v_next = lif_vReset;
 								
 								if(lastIter){
-                                        				runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
+									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
 								else{
 									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;

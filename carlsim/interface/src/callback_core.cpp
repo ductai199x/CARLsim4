@@ -56,13 +56,23 @@
 SpikeGeneratorCore::SpikeGeneratorCore(CARLsim* c, SpikeGenerator* s) {
 	carlsim = c;
 	sGen = s;
+	rsGen = NULL;
+}
+
+SpikeGeneratorCore::SpikeGeneratorCore(CARLsim* c, ReservoirSpikeGenerator* s) {
+	carlsim = c;
+	sGen = NULL;
+	rsGen = s;
 }
 
 int SpikeGeneratorCore::nextSpikeTime(SNN* s, int grpId, int i, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice) {
-	if (sGen != NULL)
+	if (sGen != NULL && rsGen == NULL) {
 		return sGen->nextSpikeTime(carlsim, grpId, i, currentTime, lastScheduledSpikeTime, endOfTimeSlice);
-	else
+	} else if(sGen == NULL && rsGen != NULL) {
+		return rsGen->nextSpikeTime(carlsim, grpId, i, currentTime, lastScheduledSpikeTime, endOfTimeSlice);
+	} else {
 		return 0xFFFFFFFF;
+	}
 }
 
 ConnectionGeneratorCore::ConnectionGeneratorCore(CARLsim* c, ConnectionGenerator* cg) {

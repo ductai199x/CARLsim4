@@ -81,12 +81,12 @@ class SpikeGenerator;
 #include <float.h>
 #include <time.h>
 
-#ifndef isnan
-#define isnan(x) _isnan(x)
+#ifndef std::isnan
+#define std::isnan(x) _std::isnan(x)
 #endif
 
-#ifndef isinf
-#define isinf(x) (!_finite(x))
+#ifndef std::isinf
+#define std::isinf(x) (!_finite(x))
 #endif
 
 #ifndef srand48
@@ -325,7 +325,9 @@ public:
 	 */
 	int createGroupLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
-	int createGroupPoolingLIF(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
+	int createGroupPoolingMaxRate(const std::string& grpName, const Grid3D& grid, int neurType, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
+
+	int createGroupReservoirOutput(const std::string& grpName, const Grid3D& grid, int neurType, ReservoirSpikeGenerator* spkGen, int num_resv_neurons, float learning_rate, int preferredPartition = ANY, ComputingBackend preferredBackend = CPU_CORES);
 
 	/*!
 	 * \brief  creates a spike generator group
@@ -587,7 +589,9 @@ public:
 	 */
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
 
-	void setNeuronParametersPoolingLIF(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
+	void setNeuronParametersPoolingMaxRate(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
+
+	void setNeuronParametersReservoirOutput(int grpId, int tau_m, int tau_ref=0, float vTh=1.0f, float vReset=0.0f, const RangeRmem& rMem = RangeRmem(1.0f));
     
    /*!
 	* \brief Sets coupling constants G_u and G_d for the compartment.
@@ -1128,6 +1132,8 @@ public:
 	 * \see \ref ch6s1_generating_spikes
 	 */
 	void setSpikeGenerator(int grpId, SpikeGenerator* spikeGenFunc);
+
+	void setReservoirSpikeGenerator(int grpId, ReservoirSpikeGenerator* spikeGenFunc);
 
 	/*!
 	 * \brief Sets a Spike Monitor for a groups, prints spikes to binary file

@@ -325,10 +325,10 @@ int main(int argc, const char* argv[]) {
     {   
         string exhGroupName = "PoolExt0_" + to_string(i);
         string inhGroupName = "PoolInh0_" + to_string(i);
-        gPoolExh0[i] = sim->createGroupPoolingLIF(exhGroupName, pool0Size, EXCITATORY_NEURON);
-        gPoolInh0[i] = sim->createGroupPoolingLIF(inhGroupName, pool0Size, INHIBITORY_NEURON);
-        sim->setNeuronParametersPoolingLIF((int)gPoolExh0[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
-        sim->setNeuronParametersPoolingLIF((int)gPoolInh0[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
+        gPoolExh0[i] = sim->createGroupPoolingMaxRate(exhGroupName, pool0Size, EXCITATORY_NEURON);
+        gPoolInh0[i] = sim->createGroupPoolingMaxRate(inhGroupName, pool0Size, INHIBITORY_NEURON);
+        sim->setNeuronParametersPoolingMaxRate((int)gPoolExh0[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
+        sim->setNeuronParametersPoolingMaxRate((int)gPoolInh0[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
 	    
         // Connect Convolution outpu to the pooling output via the filters. 
         poolingConnection* pool0Conn = new poolingConnection(2, 28, 14, 2);
@@ -395,10 +395,10 @@ int main(int argc, const char* argv[]) {
     {   
         string exhgroupName = "poolExh1_" + to_string(i);
         string inhgroupName = "poolInh1_" + to_string(i);
-        gPoolExh1[i] = sim->createGroupPoolingLIF(exhgroupName, pool0Size, EXCITATORY_NEURON);
-        gPoolInh1[i] = sim->createGroupPoolingLIF(inhgroupName, pool0Size, INHIBITORY_NEURON);
-        sim->setNeuronParametersPoolingLIF((int)gPoolExh1[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
-        sim->setNeuronParametersPoolingLIF((int)gPoolInh1[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
+        gPoolExh1[i] = sim->createGroupPoolingMaxRate(exhgroupName, pool0Size, EXCITATORY_NEURON);
+        gPoolInh1[i] = sim->createGroupPoolingMaxRate(inhgroupName, pool0Size, INHIBITORY_NEURON);
+        sim->setNeuronParametersPoolingMaxRate((int)gPoolExh1[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
+        sim->setNeuronParametersPoolingMaxRate((int)gPoolInh1[i], (int)tau_mE, (int)tau_refE, (float)vInit, (float)-79.9f, (float)vReset, RangeRmem(rMem));
 	    
         // Connect Convolution outpu to the pooling output via the filters. 
         poolingConnection* pool1Conn = new poolingConnection(2, 10, 5, 2);
